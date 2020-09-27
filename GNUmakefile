@@ -1,8 +1,8 @@
 GAMEDIR = dnethackdir
 
-CFLAGS = -g
+CFLAGS = -g3 -fsanitize=address -DDISABLE_STORMS
 
-LDFLAGS += -Wno-knr-promoted-parameter
+LDFLAGS += -Wno-knr-promoted-parameter -fsanitize=address -Wall
 
 GAMELIBS = -lncurses -lm
 

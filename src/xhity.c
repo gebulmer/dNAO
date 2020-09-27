@@ -408,7 +408,9 @@ int tary;
 		// && pa->mtyp != PM_INCUBUS
 		// ) {
 		// if (!magr->mcan && !rn2(13)) {
+#ifndef DISABLE_STORMS
 			// msummon(magr);
+#endif
 		// }
 	// }
 	// if (youagr && is_demon(youracedata) && !rn2(13) && !uwep
@@ -431,7 +433,11 @@ int tary;
 		char buf[BUFSZ], genericwere[BUFSZ];
 
 		Strcpy(genericwere, "creature");
+#ifndef DISABLE_STORMS
 		numhelp = were_summon(pa, FALSE, &numseen, genericwere);
+#else
+		numhelp = 0;
+#endif
 		if (vis&VIS_MAGR) {
 			pline("%s summons help!", Monnam(magr));
 			if (numhelp > 0) {
