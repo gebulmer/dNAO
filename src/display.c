@@ -121,7 +121,6 @@
 STATIC_DCL void FDECL(display_monster,(XCHAR_P,XCHAR_P,struct monst *,int,XCHAR_P));
 STATIC_DCL int FDECL(swallow_to_glyph, (int, int));
 STATIC_DCL void FDECL(display_warning,(struct monst *));
-STATIC_DCL int FDECL(you_scent_callback,(genericptr_t, int, int));
 STATIC_DCL void FDECL(map_invisible_core,(int, int, boolean));
 
 STATIC_DCL int FDECL(check_pos, (int, int, int));
@@ -711,17 +710,16 @@ echo_location(x, y)
     xchar x, y;
 {
     struct rm *lev = &(levl[x][y]);
-    struct obj *boulder;
     register struct monst *mon;
 	
     /* The hero can't feel non pool locations while under water. */
     if (Underwater && !Is_waterlevel(&u.uz) && !is_pool(x,y, TRUE))
 	return;
 
-	if (glyph_is_invisible(levl[x][y].glyph) && !(m_at(x,y))) {
-		unmap_object(x,y);
-		newsym(x,y);
-	}
+    if (glyph_is_invisible(levl[x][y].glyph) && !(m_at(x,y))) {
+	    unmap_object(x,y);
+	    newsym(x,y);
+    }
 	
     /* Set the seen vector as if the hero had seen it.  It doesn't matter */
     /* if the hero is levitating or not.				  */
@@ -937,19 +935,6 @@ show_mem:
 }
 
 #undef is_worm_tail
-
-STATIC_DCL int
-you_scent_callback(data, x, y)
-genericptr_t data;
-int x, y;
-{
-    int is_accessible = ZAP_POS(levl[x][y].typ);
-    struct seekspot *smelltarget = (struct seekspot *)data;
-    if (smelltarget->x == x && smelltarget->y == y) smelltarget->found = TRUE;
-	
-	if(!(smelltarget->found)) return !is_accessible;
-	else return 1; /* Once a path to target is found, quickly end the xpath function */
-}
 
 boolean
 sense_by_scent(mon)

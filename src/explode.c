@@ -70,7 +70,7 @@ STATIC_DCL void
 set_blast_symbols(reg)
 ExplodeRegion *reg;
 {
-    int i, j, bitmask;
+    int i, j;
     /* The index into the blast symbol array is a bitmask containing 4 bits:
      * bit 3: True if the location immediately to the north is present
      * bit 2: True if the location immediately to the south is present
@@ -90,7 +90,6 @@ ExplodeRegion *reg;
     for(i = 0; i < reg->nlocations; i++)
 	reg->locations[i].blast = 0;
     for(i = 0; i < reg->nlocations; i++) {
-	bitmask = 0;
 	if (i && reg->locations[i-1].y == reg->locations[i].y &&
 		reg->locations[i-1].x == reg->locations[i].x-1) {
 	    reg->locations[i].blast |= 1;	/* Location to the west */
@@ -219,7 +218,6 @@ int color;
 	*/
 	ExplodeRegion *area;
 	int i, j;
-	boolean diag = ((!!dx + !!dy) / 2);
 	area = create_explode_region();
 
 	if (isok(x, y))
@@ -923,7 +921,7 @@ struct obj *obj;			/* only scatter this obj        */
 			} else if (bhitpos.x==u.ux && bhitpos.y==u.uy) {
 				if (scflags & MAY_HITYOU) {
 				    if (multi) nomul(0, NULL);
-					int hitu, hitvalu;
+					int hitvalu;
 					int dieroll;
 					hitvalu = tohitval((struct monst *)0, &youmonst, (struct attack *)0, stmp->obj, (void *)0, HMON_FIRED, 8);
 					if (hitvalu > (dieroll = rnd(20))) {

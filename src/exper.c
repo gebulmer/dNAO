@@ -5,7 +5,6 @@
 #include "hack.h"
 
 STATIC_DCL void NDECL(binderdown);
-STATIC_DCL int FDECL(enermod, (int));
 
 static long expUps[] = {
 0,		//1

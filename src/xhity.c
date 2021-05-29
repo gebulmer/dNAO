@@ -86,7 +86,6 @@ boolean
 attack2(mdef)
 struct monst * mdef;
 {
-	int result;
 	int attack_type;	/* uses ATTACKCHECKS defines */
 	register struct permonst *pd = mdef->data;
 
@@ -219,16 +218,15 @@ struct monst * mdef;
 	notonhead = (bhitpos.x != x(mdef) || bhitpos.y != y(mdef));
 	if (attack_type == ATTACKCHECK_BLDTHRST) {
 		/* unintentional attacks only cause the one hit, no follow-ups */
-		int vis = (VIS_MAGR | VIS_NONE) | (canseemon(mdef) ? VIS_MDEF : 0);
 		/* must check that attacks are allowable */
 		if (!magr_can_attack_mdef(&youmonst, mdef, bhitpos.x, bhitpos.y, FALSE))
 			return FALSE;
 		/* assumes the bloodthirst is caused by your mainhand weapon */
 		Your("bloodthirsty weapon attacks!");
-		result = xmeleehity(&youmonst, mdef, &basicattack, &uwep, VIS_MAGR, 0, FALSE);
+		(void) xmeleehity(&youmonst, mdef, &basicattack, &uwep, VIS_MAGR, 0, FALSE);
 	}
 	else {
-		result = xattacky(&youmonst, mdef, bhitpos.x, bhitpos.y);
+		(void) xattacky(&youmonst, mdef, bhitpos.x, bhitpos.y);
 		if (!DEADMONSTER(mdef) && u.sealsActive&SEAL_SHIRO){
 			int i, dx, dy;
 			struct obj *otmp;
@@ -277,7 +275,6 @@ struct monst * mdef;
 		}
 	}
 
-atk_done:
 	/* see comment in attack_checks() */
 	/* we only need to check for this if we did an attack_checks()
 	* and it returned non-0 (it's okay to attack), and the monster didn't
@@ -333,10 +330,8 @@ int tary;
 
 	int	indexnum = 0,	/* loop counter */
 		tohitmod = 0,	/* flat accuracy modifier for a specific attack */
-		strike = 0,	/* hit this attack (default to 0) */
 		aatyp = 0,	/* aatyp of current attack; used for brevity */
 		adtyp = 0,	/* adtyp of current attack; used for brevity */
-		struck = 0,	/* hit at least once */
 		marinum = 0,/* number of AT_MARI weapons used */
 		subout = 0,	/* remembers what attack substitutions have been made for [magr]'s attack chain */
 		res[4];		/* results of previous 2 attacks ([0] -> current attack, [1] -> 1 ago, [2] -> 2 ago) -- this is dynamic! */
@@ -361,7 +356,6 @@ int tary;
 	struct permonst * pd = youdef ? youracedata : mdef->data;
 	int result = 0;		/* result from current attack */
 	int allres = 0;		/* cumulative results from all attacks; needed for passives */
-	long slot;
 
 	/* set notonhead */
 	notonhead = (tarx != x(mdef) || tary != y(mdef));
@@ -425,7 +419,8 @@ int tary;
 	    pa = magr->data;
 
 	    if(!rn2(10) && !magr->mcan) {
-	    	int numseen, numhelp;
+	    	int numseen = 0;
+		int numhelp;
 		char buf[BUFSZ], genericwere[BUFSZ];
 
 		Strcpy(genericwere, "creature");
@@ -2802,7 +2797,6 @@ struct monst * mdef;
 	boolean youagr = (magr == &youmonst);
 	boolean youdef = (mdef == &youmonst);
 	struct permonst * pa = !magr ? (struct permonst *)0 : youagr ? youracedata : magr->data;
-	struct permonst * pd = youdef ? youracedata : mdef->data;
 
 	if (!Stone_res(mdef)
 		&& !(youdef && Stoned))
@@ -2876,10 +2870,7 @@ struct attack * attk;
 struct obj * weapon;
 int vis;
 {
-	boolean youagr = (magr == &youmonst);
 	boolean youdef = (mdef == &youmonst);
-	struct permonst * pa = youagr ? youracedata : magr->data;
-	struct permonst * pd = youdef ? youracedata : mdef->data;
 
 	int result = 0;
 
@@ -3556,10 +3547,8 @@ boolean ranged;
 	boolean youagr = (magr == &youmonst);
 	boolean youdef = (mdef == &youmonst);
 	struct obj * weapon = weapon_p ? *(weapon_p) : (struct obj *)0;
-	struct attack alt_attk = *attk;
 	struct permonst * pa = youagr ? youracedata : magr->data;
 	struct permonst * pd = youdef ? youracedata : mdef->data;
-	struct obj * otmp;
 	char buf[BUFSZ];
 	int result;			/* did attack hit, miss, defender live, die, agressor die, stop? */
 
@@ -4042,8 +4031,6 @@ boolean ranged;
 		}
 		/* else continue on with the grab attack */
 	}
-
-	boolean weaponattk = weapon_aatyp(attk->aatyp);
 
 	switch (attk->adtyp)
 	{
@@ -6525,8 +6512,7 @@ boolean ranged;
 					if (AMAX(A_WIS) > ATTRMIN(A_WIS) &&
 						ABASE(A_WIS) < AMAX(A_WIS) / 2) AMAX(A_WIS) -= 1; //permanently drain wisdom
 					if (wisdmg){
-						boolean chg;
-						chg = make_hallucinated(HHallucination + (long)(wisdmg * 5), FALSE, 0L);
+						(void) make_hallucinated(HHallucination + (long)(wisdmg * 5), FALSE, 0L);
 					}
 				}
 			}
@@ -6683,8 +6669,6 @@ boolean ranged;
 			return result;
 
 		if (youdef) {
-			static int engagering1 = 0;
-			static int engagering4 = 0;
 			boolean engring = FALSE;
 
 			/* spaghetti code alert: many paths of code in here return early */
@@ -7450,7 +7434,6 @@ boolean ranged;
 		}
 		/* uhitm */
 		else if (youagr) {
-			int intdrain = dmg;	/* if we are actually tracking monster INT stat, use this */
 			dmg += d(dmg, 10); /* fakery, since monsters lack INT scores. NOTE: 1d10 PER POINT OF INT */
 
 			/* message */
@@ -7506,7 +7489,6 @@ boolean ranged;
 		}
 		/* mhitm */
 		else {
-			int intdrain = dmg;	/* if we are actually tracking monster INT stat, use this */
 			dmg += d(dmg, 10); /* fakery, since monsters lack INT scores. NOTE: 1d10 PER POINT OF INT */
 
 			if (vis)
@@ -8163,7 +8145,7 @@ boolean ranged;
 		if (youagr && !youdef) {
 			/* 1/10 chance of stealing items */
 			if (!rn2(10)){
-				struct obj *otmp2, **minvent_ptr;
+				struct obj *otmp2;
 				long unwornmask;
 
 				/* Don't steal worn items, and downweight wielded items */
@@ -8175,7 +8157,6 @@ boolean ranged;
 				}
 				/* Still has handling for worn items, incase that changes */
 				if (otmp2 != 0){
-					int dx, dy;
 					/* take the object away from the monster */
 					if (otmp2->quan > 1L){
 						otmp2 = splitobj(otmp2, 1L);
@@ -8669,18 +8650,9 @@ int vis;
 	struct permonst * pa = youagr ? youracedata : magr->data;
 	boolean can_target;
 	int result = MM_MISS;
-	int distance;
 	int range;
 	int tarx = (youdef ? magr->mux : x(mdef));
 	int tary = (youdef ? magr->muy : y(mdef));
-
-	/* find distance between magr and mdef */
-	distance = dist2(
-		x(magr),
-		y(magr),
-		(youdef ? magr->mux : x(mdef)),
-		(youdef ? magr->muy : y(mdef))
-		);
 
 	/* determine spellcasting range of attacker */
 	if (is_orc(pa) ||
@@ -8721,8 +8693,6 @@ int vis;
 {
 	boolean youagr = (magr == &youmonst);
 	boolean youdef = (mdef == &youmonst);
-	struct permonst * pa = youagr ? youracedata : magr->data;
-	struct permonst * pd = youdef ? youracedata : mdef->data;
 	int result = MM_MISS;
 	
 	/* mvm behaviour is undefined right now -- do nothing */
@@ -8797,11 +8767,9 @@ int vis;
 	boolean youagr = (magr == &youmonst);
 	boolean youdef = (mdef == &youmonst);
 	struct permonst * pa = youagr ? youracedata : magr->data;
-	struct permonst * pd = youdef ? youracedata : mdef->data;
 	int result = MM_MISS;
 	struct trap *trap = t_at(x(mdef), y(mdef));
 	struct obj * otmp;
-	int dmg = d((int)attk->damn, (int)attk->damd);
 
 	if (youdef) {
 		/* swallows you */
@@ -9017,7 +8985,6 @@ int vis;
 	int dmg = d(attk->damn, attk->damd);
 	int fulldmg = dmg;
 	char buf[BUFSZ];
-	struct obj * otmp;
 
 	/* apply half-phys */
 	if (Half_phys(mdef))
@@ -10328,7 +10295,6 @@ int vis;
 	int result = MM_MISS;
 	int adtyp = attk->adtyp;
 	int dmg = d((int)attk->damn, (int)attk->damd);
-	int fulldmg = dmg;			/* original unreduced damage */
 
 	if (vis == -1)
 		vis = getvis(magr, mdef, 0, 0);
@@ -11726,7 +11692,6 @@ int vis;
 		if (magr->mspec_used)
 			return MM_MISS;
 		else {
-			int i = 0;
 			int n;
 			int mid;
 			struct monst *mtmp;
@@ -14981,18 +14946,14 @@ int result;					/* if attack hit / def died / agr died / agr-def moved */
 struct permonst * pd;		/* defender's pd; cannot use mdef->data when player rehumanizes */
 boolean endofchain;			/* if the attacker has finished their attack chain */
 {
-	int i;					/* loop counter */
 	int newres;
-	int dmg;
 	int indexnum = 0;
 	int subout = 0;
 	int tohitmod = 0;
 	int res[4];
-	long slot = 0L;
 	struct obj * otmp;
 	boolean usedmask = FALSE;		/* whether a message has been printed about a lillend using a mask to make passive attacks */
 	struct attack * passive;
-	struct attack alt_attk;
 	struct attack prev_attk = noattack;
 	boolean youagr = (magr == &youmonst);
 	boolean youdef = (mdef == &youmonst);
@@ -15286,7 +15247,6 @@ boolean endofchain;			/* if the passive is occuring at the end of aggressor's at
 {
 	int newres;
 	int dmg;
-	long slot = 0L;
 	struct monst * mtmp;
 	boolean youagr = (magr == &youmonst);
 	boolean youdef = (mdef == &youmonst);
@@ -15313,7 +15273,6 @@ boolean endofchain;			/* if the passive is occuring at the end of aggressor's at
 			switch (passive->adtyp)
 			{
 			case AD_STON:
-				slot = attk_protection(attk->aatyp);
 				/* Touching is fatal */
 				if (touch_petrifies(pd) && !(Stone_res(magr))
 					&& badtouch(magr, mdef, attk, weapon))
@@ -15352,7 +15311,6 @@ boolean endofchain;			/* if the passive is occuring at the end of aggressor's at
 				break;
 			case AD_SLVR:
 				/* Eden's silver body sears attackers */
-				slot = attk_protection(attk->aatyp);
 				if (hates_silver(pa)
 					&& badtouch(magr, mdef, attk, weapon))
 				{

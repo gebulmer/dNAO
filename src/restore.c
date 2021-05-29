@@ -264,11 +264,9 @@ boolean ghostly;
 	register struct monst *first = (struct monst *)0;
 	int endread;
 	struct permonst *monbegin;
-	boolean moved;
 
 	/* get the original base address */
 	mread(fd, (genericptr_t)&monbegin, sizeof(monbegin));
-	moved = (monbegin != mons);
 	/* re-generate index numbers of the permonst array */
 	id_permonst();
 

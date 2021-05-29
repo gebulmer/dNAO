@@ -957,7 +957,6 @@ int spell;
     // /* Find the skill for the given spell type category */
     // int skill = P_SKILL(spell_skilltype(spell));
 	boolean cast = FALSE;
-    int leviprop = LEVITATION;
     // if (skill == P_EXPERT)
         // leviprop = FLYING;
 
@@ -1116,7 +1115,6 @@ STATIC_OVL boolean
 getspirit(power_no)
 	int *power_no;
 {
-	int nspells, idx;
 	char ilet, lets[BUFSZ], qbuf[QBUFSZ];
 
 	if (flags.menu_style == MENU_TRADITIONAL) {
@@ -1523,7 +1521,6 @@ int
 spell_skill_from_adtype(atype)
 int atype;
 {
-	int spell = 0;
 	switch (atype)
 	{
 	case AD_MAGM:
@@ -1652,7 +1649,6 @@ cast_protection()
 {
 	int loglev = 0;
 	int l = u.ulevel;
-	int natac = u.uac + u.uspellprot;
 	int gain;
 
 	/* loglev=log2(u.ulevel)+1 (1..5) */
@@ -1746,7 +1742,6 @@ sightwedge
 (dx,dy,x1,y1,x2,y2)
 int dx,dy,x1,y1,x2,y2;
 {
-	boolean gx=FALSE, gy=FALSE;
 	int deltax = x2-x1, deltay = y2-y1;
 	if(dy == 0){
 		if(dx > 0) return deltay<deltax && -deltay<deltax;
@@ -2019,9 +2014,7 @@ spiriteffects(power, atme)
 	boolean atme;
 {
 	int dsize = spiritDsize();
-	int tmp, weptmp, tchtmp;
 	
-	boolean reveal_invis = FALSE;
 	switch(power){
 		case PWR_ABDUCTION:{
 			struct monst *mon;
@@ -2068,7 +2061,7 @@ spiriteffects(power, atme)
 		case PWR_TRANSDIMENSIONAL_RAY:{
 			int dmg;
 			int range = rn1(7,7);
-			xchar lsx, lsy, sx, sy;
+			xchar sx, sy;
 			struct monst *mon;
 			sx = u.ux;
 			sy = u.uy;
@@ -2100,7 +2093,6 @@ spiriteffects(power, atme)
 						newsym(sx, sy);
 					}
 					if (mon) {
-						reveal_invis = TRUE;
 						if (resists_magm(mon)) {	/* match effect on player */
 							shieldeff(mon->mx, mon->my);
 						} else {
@@ -2198,9 +2190,7 @@ spiriteffects(power, atme)
 		case PWR_ASTAROTH_S_SHARDS:
 		if (getdir((char *)0) || !(u.dx || u.dy)){
 		    struct obj *otmp;
-			int i, x, y;
-			x =  u.ux;
-			y = u.uy;
+			int i;
 			for(i = dsize+u.ulevel/10+1; i > 0; i--){
 				int xadj=0;
 				int yadj=0;
@@ -2235,7 +2225,6 @@ spiriteffects(power, atme)
 			int range = (u.ulevel/2+1),dmg;
 			struct monst *mprime, *mon, *nxtmon;
 			xchar sx, sy;
-			boolean gx=FALSE, gy=FALSE;
 			sx = u.ux;
 			sy = u.uy;
 			if(Blind){
@@ -2378,7 +2367,6 @@ spiriteffects(power, atme)
 			if(u.uswallow){
 				mon = u.ustuck;
 				enoughGold = FALSE;
-				reveal_invis = TRUE;
 				dmg = d(5,dsize);
 #ifndef GOLDOBJ
 				if (u.ugold >= dmg) enoughGold = TRUE;
@@ -2414,7 +2402,6 @@ spiriteffects(power, atme)
 					}
 					if (mon) {
 						enoughGold = FALSE;
-						reveal_invis = TRUE;
 						dmg = d(5,dsize);
 #ifndef GOLDOBJ
 						if (u.ugold >= dmg) enoughGold = TRUE;
@@ -2444,7 +2431,6 @@ spiriteffects(power, atme)
 		break;
 		case PWR_GIFT_OF_HEALING:{
 			struct monst *mon;
-			int dmg;
 			if (!getdir((char *)0) || (u.dz)) return(0);
 			if(!(u.dx || u.dy)){
 				You("heal yourself.");
@@ -2463,8 +2449,6 @@ spiriteffects(power, atme)
 		}break;
 		case PWR_GIFT_OF_HEALTH:{
 			struct monst *mon;
-			struct obj *pseudo;
-			int dmg;
 			if (!getdir((char *)0) || (u.dz)) return(0);
 			if(!(u.dx || u.dy)){
 				int idx, recover, val_limit, aprobs = 0, fixpoint, curpoint;
@@ -2598,7 +2582,6 @@ spiriteffects(power, atme)
 		}break;
 		case PWR_SUCKLE_MONSTER:{
 			struct monst *mon;
-			int dmg;
 			if (!getdir((char *)0)  || !(u.dx || u.dy)) return(0);
 			if(isok(u.ux+u.dx, u.uy+u.dy)) {
 				mon = m_at(u.ux+u.dx, u.uy+u.dy);
@@ -2668,11 +2651,9 @@ spiriteffects(power, atme)
 		case PWR_GEYSER:{
 			int dmg = 0;
 			struct monst *mon;
-			struct trap *t;
 			if (!getdir((char *)0)  || !(u.dx || u.dy)) return(0);
 			if(isok(u.ux+u.dx, u.uy+u.dy)) {
 				mon = m_at(u.ux+u.dx, u.uy+u.dy);
-				t = t_at(u.ux+u.dx, u.uy+u.dy);
 				if(mon){
 					struct obj* boots;
 					boots = which_armor(mon, W_ARMF);
@@ -2847,7 +2828,6 @@ spiriteffects(power, atme)
 			(void) create_gas_cloud(cc.x, cc.y, u.ulevel/10+1, d(rnd(5),dsize), TRUE);
 		}break;
 		case PWR_RUINOUS_STRIKE:{
-			int dmg;
 			struct monst *mon;
 			struct trap *ttmp;
 			if (u.utrap){
@@ -3024,7 +3004,6 @@ spiriteffects(power, atme)
 			}
 		}break;
 		case PWR_ROOT_SHOUT:{
-			int dmg;
 			int range = rn1(7,7);
 			xchar sx, sy;
 			struct monst *mon;
@@ -3240,9 +3219,9 @@ spiriteffects(power, atme)
 			}
 		}break;
 		case PWR_EXHALATION_OF_THE_RIFT:{
-			int dmg, i;
+			int i;
 			int range = rn1(5,5);
-			xchar lsx, lsy, sx, sy;
+			xchar sx, sy;
 			struct monst *mon;
 			sx = u.ux;
 			sy = u.uy;
@@ -3905,7 +3884,7 @@ spiriteffects(power, atme)
 		}break;
 		case PWR_BLACK_BOLT:{
 			struct obj *qvr;
-			xchar lsx, lsy, sx, sy;
+			xchar sx, sy;
 			struct monst *mon = (struct monst *)0;
 			struct trap *ttmp2;
 			sx = u.ux;
@@ -3995,7 +3974,6 @@ choose_crystal_summon()
 	int i, n, how;
 	char buf[BUFSZ];
 	char incntlet = 'a';
-	long seal_flag = 0x1L;
 	menu_item *selected;
 	anything any;
 
@@ -4368,7 +4346,6 @@ int spell;
 		break;
 	}
 	{
-	int res;
 	//Speak one word of power per move free.
 	return partial_action();
 	}
@@ -4376,7 +4353,7 @@ int spell;
 int
 spelleffects(int spell, boolean atme, int spelltyp)
 {
-	int energy, damage, chance, n, intell;
+	int energy, damage, chance, n;
 	int skill, role_skill;
 	boolean confused = (Confusion != 0);
 	struct obj *pseudo;
@@ -6010,7 +5987,6 @@ const char *prompt;
 	winid tmpwin;
 	int n, how;
 	char buf[BUFSZ];
-	char incntlet = 'a';
 	menu_item *selected;
 	anything any;
 
@@ -6133,7 +6109,6 @@ void
 dopseudonatural()
 {
 	struct monst *mon, *nmon;
-	int tmp, weptmp, tchtmp;
 	struct attack symbiote = { AT_TENT, AD_PHYS, 5, spiritDsize() };
 	for(mon = fmon;mon;mon = nmon){
 		nmon = mon->nmon;
@@ -6157,10 +6132,9 @@ void
 dodestruction()
 {
 	struct monst *mon, *nmon;
-	int tmp, weptmp, tchtmp;
 	int clockwisex[8] = { 0, 1, 1, 1, 0,-1,-1,-1};
 	int clockwisey[8] = {-1,-1, 0, 1, 1, 1, 0,-1};
-	int i = rnd(8),j, lim=0;
+	int i = rnd(8),j;
 	struct attack destruction = { AT_NONE, AD_FIRE, 6, 6 };
 	if(!rn2(3))
 		destruction.adtyp = AD_COLD;

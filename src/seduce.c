@@ -816,7 +816,6 @@ int
 dosflseduce(mon)
 register struct monst *mon;
 {
-	boolean fem = TRUE;
 	//char qbuf[QBUFSZ];
 	boolean helpless = FALSE;
 	if (mon->mcan || mon->mspec_used) {
@@ -867,10 +866,8 @@ int
 dopaleseduce(mon)
 register struct monst *mon;
 {
-	register struct obj *ring, *nring;
 	boolean fem = !poly_gender(); /* male = 0, fem = 1, neuter = 2 */
 	boolean helpless = FALSE;
-	char qbuf[QBUFSZ];
 	
 	if(!monnear(mon, u.ux,u.uy)) return 0;
 	
@@ -884,7 +881,7 @@ register struct monst *mon;
 	
 	if (unconscious()) {/*Note: is probably not going to be possible to be unconscious and enter this function*/
 		You("are having a horrible dream.");
-		boolean helpless = TRUE;
+		helpless = TRUE;
 	}
 
 	if(mon->mvar_paleWarning == 1){
@@ -1491,6 +1488,8 @@ boolean helpless;
 	remove_worn_item(obj, TRUE);
 }
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-function"
 STATIC_OVL void
 sflmayberem(obj, str, helpless)
 register struct obj *obj;
@@ -1532,6 +1531,7 @@ boolean helpless;
 	Sprintf(qbuf,"She removes your %s!",
 		str);
 }
+#pragma GCC diagnostic pop
 
 STATIC_OVL void
 palemayberem(obj, str, helpless)
@@ -1539,7 +1539,6 @@ register struct obj *obj;
 const char *str;
 boolean helpless;
 {
-	char qbuf[QBUFSZ];
 	int its_cha;
 
 	if (!obj || !obj->owornmask) return;
@@ -1798,9 +1797,6 @@ seduce_effect(mon, effect_num)
 struct monst * mon;
 int effect_num;
 {
-	char qbuf[QBUFSZ];
-	struct obj *key;
-	int turns = 0;
 	char class_list[MAXOCLASSES + 2];
 	int tmp;
 	char buf[BUFSZ];

@@ -907,14 +907,11 @@ maze_add_rooms(attempts, maxsize)
 int attempts;
 int maxsize;
 {
-	xchar x, y;
-
 	/* Ineligible maze levels for rooms */
 	if (Invocation_lev(&u.uz))
 		return;
 
 	for (; attempts > 0; attempts--) {
-		int roomidx;
 		coord roompos;
 		xchar lx, ly, hx, hy, width, height;
 		int door_attempts = 3;
@@ -1029,8 +1026,6 @@ void
 maze_add_openings(attempts)
 int attempts;
 {
-	xchar x, y;
-
 	/* Ineligible maze levels for rooms */
 	if (Invocation_lev(&u.uz))
 		return;
@@ -1796,7 +1791,7 @@ movebubbles()
     if (!wportal)
         set_wportal();
 
-	vision_recalc(2);
+    vision_recalc(2);
 	/* keep attached ball&chain separate from bubble objects */
     if (Punished)
         unplacebc();
@@ -1805,7 +1800,7 @@ movebubbles()
 	 * Pick up everything inside of a bubble then fill all bubble
 	 * locations.
 	 */
-	for (b = up ? bbubbles : ebubbles; b; b = up ? b->next : b->prev) {
+    for (b = up ? bbubbles : ebubbles; b; b = up ? b->next : b->prev) {
         if (b->cons)
 	        panic("movebubbles: cons != null");
 	    for (i = 0, x = b->x; i < (int) b->bm[0]; i++, x++)
@@ -2112,10 +2107,10 @@ int x, y, n;
 
     if (x >= bxmax || y >= bymax)
         return;
-	if (n >= SIZE(bmask)) {
-		impossible("n too large (mk_bubble)");
-		n = SIZE(bmask) - 1;
-	}
+    if (n >= SIZE(bmask)) {
+	impossible("n too large (mk_bubble)");
+	n = SIZE(bmask) - 1;
+    }
     if (bmask[n][1] > MAX_BMASK) {
         panic("bmask size is larger than MAX_BMASK");
     }
@@ -2124,24 +2119,24 @@ int x, y, n;
         x = bxmax - bmask[n][0] + 1;
     if ((y + (int) bmask[n][1] - 1) > bymax)
         y = bymax - bmask[n][1] + 1;
-	b->x = x;
-	b->y = y;
-	b->dx = 1 - rn2(3);
-	b->dy = 1 - rn2(3);
+    b->x = x;
+    b->y = y;
+    b->dx = 1 - rn2(3);
+    b->dy = 1 - rn2(3);
     /* y dimension is the length of bitmap data - see bmask above */
     (void) memcpy((genericptr_t) b->bm, (genericptr_t) bmask[n],
                   (bmask[n][1] + 2) * sizeof(b->bm[0]));
 	b->cons = 0;
     if (!bbubbles)
         bbubbles = b;
-	if (ebubbles) {
-		ebubbles->next = b;
-		b->prev = ebubbles;
+    if (ebubbles) {
+	ebubbles->next = b;
+	b->prev = ebubbles;
     } else
-		b->prev = (struct bubble *)0;
-	b->next =  (struct bubble *)0;
-	ebubbles = b;
-	mv_bubble(b,0,0,TRUE);
+	b->prev = (struct bubble *)0;
+    b->next =  (struct bubble *)0;
+    ebubbles = b;
+    mv_bubble(b,0,0,TRUE);
 }
 
 /*
@@ -2159,139 +2154,139 @@ int dx, dy;
 boolean ini;
 {
     int x, y, i, j, colli = 0;
-	struct container *cons, *ctemp;
+    struct container *cons, *ctemp;
 
-	/* move bubble */
-	if (dx < -1 || dx > 1 || dy < -1 || dy > 1) {
-	    /* pline("mv_bubble: dx = %d, dy = %d", dx, dy); */
-	    dx = sgn(dx);
-	    dy = sgn(dy);
-	}
+    /* move bubble */
+    if (dx < -1 || dx > 1 || dy < -1 || dy > 1) {
+	/* pline("mv_bubble: dx = %d, dy = %d", dx, dy); */
+	dx = sgn(dx);
+	dy = sgn(dy);
+    }
 
-	/*
-	 * collision with level borders?
-	 *	1 = horizontal border, 2 = vertical, 3 = corner
-	 */
+    /*
+     * collision with level borders?
+     *	1 = horizontal border, 2 = vertical, 3 = corner
+     */
     if (b->x <= bxmin)
-        colli |= 2;
+	colli |= 2;
     if (b->y <= bymin)
-        colli |= 1;
+	colli |= 1;
     if ((int) (b->x + b->bm[0] - 1) >= bxmax)
-        colli |= 2;
+	colli |= 2;
     if ((int) (b->y + b->bm[1] - 1) >= bymax)
-        colli |= 1;
+	colli |= 1;
 
-	if (b->x < bxmin) {
-	    pline("bubble xmin: x = %d, xmin = %d", b->x, bxmin);
-	    b->x = bxmin;
-	}
-	if (b->y < bymin) {
-	    pline("bubble ymin: y = %d, ymin = %d", b->y, bymin);
-	    b->y = bymin;
-	}
-	if ((int) (b->x + b->bm[0] - 1) > bxmax) {
-        pline("bubble xmax: x = %d, xmax = %d", b->x + b->bm[0] - 1,
-              bxmax);
-	    b->x = bxmax - b->bm[0] + 1;
-	}
-	if ((int) (b->y + b->bm[1] - 1) > bymax) {
-        pline("bubble ymax: y = %d, ymax = %d", b->y + b->bm[1] - 1,
-              bymax);
-	    b->y = bymax - b->bm[1] + 1;
-	}
+    if (b->x < bxmin) {
+	pline("bubble xmin: x = %d, xmin = %d", b->x, bxmin);
+	b->x = bxmin;
+    }
+    if (b->y < bymin) {
+	pline("bubble ymin: y = %d, ymin = %d", b->y, bymin);
+	b->y = bymin;
+    }
+    if ((int) (b->x + b->bm[0] - 1) > bxmax) {
+	pline("bubble xmax: x = %d, xmax = %d", b->x + b->bm[0] - 1,
+		bxmax);
+	b->x = bxmax - b->bm[0] + 1;
+    }
+    if ((int) (b->y + b->bm[1] - 1) > bymax) {
+	pline("bubble ymax: y = %d, ymax = %d", b->y + b->bm[1] - 1,
+		bymax);
+	b->y = bymax - b->bm[1] + 1;
+    }
 
-	/* bounce if we're trying to move off the border */
+    /* bounce if we're trying to move off the border */
     if (b->x == bxmin && dx < 0)
-        dx = -dx;
+	dx = -dx;
     if (b->x + b->bm[0] - 1 == bxmax && dx > 0)
-        dx = -dx;
+	dx = -dx;
     if (b->y == bymin && dy < 0)
-        dy = -dy;
+	dy = -dy;
     if (b->y + b->bm[1] - 1 == bymax && dy > 0)
-        dy = -dy;
+	dy = -dy;
 
-	b->x += dx;
-	b->y += dy;
+    b->x += dx;
+    b->y += dy;
 
-	/* void positions inside bubble */
+    /* void positions inside bubble */
 
-	for (i = 0, x = b->x; i < (int) b->bm[0]; i++, x++)
-	    for (j = 0, y = b->y; j < (int) b->bm[1]; j++, y++)
-		if (b->bm[j + 2] & (1 << i)) {
-		    levl[x][y].typ = MOAT;//was ROOM;// was AIR
-		    levl[x][y].lit = 1;
-		    // unblock_point(x,y);
-		}
-
-	/* replace contents of bubble */
-	for (cons = b->cons; cons; cons = ctemp) {
-	    ctemp = cons->next;
-	    cons->x += dx;
-	    cons->y += dy;
-
-	    switch(cons->what) {
-		case CONS_OBJ: {
-		    struct obj *olist, *otmp;
-
-		    for (olist=(struct obj *)cons->list; olist; olist=otmp) {
-			otmp = olist->nexthere;
-			place_object(olist, cons->x, cons->y);
-		    }
-		    break;
-		}
-
-		case CONS_MON: {
-		    struct monst *mon = (struct monst *) cons->list;
-		    (void) mnearto(mon, cons->x, cons->y, TRUE);
-		    break;
-		}
-
-		case CONS_HERO: {
-		    int ux0 = u.ux, uy0 = u.uy;
-
-		    /* change u.ux0 and u.uy0? */
-			u_on_newpos(cons->x, cons->y);
-		    newsym(ux0, uy0);	/* clean up old position */
-
-		    if (MON_AT(cons->x, cons->y)) {
-				mnexto(m_at(cons->x,cons->y));
-			}
-		    break;
-		}
-
-		case CONS_TRAP: {
-		    struct trap *btrap = (struct trap *) cons->list;
-		    btrap->tx = cons->x;
-		    btrap->ty = cons->y;
-		    break;
-		}
-
-		default:
-		    impossible("mv_bubble: unknown bubble contents");
-		    break;
+    for (i = 0, x = b->x; i < (int) b->bm[0]; i++, x++)
+	for (j = 0, y = b->y; j < (int) b->bm[1]; j++, y++)
+	    if (b->bm[j + 2] & (1 << i)) {
+		levl[x][y].typ = MOAT;//was ROOM;// was AIR
+		levl[x][y].lit = 1;
+		// unblock_point(x,y);
 	    }
-	    free((genericptr_t)cons);
-	}
-	b->cons = 0;
 
-	/* boing? */
-	switch (colli) {
-	    case 1:
-	        b->dy = -b->dy;
-	        break;
-	    case 3:
-	        b->dy = -b->dy; /* fall through */
-	    case 2:
-	        b->dx = -b->dx;
-	        break;
+    /* replace contents of bubble */
+    for (cons = b->cons; cons; cons = ctemp) {
+	ctemp = cons->next;
+	cons->x += dx;
+	cons->y += dy;
+
+	switch(cons->what) {
+	    case CONS_OBJ: {
+			       struct obj *olist, *otmp;
+
+			       for (olist=(struct obj *)cons->list; olist; olist=otmp) {
+				   otmp = olist->nexthere;
+				   place_object(olist, cons->x, cons->y);
+			       }
+			       break;
+			   }
+
+	    case CONS_MON: {
+			       struct monst *mon = (struct monst *) cons->list;
+			       (void) mnearto(mon, cons->x, cons->y, TRUE);
+			       break;
+			   }
+
+	    case CONS_HERO: {
+				int ux0 = u.ux, uy0 = u.uy;
+
+				/* change u.ux0 and u.uy0? */
+				u_on_newpos(cons->x, cons->y);
+				newsym(ux0, uy0);	/* clean up old position */
+
+				if (MON_AT(cons->x, cons->y)) {
+				    mnexto(m_at(cons->x,cons->y));
+				}
+				break;
+			    }
+
+	    case CONS_TRAP: {
+				struct trap *btrap = (struct trap *) cons->list;
+				btrap->tx = cons->x;
+				btrap->ty = cons->y;
+				break;
+			    }
+
 	    default:
-		/* sometimes alter direction for fun anyway
-		   (higher probability for stationary bubbles) */
-		if (!ini && ((b->dx || b->dy) ? !rn2(20) : !rn2(5))) {
-			b->dx = 1 - rn2(3);
-			b->dy = 1 - rn2(3);
-		}
+			    impossible("mv_bubble: unknown bubble contents");
+			    break;
 	}
+	free((genericptr_t)cons);
+    }
+    b->cons = 0;
+
+    /* boing? */
+    switch (colli) {
+	case 1:
+	    b->dy = -b->dy;
+	    break;
+	case 3:
+	    b->dy = -b->dy; /* fall through */
+	case 2:
+	    b->dx = -b->dx;
+	    break;
+	default:
+	    /* sometimes alter direction for fun anyway
+	       (higher probability for stationary bubbles) */
+	    if (!ini && ((b->dx || b->dy) ? !rn2(20) : !rn2(5))) {
+		b->dx = 1 - rn2(3);
+		b->dy = 1 - rn2(3);
+	    }
+    }
 }
 
 STATIC_DCL void

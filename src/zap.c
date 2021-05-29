@@ -48,9 +48,6 @@ extern const char * const flash_types[];
 #else
 STATIC_VAR const char are_blinded_by_the_flash[] = "are blinded by the flash!";
 
-static const int dirx[8] = {0, 1, 1,  1,  0, -1, -1, -1},
-				 diry[8] = {1, 1, 0, -1, -1, -1,  0,  1};
-
 struct zapdata tzapdat;	/* temporary zap data -- assumes there is only 1 zap happening at once (which is a safe assumption for now) */
 
 /* returns the string formerly given in the flash_type char*[] array. Not exhaustive -- if new combinations are used, they must be added here as well */
@@ -664,17 +661,17 @@ coord *cc;
 		mtmp2->mtrapped = 0;
 		mtmp2->msleeping = 0;
 		mtmp2->mfrozen = 0;
-      if(mtmp->mtyp == PM_GIANT_TURTLE && (mtmp->mflee))
-        mtmp2->mcanmove=0;
-      else
-		mtmp2->mcanmove = 1;
+		if(mtmp->mtyp == PM_GIANT_TURTLE && (mtmp->mflee))
+		      mtmp2->mcanmove=0;
+		else
+		      mtmp2->mcanmove = 1;
 		/* most cancelled monsters return to normal,
 		   but some need to stay cancelled */
 		if (!dmgtype(mtmp2->data, AD_SEDU)
 #ifdef SEDUCE
-				&& !dmgtype(mtmp2->data, AD_SSEX)
+			    && !dmgtype(mtmp2->data, AD_SSEX)
 #endif
-		    ) mtmp2->mcan = 0;
+		   ) mtmp2->mcan = 0;
 		mtmp2->mcansee = 1;	/* set like in makemon */
 		mtmp2->mblinded = 0;
 		mtmp2->mstun = 0;
@@ -3200,7 +3197,7 @@ spell_damage_bonus()
     else		/* helm of brilliance */
 	tmp = 2;
 
-	tmp += kraubon();
+    tmp += kraubon();
 	
     return tmp;
 }
@@ -3499,7 +3496,6 @@ struct monst * mdef;
 struct zapdata * zapdata;
 {
 	boolean youdef = (mdef == &youmonst);
-	boolean reflect;
 
 	if (noreflect_zap(zapdata))
 		return FALSE;
@@ -3642,7 +3638,6 @@ struct zapdata * zapdata;	/* lots of flags and data about the zap */
 	int lsx, lsy;	/* last location of sxsy */
 	struct rm *lev;
 	struct monst * mdef;
-	int dmg;	/* returned by zhit(), used by force() */
 
 	/* modify range, if necessary */
 	if (!range)
@@ -3986,7 +3981,6 @@ struct zapdata * zapdata;
 {
 	boolean youagr = (magr == &youmonst);
 	boolean youdef = (mdef == &youmonst);
-	boolean sho_shieldeff = FALSE;
 	struct attack attk = { AT_NONE, zapdata->adtyp, 0, 0 };
 	int dmg = zapdamage(magr, mdef, zapdata);
 	int svddmg = dmg;	/* saved damage for golemeffects() */
@@ -3999,10 +3993,12 @@ struct zapdata * zapdata;
 
 	/* macros to help put messages in the right place  */
 #define addmsg(...) do{if(!havemsg){Sprintf(buf, __VA_ARGS__);havemsg=TRUE;}else{Strcat(buf, " "); Sprintf(eos(buf), __VA_ARGS__);}}while(0)
-#define domsg() do{if((youagr || youdef || canseemon(mdef)) && dmg<*hp(mdef))\
-	hit(fltxt, mdef, exclam(dmg)); \
+#define domsg() do{\
+	if((youagr || youdef || canseemon(mdef)) && dmg<*hp(mdef))\
+		hit(fltxt, mdef, exclam(dmg)); \
 	if(doshieldeff) shieldeff(bhitpos.x, bhitpos.y);\
-	if(havemsg) pline1(buf);}while(0)
+	if(havemsg) pline1(buf);\
+	}while(0)
 
 	/* do effects of zap */
 	switch (zapdata->adtyp) {
@@ -4012,7 +4008,7 @@ struct zapdata * zapdata;
 			dmg = 0;
 			doshieldeff = TRUE;
 			if (youdef)
-				addmsg("The missiles bouce off!");
+			      addmsg("The missiles bouce off!");
 		}
 		domsg();
 		if (youdef && dmg > 0)
@@ -4025,7 +4021,7 @@ struct zapdata * zapdata;
 		if (Fire_res(mdef)) {
 			doshieldeff = TRUE;
 			if (youdef)
-				addmsg("You don't feel hot!");
+			      addmsg("You don't feel hot!");
 			dmg = 0;
 		}
 		else if (Cold_res(mdef)) {
@@ -5215,11 +5211,10 @@ int wishflags;		// flags to change messages / effects
 {
 	char buf[BUFSZ];
 	char bufcpy[BUFSZ];
-	struct obj *otmp, nothing;
+	struct obj *otmp;
 	int tries = 0;
 	int wishreturn;
 
-	nothing = zeroobj;  /* lint suppression; only its address matters */
 	if (flags.verbose) You("may wish for an object.");
 retry:
 	getlin("For what do you wish?", buf);

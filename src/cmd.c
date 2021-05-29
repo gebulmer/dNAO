@@ -520,7 +520,6 @@ boolean you_abilities;
 	winid tmpwin;
 	int n, how;
 	char buf[BUFSZ];
-	char incntlet = 'a';
 	menu_item *selected;
 	anything any;
 	boolean atleastone = FALSE;
@@ -896,8 +895,6 @@ use_reach_attack()
 
 	/* Attack the monster there */
 	if ((mtmp = m_at(cc.x, cc.y)) != (struct monst *)0) {
-		int tmp, tmpw, tmpt;
-
 	    bhitpos = cc;
 	    check_caitiff(mtmp);
 		(void)xattacky(&youmonst, mtmp, cc.x, cc.y);
@@ -1797,7 +1794,7 @@ int final;	/* 0 => still in progress; 1 => over, survived; 2 => dead */
 #endif
 	
 	if(u.sealsActive || u.specialSealsActive){
-		int i,j,numBound,numFound=0;
+		int i,numBound,numFound=0;
 		numBound = u.sealCounts;
 		if(u.spirit[QUEST_SPIRIT]) numBound++;
 		if(Role_if(PM_EXILE) && u.uevent.uhand_of_elbereth) numBound++;
@@ -2408,14 +2405,6 @@ int final;
 	char buf[BUFSZ];
 	char buf2[BUFSZ];
 	char prebuf[BUFSZ];
-	const char *enc_stat[] = { /* copied from botl.c */
-	     "",
-	     "burdened",
-	     "stressed",
-	     "strained",
-	     "overtaxed",
-	     "overloaded"
-	};
 	char *youwere = "  You were ";
 	char *youhave = "  You have ";
 	char *youhad  = "  You had ";
@@ -4262,7 +4251,6 @@ signs_mirror()
 	if(count){
 		int num;
 		int total = 0;
-		char *bp;
 		if(count > 2) comma = ",";
 		else comma = "";
 		
@@ -5587,7 +5575,7 @@ change_bind_list(void)
 void
 add_debug_extended_commands()
 {
-	int i, j, k, n;
+	int i, n;
 
 	/* count the # of help entries */
 	for (n = 0; extcmdlist[n].ef_txt; n++) ;
@@ -5607,16 +5595,6 @@ dokeylist(void)
 	register const char*	dir_keys;
 	winid	datawin;
 	int	i;
-	char*	dir_desc[10] = {"move west",
-				"move northwest",
-				"move north",
-				"move northeast",
-				"move east",
-				"move southeast",
-				"move south",
-				"move southwest",
-				"move downward",
-				"move upward"};
 	char*	misc_desc[MISC_CMD_COUNT] = 
 		{"rush until something interesting is seen",
 		 "run until something extremely interesting is seen",
@@ -5703,7 +5681,6 @@ dokeylist(void)
 	putstr(datawin, 0, "Command keys:");
 	for(i=0; i<=255; i++) {
 		struct ext_func_tab * extcmd;
-		char* mapping;
 		key = i;
 		/* JDS: not the most efficient way, perhaps */
 		if (keys_used[i]) continue;
@@ -5745,7 +5722,6 @@ char * buf;
 
 	for (i = 0; i <= 255; i++) {
 		struct ext_func_tab * extcmd;
-		char* mapping;
 		key = i;
 		if (keys_used[i]) continue;
 		if (key == ' ' && !flags.rest_on_space) continue;
@@ -6225,7 +6201,6 @@ parseautocomplete(autocomplete,condition)
 char
 randomkey()
 {
-    static unsigned i = 0;
     char c;
 
     switch (rn2(16)) {

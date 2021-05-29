@@ -324,7 +324,6 @@ struct monst *mtmp;
 const char *name;
 {
 	int lth;
-	struct monst *mtmp2;
 	char buf[PL_PSIZ];
 
 	/* dogname & catname are PL_PSIZ arrays; object names have same limit */
@@ -1199,7 +1198,6 @@ boolean called;
 #endif
 	struct permonst *mdat = ptr;
 	boolean name_at_start, has_adjectives;
-	char *bp;
 
 	buf[0] = 0;
 

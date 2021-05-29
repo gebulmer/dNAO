@@ -34,9 +34,6 @@ register boolean clumsy;
 {
 	int mdx, mdy;
 	struct permonst *mdat = mon->data;
-	/*Note: currently these are actually the same skill, but....*/
-	int kick_skill = (martial() ? P_MARTIAL_ARTS : P_BARE_HANDED_COMBAT);
-	boolean trapkilled = FALSE;
 	int result;
 
 	if(mon->m_ap_type) {
@@ -65,7 +62,6 @@ register boolean clumsy;
 					place_monster(mon, mdx, mdy);
 					newsym(mon->mx, mon->my);
 					set_apparxy(mon);
-					if (mintrap(mon) == 2) trapkilled = TRUE;
 				}
 			}
 		}
@@ -336,9 +332,8 @@ kick_object(x, y)
 xchar x, y;
 {
 	int range;
-	register struct monst *mon, *shkp;
+	register struct monst *shkp;
 	struct trap *trap;
-	char bhitroom;
 	boolean costly, isgold, slide = FALSE;
 
 	/* if a pile, the "top" object gets kicked */

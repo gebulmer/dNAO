@@ -498,7 +498,6 @@ merge_adj_rooms()
 			else
 				smeq[i] = smeq[j];
 			// make the lighting consistent in the rooms 
-			struct rm *lev;
 			struct mkroom *tmp;
 			if ((((a->hx - a->lx)*(a->hy - a->ly) > (b->hx - b->lx)*(b->hy - b->ly)) || a->rtype == JOINEDROOM) && b->rtype != JOINEDROOM) {
 				tmp = b;
@@ -1843,7 +1842,8 @@ coord *tm;
 			kind = NO_TRAP; break;
 		    case ROLLING_BOULDER_TRAP:
 		    case SLP_GAS_TRAP:
-			if (lvl < 2) kind = NO_TRAP; break;
+			if (lvl < 2) kind = NO_TRAP;
+			break;
 		    case LEVEL_TELEP:
 			// if (lvl < 5 || level.flags.noteleport)
 			    // kind = NO_TRAP; break;
@@ -1852,21 +1852,28 @@ coord *tm;
 			else kind = TRAPDOOR;
 			break;
 		    case SPIKED_PIT:
-			if (lvl < 5) kind = NO_TRAP; break;
+			if (lvl < 5) kind = NO_TRAP;
+			break;
 		    case LANDMINE:
-			if (lvl < 6) kind = NO_TRAP; break;
+			if (lvl < 6) kind = NO_TRAP;
+			break;
 		    case WEB:
-			if (lvl < 7) kind = NO_TRAP; break;
+			if (lvl < 7) kind = NO_TRAP;
+			break;
 		    case STATUE_TRAP:
 		    case POLY_TRAP:
-			if (lvl < 8) kind = NO_TRAP; break;
+			if (lvl < 8) kind = NO_TRAP;
+			break;
 		    case FIRE_TRAP:
-			if (!Inhell) kind = NO_TRAP; break;
+			if (!Inhell) kind = NO_TRAP;
+			break;
 		    case TELEP_TRAP:
-			if (level.flags.noteleport) kind = NO_TRAP; break;
+			if (level.flags.noteleport) kind = NO_TRAP;
+			break;
 		    case HOLE:
 			/* make these much less often than other traps */
-			if (rn2(7)) kind = NO_TRAP; break;
+			if (rn2(7)) kind = NO_TRAP;
+			break;
 		}
 	    } while (kind == NO_TRAP);
 	}

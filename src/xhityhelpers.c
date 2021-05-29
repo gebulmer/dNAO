@@ -11,26 +11,6 @@
 extern boolean notonhead;
 extern struct attack noattack;
 
-///////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////
-/* unhide creatures, possibly with message, before they make an attack */
-void
-xmakingattack(magr, mdef, tarx, tary)
-struct monst * magr;
-struct monst * mdef;
-int tarx;
-int tary;
-{
-	boolean youagr = (magr == &youmonst);
-	boolean youdef = (mdef == &youmonst);
-	struct permonst * pa = youagr ? youracedata : magr->data;
-	struct permonst * pd = youdef ? youracedata : mdef->data;
-}
-
-
-///////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////
-
 boolean
 magr_can_attack_mdef(magr, mdef, tarx, tary, active)
 struct monst * magr;
@@ -42,7 +22,6 @@ boolean active;
 	boolean youagr = (magr == &youmonst);
 	boolean youdef = (mdef == &youmonst);
 	struct permonst * pa = youagr ? youracedata : magr->data;
-	struct permonst * pd = youdef ? youracedata : mdef->data;
 
 	/* cases where the agressor cannot make any attacks at all */
 	/* player is invincible*/
@@ -1216,9 +1195,6 @@ struct obj * weapon;
 struct permonst * pa;
 struct permonst * pd;
 {
-	long slot = attk_protection(attk->aatyp);
-	boolean youagr = (magr == &youmonst);
-
 	/* if there is no defender, it's safe */
 	if (!mdef)
 		return TRUE;
@@ -1544,7 +1520,6 @@ struct obj * weapon;
 {
 	boolean youagr = (magr == &youmonst);
 	boolean youdef = (mdef == &youmonst);
-	struct permonst * pa = (magr ? (youagr ? youracedata : magr->data) : (struct permonst *)0);
 	struct permonst * pd = youdef ? youracedata : mdef->data;
 
 	/* Chupoclops makes all your attacks ethereal */
@@ -1932,7 +1907,7 @@ boolean vis;
 		case 5:
 			if(youdef){
 				Your("secondary data store has been compromised!");
-				for(int i = dmg; dmg > 0; dmg--){
+				for(; dmg > 0; dmg--){
 					forget(10);
 				}
 			} else {

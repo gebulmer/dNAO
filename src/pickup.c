@@ -1875,11 +1875,9 @@ struct monst *mtmp;
 int *passed_info;
 boolean *prev_loot;
 {
-    int c = -1;
     int timepassed = 0;
 #ifdef STEED
     struct obj *otmp;
-    char qbuf[QBUFSZ];
 
     /* 3.3.1 introduced the ability to remove saddle from a steed             */
     /* 	*passed_info is set to TRUE if a loot query was given.               */
@@ -1945,13 +1943,11 @@ boolean *prev_loot;
 int
 dopetequip()
 {
-    int c = -1;
     int timepassed = 0;
 	long flag;
 	boolean unseen;
     coord cc;
     struct obj *otmp;
-    char qbuf[QBUFSZ];
 	struct monst *mtmp;
 	char nambuf[BUFSZ];
 	
@@ -3637,7 +3633,7 @@ tiphat()
 {
 	struct monst *mtmp;
 	struct obj *otmp;
-	int x, y, range, glyph, vismon, unseen, statue, res;
+	int x, y, range, vismon, unseen, statue, res;
 
 	if (!uarmh) /* can't get here from there */
 		return 0;

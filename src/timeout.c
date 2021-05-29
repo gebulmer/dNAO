@@ -2,7 +2,7 @@
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /* NetHack may be freely redistributed.  See license for details. */
 
-#pragma clang diagnostic ignored "-Wint-to-void-pointer-cast"
+//pragma GCC diagnostic ignored "-Wint-to-void-pointer-cast"
 
 #include "hack.h"
 
@@ -382,7 +382,6 @@ boolean lifesave_forced;
 	}
 	
 	if(!(spir&SEAL_SPECIAL)){
-		int j;
 		if(u.sealsActive&spir){
 			u.sealsActive &= ~spir;
 			if(spir&int_spirits) u.intSpirits--;
@@ -2347,7 +2346,6 @@ begin_burn(obj)
 	}
 
 	if (obj->lamplit) {
-	    xchar x, y;
 		if (already_lit)	/* to give an error if already_lit != actually had an ls */
 			del_light_source(obj->light);
 		new_light_source(LS_OBJECT, (genericptr_t)obj, radius);
@@ -2794,7 +2792,7 @@ timer_element * tm;
 	prev->next = tm;
     else
 	timer_base = tm;
-	return;
+    return;
 }
 
 /* removes a timer from the processing chain */
@@ -2951,7 +2949,6 @@ int mode;
 {
 	struct timer * curr;
 
-	int count = 0;
 	for (curr = tm; curr; curr = curr->tnxt) {
 		if (perform_bwrite(mode))
 			bwrite(fd, (genericptr_t)curr, sizeof(struct timer));

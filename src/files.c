@@ -155,7 +155,9 @@ STATIC_DCL char *NDECL(set_bonestemp_name);
 STATIC_DCL void FDECL(redirect, (const char *,const char *,FILE *,BOOLEAN_P));
 STATIC_DCL void FDECL(docompress_file, (const char *,BOOLEAN_P));
 #endif
+#ifndef USE_FCNTL
 STATIC_DCL char *FDECL(make_lockname, (const char *,char *));
+#endif
 STATIC_DCL FILE *FDECL(fopen_config_file, (const char *));
 STATIC_DCL int FDECL(get_uchars, (FILE *,char *,char *,uchar *,BOOLEAN_P,int,const char *));
 int FDECL(parse_config_line, (FILE *,char *,char *,char *));
@@ -1340,6 +1342,7 @@ struct flock sflock; /* for unlocking, same as above */
 
 #define HUP	if (!program_state.done_hup)
 
+#ifndef USE_FCNTL
 STATIC_OVL char *
 make_lockname(filename, lockname)
 const char *filename;
@@ -1373,6 +1376,7 @@ char *lockname;
 # endif  /* UNIX || VMS || AMIGA || WIN32 || MSDOS */
 #endif
 }
+#endif /* USE_FCNTL */
 
 /* lock a file */
 boolean
@@ -1384,8 +1388,6 @@ int retryct;
 #if (defined(macintosh) && (defined(__SC__) || defined(__MRC__))) || defined(__MWERKS__)
 # pragma unused(filename, retryct)
 #endif
-	char locknambuf[BUFSZ];
-	const char *lockname;
 
 	nesting++;
 	if (nesting > 1) {
@@ -1537,9 +1539,6 @@ const char *filename;
 # pragma unused(filename)
 #endif
 {
-	char locknambuf[BUFSZ];
-	const char *lockname;
-
 	if (nesting == 1) {
 #ifdef USE_FCNTL
 		sflock.l_type = F_UNLCK;
@@ -2532,7 +2531,6 @@ const char *reason;	/* explanation */
 {
 #ifdef PANICLOG
 	FILE *lfile;
-	char buf[BUFSZ];
 
 	if (!program_state.in_paniclog) {
 		program_state.in_paniclog = 1;

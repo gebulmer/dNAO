@@ -443,7 +443,6 @@ int song_id;
 struct obj *instr;
 int know_spell;
 {
-	int a;
 	int chance;
 
 	//TODO: must check if the spell is still memorized
@@ -717,7 +716,6 @@ struct obj * instr;
 STATIC_PTR int
 play_song()
 {
-	register struct monst *mtmp;
 	int distance;
 
 	distance = ((P_SKILL(P_MUSICALIZE)) + (u.ulevel/10) + 1);
@@ -878,7 +876,6 @@ slowness_song(distance)
 int distance;
 {
 	register struct monst *mtmp = fmon;
-	register int distm;
 
 	while(mtmp) {
 		if (!DEADMONSTER(mtmp) && distu(mtmp->mx, mtmp->my) < distance &&
@@ -920,7 +917,6 @@ haste_song(distance)
 int distance;
 {
 	register struct monst *mtmp = fmon;
-	register int distm;
 	
 	while(mtmp) {
 		if (!DEADMONSTER(mtmp) && distu(mtmp->mx, mtmp->my) < distance &&
@@ -943,7 +939,6 @@ heal_song(distance)
 int distance;
 {
 	register struct monst *mtmp = fmon;
-	register int distm;
 	
 	while(mtmp) {
 		if (!DEADMONSTER(mtmp) && mtmp->mtame && mtmp->mhp < mtmp->mhpmax &&
@@ -1351,7 +1346,7 @@ STATIC_OVL void
 tame_song(distance)
 int distance;
 {
-	struct monst *mtmp=0, *mtmp2;
+	struct monst *mtmp=0;
 	xchar waspeaceful;
 	
 	if(SNG_FIRST_TURN){
@@ -1824,10 +1819,9 @@ int
 do_play_instrument(instr)
 struct obj *instr;
 {
-    char buf[BUFSZ], c = 'y';
+    char buf[BUFSZ];
     char *s;
     int x,y;
-    int a;
     unsigned char song = SNG_NONE;
     boolean ok;
 

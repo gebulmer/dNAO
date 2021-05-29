@@ -258,7 +258,7 @@ dosave0()
 		ofd = open_levelfile(ltmp, whynot);
 		if (ofd < 0) {
 		    HUP pline("%s", whynot);
-			abort();
+		    abort();
 		    (void) close(fd);
 		    (void) delete_savefile();
 		    HUP killer = whynot;
@@ -885,7 +885,6 @@ register int fd, mode;
 register struct obj *otmp;
 {
 	register struct obj *otmp2;
-	unsigned int xl;
 	int zero = 0;
 	int minusone = -1;
 
@@ -969,8 +968,8 @@ register struct trap *trap;
 	    trap2 = trap->ntrap;
 	    if (perform_bwrite(mode))
 		bwrite(fd, (genericptr_t) trap, sizeof(struct trap));
-		if (trap->ammo)
-			saveobjchn(fd, trap->ammo, mode);
+	    if (trap->ammo)
+		saveobjchn(fd, trap->ammo, mode);
 	    if (release_data(mode))
 		dealloc_trap(trap);
 	    trap = trap2;

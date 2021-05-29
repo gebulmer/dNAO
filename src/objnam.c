@@ -2083,8 +2083,8 @@ weapon:
 			}
 			if (objects[obj->otyp].oc_charged && !is_weptool(obj))
 				goto charges;
-		if(is_weptool(obj))
-			goto weapon;
+			if(is_weptool(obj))
+				goto weapon;
 			break;
 		case WAND_CLASS:
 		charges:
@@ -2316,8 +2316,8 @@ register struct obj *otmp;
 	return TRUE;
     if (otmp->oartifact && undiscovered_artifact(otmp->oartifact))
 	return TRUE;
-	if (otmp->obj_material == GEMSTONE && otmp->ovar1 && !obj_type_uses_ovar1(otmp) && !obj_art_uses_ovar1(otmp)
-		&& !objects[otmp->ovar1].oc_name_known)
+    if (otmp->obj_material == GEMSTONE && otmp->ovar1 && !obj_type_uses_ovar1(otmp) && !obj_art_uses_ovar1(otmp)
+	    && !objects[otmp->ovar1].oc_name_known)
 	return TRUE;
     /* otmp->rknown is the only item of interest if we reach here */
        /*
@@ -2510,7 +2510,7 @@ const char *str;
 	    insert_the = TRUE;
 	} else {
 	    /* Probably a proper name, might not need an article */
-	    register char *tmp, *named, *called;
+	    register char *tmp;
 	    int l;
 
 	    /* some objects have capitalized adjectives in their names */
@@ -3183,8 +3183,8 @@ const char *oldstr;
 		else {
 			/* make a fake string of the start */
 			p[0] = '\0';
-			Strcpy(bp, makesingular(bp));
-			Sprintf(bp, "%s %s", bp, &p[1]);
+			char* t = stpcpy(bp, makesingular(bp));
+			Sprintf(t, " %s", &p[1]);
 			// TODO: shush warning *without* breaking this. 
 			//Strcat(bp, " ");
 			//Strcat(bp, &p[1]);
@@ -3558,7 +3558,6 @@ int wishflags;
 	 * automatically sticks 'candied' in front of such names.
 	 */
 
-    short dummyshort;
 	boolean heptagram = FALSE,
 		gorgoneion = FALSE,
 		acheron = FALSE,

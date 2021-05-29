@@ -615,7 +615,7 @@ int	mntmp;
 		pline(use_thec,monsterc,"scream");
 	    if (youmonst.data->mtyp == PM_TOVE)
 		pline(use_thec,monsterc,"gimble a hole in the ground");
-		if (attacktype(youracedata, AT_LNCK) || attacktype(youracedata, AT_LRCH))
+	    if (attacktype(youracedata, AT_LNCK) || attacktype(youracedata, AT_LRCH))
 		pline(use_thec,monsterc,"attack a distant target");
 	    if (lays_eggs(youmonst.data) && flags.female)
 		pline(use_thec,"sit","lay an egg");
@@ -984,8 +984,6 @@ doelementalbreath()
 int
 dospit()
 {
-	struct obj *otmp;
-
 	if (!getdir((char *)0))
 		return(0);
 	else {
@@ -1188,7 +1186,6 @@ dovampminion()
 {
 	struct obj *otmp;
 	struct obj *corpse = (struct obj *)0;
-	boolean onfloor = FALSE;
 	char qbuf[QBUFSZ];
 	char c;
 	
@@ -1202,7 +1199,6 @@ dovampminion()
 				(otmp->quan == 1L) ? "it" : "one");
 			if((c = yn_function(qbuf,ynqchars,'n')) == 'y'){
 				corpse = otmp;
-				onfloor = TRUE;
 				break;
 			}
 			else if(c == 'q')
@@ -1862,8 +1858,6 @@ int splaction;
 
 
 		if (n > 0){
-			int s_no = selected[0].item.a_int - 1;
-
 			if (selected[0].item.a_int < 0){
 				splaction = selected[0].item.a_int;
 				continue;
@@ -1892,8 +1886,6 @@ STATIC_OVL void
 worddescriptions(spellID)
 int spellID;
 {
-	struct obj *pseudo;
-
 	winid datawin;
 	char name[20];
 	char stats[30];
@@ -1963,7 +1955,6 @@ skinback(silently)
 boolean silently;
 {
 	if (uskin) {
-		struct obj *skin = (struct obj *)0;
 		if (!silently) Your("skin returns to its original form.");
 		if(uskin->otyp == LEO_NEMAEUS_HIDE){
 			uarmc = uskin;
@@ -2080,9 +2071,9 @@ int part;
 	    if (mptr->mlet == S_DOG || mptr->mlet == S_FELINE ||
 		    mptr->mlet == S_YETI)
 		return part == HAND ? "paw" : "pawed";
-		if(mon == &youmonst && youracedata->mtyp == PM_HALF_DRAGON)
+	    if(mon == &youmonst && youracedata->mtyp == PM_HALF_DRAGON)
 			return part == HAND ? "claw" : "clawed";
-		if(mon->mtyp == PM_HALF_DRAGON)
+	    if(mon->mtyp == PM_HALF_DRAGON)
 			return part == HAND ? "claw" : "clawed";
 	    if (humanoid(mptr) && attacktype(mptr, AT_CLAW) &&
 		    !index(not_claws, mptr->mlet) &&

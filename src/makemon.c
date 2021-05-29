@@ -87,7 +87,6 @@ register struct monst *mtmp;
 register int x, y, n;
 {
 	coord mm;
-	int mndx;
 	register int cnt = rnd(n);
 	struct monst *mon;
 #if defined(__GNUC__) && (defined(HPUX) || defined(DGUX))
@@ -129,7 +128,6 @@ register int x, y, n;
 
 	mm.x = x;
 	mm.y = y;
-	mndx = monsndx(mtmp->data);
 	while(cnt--) {
 		if (peace_minded(mtmp->data) && 
 			!(is_auton(mtmp->data) && u.uevent.uaxus_foe)) continue;
@@ -1716,9 +1714,9 @@ int mkobjflags;
 						break;
 					}
 					if (mm == PM_ELVENKING) {
-					if (rn2(3) || (in_mklev && Is_earthlevel(&u.uz)))
+					    if (rn2(3) || (in_mklev && Is_earthlevel(&u.uz)))
 						(void)mongets(mtmp, PICK_AXE, mkobjflags);
-						if (In_mordor_quest(&u.uz) || !rn2(50)) (void)mongets(mtmp, CRYSTAL_BALL, mkobjflags);
+					    if (In_mordor_quest(&u.uz) || !rn2(50)) (void)mongets(mtmp, CRYSTAL_BALL, mkobjflags);
 					}
 				}
 			} else if (ptr->msound == MS_PRIEST ||
@@ -6897,7 +6895,6 @@ int mkobjflags;
 		{
 			int i = 0;
 			int n = 0;
-			int id = 0;
 			int rng = 0;
 			switch(monsndx(ptr)){
 				case PM_MIGO_WORKER:
@@ -8155,7 +8152,7 @@ int mkobjflags;
 			case PM_CHAOS:
 				mtmp->mvar2 = 0;
 				{
-				struct	monst *mlocal;
+				//struct	monst *mlocal;
 				/* create special stuff; can't use mongets */
 				// otmp = mksobj(CRYSTAL_BALL, mkobjflags);
 				// otmp = oname(otmp, artiname(ART_BLACK_CRYSTAL));
@@ -9980,14 +9977,13 @@ rndmonst()
 {
 	register struct permonst *ptr;
 	register int mndx, ct;
-	int zlevel, minmlev, maxmlev;
+	int zlevel, minmlev;
 	
 	zlevel = level_difficulty();
 	/* determine the level of the weakest monster to make. */
 	if(u.uevent.udemigod) minmlev = zlevel / 3;
 	else minmlev = zlevel / 6;
 	/* determine the level of the strongest monster to make. */
-	maxmlev = (zlevel + u.ulevel) / 2;
 
 	if(u.ukinghill){ /* You have pirate quest artifact in open inventory */
 		if(rnd(100)>80){
@@ -10952,7 +10948,6 @@ register int otyp;
 int mkobjflags;
 {
 	register struct obj *otmp;
-	int spe;
 
 	if (mkmon_template && has_template(mtmp, mkmon_template) && rn2(2))
 		return (struct obj *)0;
@@ -11088,7 +11083,6 @@ int mkobjflags;
 				otmp->spe = 0;
 		}
 
-		spe = otmp->spe;
 		if (mpickobj(mtmp, otmp)) {
 			/* freed otmp, cannot be modified by caller, oops */
 			return (struct obj *)0;

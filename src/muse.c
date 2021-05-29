@@ -1767,7 +1767,6 @@ rnd_utility_wand(mtmp)
 struct monst *mtmp;
 {
 	struct permonst *pm = mtmp->data;
-	int difficulty = monstr[(monsndx(pm))];
 
 	if(is_animal(pm) || attacktype(pm, AT_EXPL) || mindless_mon(mtmp)
 			|| pm->mlet == S_GHOST || pm->mlet == S_SHADE || pm->mlet == S_KETER
@@ -1789,7 +1788,6 @@ rnd_attack_potion(mtmp)
 struct monst *mtmp;
 {
 	struct permonst *pm = mtmp->data;
-	int difficulty = monstr[(monsndx(pm))];
 
 	if(is_animal(pm) || attacktype(pm, AT_EXPL) || mindless_mon(mtmp)
 			|| pm->mlet == S_GHOST || pm->mlet == S_SHADE || pm->mlet == S_KETER
@@ -1811,7 +1809,6 @@ rnd_utility_potion(mtmp)
 struct monst *mtmp;
 {
 	struct permonst *pm = mtmp->data;
-	int difficulty = monstr[(monsndx(pm))];
 
 	if(is_animal(pm) || attacktype(pm, AT_EXPL) || mindless_mon(mtmp)
 			|| pm->mlet == S_GHOST || pm->mlet == S_SHADE || pm->mlet == S_KETER
@@ -2037,6 +2034,8 @@ struct monst *mtmp;
    current level rather than the totally arbitrary choice of newcham() */
 
 /* Now not used, was causing weak monsters to poly to very similar weak monsters */
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-function"
 static struct permonst *
 muse_newcham_mon(mon)
 struct monst *mon;
@@ -2051,6 +2050,7 @@ struct monst *mon;
 	}
 	return rndmonst();
 }
+#pragma GCC diagnostic pop
 
 int
 use_misc(mtmp)
@@ -2903,7 +2903,6 @@ mbreak_entanglement(mon)
 struct monst *mon;
 {
 	struct obj *obj;
-	int count;
 	if(mon->entangled == SHACKLES) return FALSE;
 	else if(mon->entangled == ROPE_OF_ENTANGLING){
 		if((mon->data->msize + !!strongmonst(mon->data))*2 <= rn2(100))
@@ -2943,7 +2942,6 @@ mescape_entanglement(mon)
 struct monst *mon;
 {
 	struct obj *obj;
-	int count;
 	if(mon_resistance(mon,FREE_ACTION)){ /*Somehow gained free action while entangled, dump all entangling items.*/
 		struct obj *nobj;
 		for(obj = mon->minvent; obj; obj = nobj){

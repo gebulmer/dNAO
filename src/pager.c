@@ -151,7 +151,6 @@ lookat(x, y, buf, monbuf, shapebuff)
     char *buf, *monbuf, *shapebuff;
 {
     register struct monst *mtmp = (struct monst *) 0;
-    struct permonst *pm = (struct permonst *) 0;
     int glyph;
 
 	int do_halu = Hallucination;
@@ -172,12 +171,6 @@ lookat(x, y, buf, monbuf, shapebuff)
 		race,
 		mons[u.umonnum].mname,
 		plname);
-	/* file lookup can't distinguish between "gnomish wizard" monster
-	   and correspondingly named player character, always picking the
-	   former; force it to find the general "wizard" entry instead */
-	if (Role_if(PM_WIZARD) && Race_if(PM_GNOME) && !Upolyd)
-	    pm = &mons[PM_WIZARD];
-
 #ifdef STEED
 	if (u.usteed) {
 	    char steedbuf[BUFSZ];
@@ -212,7 +205,6 @@ lookat(x, y, buf, monbuf, shapebuff)
 	/* all locations when swallowed other than the hero are the monster */
 	Sprintf(buf, "interior of %s",
 				    Blind ? "a monster" : a_monnam(u.ustuck));
-	pm = u.ustuck->data;
     } else if (glyph_is_monster(glyph)) {
 	bhitpos.x = x;
 	bhitpos.y = y;
@@ -227,7 +219,6 @@ lookat(x, y, buf, monbuf, shapebuff)
 	    else
 		name = distant_monnam(mtmp, ARTICLE_NONE, monnambuf);
 
-	    pm = mtmp->data;
 	    Sprintf(buf, "%s%s%s",
 		    (mtmp->mx != x || mtmp->my != y) ?
 			((mtmp->isshk && accurate)
@@ -1532,7 +1523,6 @@ get_weight_description_of_monster_type(struct monst * mtmp, char * temp_buf)
 char *
 get_resistance_description_of_monster_type(struct monst * mtmp, char * description)
 {
-	struct permonst * ptr = mtmp->data;
 	char temp_buf[BUFSZ] = "";
 	temp_buf[0] = '\0';
 	int count = generate_list_of_resistances(mtmp, temp_buf, 1);
@@ -2325,16 +2315,16 @@ char *cbuf;
 		if(ep) *ep = 0;
 		if (ctrl && buf[2] == '\t'){
 			buf = bufr + 1;
-			(void) strncpy(buf, "^?      ", 8);
+			(void) strncpy(buf, "^?      ", 9);
 			buf[1] = ctrl;
 		} else if (meta && buf[3] == '\t'){
 			buf = bufr + 2;
-			(void) strncpy(buf, "M-?     ", 8);
+			(void) strncpy(buf, "M-?     ", 9);
 			buf[2] = meta;
 		} else if(buf[1] == '\t'){
 			buf = bufr;
 			buf[0] = q;
-			(void) strncpy(buf+1, "       ", 7);
+			(void) strncpy(buf+1, "       ", 8);
 		}
 		(void) dlb_fclose(fp);
 		Strcpy(cbuf, buf);

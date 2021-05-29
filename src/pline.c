@@ -455,7 +455,6 @@ void
 mdrslotline(mtmp)
 register struct monst *mtmp;
 {
-	int slot;
 	int base, nat_dr, armac;
 	char mbuf[BUFSZ] = {'\0'};
 	struct permonst *mdat = mtmp->data;

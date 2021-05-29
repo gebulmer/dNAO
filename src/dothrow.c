@@ -17,13 +17,6 @@ STATIC_DCL boolean FDECL(mhurtle_step, (genericptr_t,int,int));
 extern boolean FDECL(quest_arti_hits_leader, (struct obj *, struct monst *));
 
 
-static NEARDATA const char toss_objs[] =
-	{ ALLOW_COUNT, COIN_CLASS, ALL_CLASSES, WEAPON_CLASS, 0 };
-/* different default choices when wielding a sling (gold must be included) */
-static NEARDATA const char bullets[] =
-	{ ALLOW_COUNT, COIN_CLASS, ALL_CLASSES, GEM_CLASS, 0 };
-
-
 //definition of an extern in you.h
 boolean barrage=FALSE;
 #define THROW_UWEP 	1

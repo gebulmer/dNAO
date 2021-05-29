@@ -849,7 +849,7 @@ int spec;
 	int spe_mult = 1;			// enchantment spe_mult
 	struct permonst *ptr;		// defender's permonst
 	struct weapon_dice wdice;	// weapon dice of otmp
-	boolean Is_weapon = (otmp->oclass == WEAPON_CLASS || is_weptool(otmp)), youdefend = mon == &youmonst;
+	boolean youdefend = mon == &youmonst;
 	boolean add_dice = TRUE;	// should dmgval_core() be called to add damage? Overridden (to false) by some special cases.
 	// if (!mon) ptr = &mons[NUMMONS];
 	if (!mon) ptr = &mons[PM_HUMAN];
@@ -1371,8 +1371,6 @@ register struct monst *mtmp;
 
 	struct obj *tmpprop = &zeroobj;
 
-	char mlet = mtmp->data->mlet;
-	
 	propellor = &zeroobj;
 	Oselect(EGG, W_QUIVER); /* cockatrice egg */
 	if(throws_rocks(mtmp->data))	/* ...boulders for giants */
@@ -1751,8 +1749,6 @@ register struct monst *mtmp;
 {
 	register struct obj *otmp;
 	register int i;
-	boolean strong = strongmonst(mtmp->data);
-	boolean wearing_shield = (mtmp->misc_worn_check & W_ARMS) != 0;
 
 	/* needs to be capable of wielding a weapon in the mainhand */
 	if (!attacktype(mtmp->data, AT_WEAP) &&
@@ -1816,8 +1812,6 @@ register struct monst *mtmp;
 {
 	register struct obj *otmp;
 	register int i;
-	boolean strong = strongmonst(mtmp->data);
-	boolean wearing_shield = (mtmp->misc_worn_check & W_ARMS) != 0;
 
 	/* needs to be capable of wielding a weapon in the offhand */
 	if (!attacktype(mtmp->data, AT_XWEP))
@@ -1863,7 +1857,7 @@ register struct monst *mtmp;
 	for (i = 0; i < SIZE(hwep); i++) {
 	    if (hwep[i] == CORPSE && !(mtmp->misc_worn_check & W_ARMG))
 		continue;
-		Oselect(hwep[i], W_SWAPWEP);
+	    Oselect(hwep[i], W_SWAPWEP);
 	}
 
 	/* failure */
@@ -3024,44 +3018,44 @@ struct obj *obj;
 #endif /* CONVICT */
     if ((obj->otyp == CHAIN) && (Role_if(PM_CONVICT) || u.sealsActive&SEAL_AHAZU))
         return objects[obj->otyp].oc_skill;
-	if (obj->oclass != WEAPON_CLASS && obj->oclass != TOOL_CLASS &&
+    if (obj->oclass != WEAPON_CLASS && obj->oclass != TOOL_CLASS &&
 	    obj->oclass != GEM_CLASS)
-		/* Not a weapon, weapon-tool, or ammo */
-		return (P_NONE);
-	if(obj){
-		if(obj->oartifact == ART_SUNSWORD){
-			if(P_SKILL(P_LONG_SWORD) > P_SKILL(P_SHORT_SWORD))
-				type = P_LONG_SWORD;
-			else if(P_MAX_SKILL(P_LONG_SWORD) > P_MAX_SKILL(P_SHORT_SWORD))
-				type = P_LONG_SWORD;
-			else type = P_SHORT_SWORD;
-		}
-		else if(obj->oartifact == ART_YORSHKA_S_SPEAR){
-			if(P_SKILL(P_HAMMER) > P_SKILL(P_SPEAR))
-				type = P_HAMMER;
-			else if(P_MAX_SKILL(P_HAMMER) > P_MAX_SKILL(P_SPEAR))
-				type = P_HAMMER;
-			else type = P_SPEAR;
-		}
-		else if(obj->otyp == DOUBLE_LIGHTSABER && !obj->altmode){
-			if(P_SKILL(P_TWO_HANDED_SWORD) > P_SKILL(P_QUARTERSTAFF))
-				type = P_TWO_HANDED_SWORD;
-			else if(P_MAX_SKILL(P_TWO_HANDED_SWORD) > P_MAX_SKILL(P_QUARTERSTAFF))
-				type = P_TWO_HANDED_SWORD;
-			else type = P_QUARTERSTAFF;
-		}
-		else if(obj->oartifact == ART_TORCH_OF_ORIGINS){
-			type = P_CLUB;
-		}
-		else if(obj->oartifact == ART_SINGING_SWORD){
-			type = P_MUSICALIZE;
-		}
-		else if(obj->otyp >= LUCKSTONE && obj->otyp <= ROCK && obj->ovar1){
-			type = (int)obj->ovar1;
-		}
-		else type = objects[obj->otyp].oc_skill;
-	} else type = objects[obj->otyp].oc_skill;
-	return ((type < 0) ? -type : type);
+	/* Not a weapon, weapon-tool, or ammo */
+	return (P_NONE);
+    if(obj){
+	if(obj->oartifact == ART_SUNSWORD){
+	    if(P_SKILL(P_LONG_SWORD) > P_SKILL(P_SHORT_SWORD))
+		type = P_LONG_SWORD;
+	    else if(P_MAX_SKILL(P_LONG_SWORD) > P_MAX_SKILL(P_SHORT_SWORD))
+		type = P_LONG_SWORD;
+	    else type = P_SHORT_SWORD;
+	}
+	else if(obj->oartifact == ART_YORSHKA_S_SPEAR){
+	    if(P_SKILL(P_HAMMER) > P_SKILL(P_SPEAR))
+		type = P_HAMMER;
+	    else if(P_MAX_SKILL(P_HAMMER) > P_MAX_SKILL(P_SPEAR))
+		type = P_HAMMER;
+	    else type = P_SPEAR;
+	}
+	else if(obj->otyp == DOUBLE_LIGHTSABER && !obj->altmode){
+	    if(P_SKILL(P_TWO_HANDED_SWORD) > P_SKILL(P_QUARTERSTAFF))
+		type = P_TWO_HANDED_SWORD;
+	    else if(P_MAX_SKILL(P_TWO_HANDED_SWORD) > P_MAX_SKILL(P_QUARTERSTAFF))
+		type = P_TWO_HANDED_SWORD;
+	    else type = P_QUARTERSTAFF;
+	}
+	else if(obj->oartifact == ART_TORCH_OF_ORIGINS){
+	    type = P_CLUB;
+	}
+	else if(obj->oartifact == ART_SINGING_SWORD){
+	    type = P_MUSICALIZE;
+	}
+	else if(obj->otyp >= LUCKSTONE && obj->otyp <= ROCK && obj->ovar1){
+	    type = (int)obj->ovar1;
+	}
+	else type = objects[obj->otyp].oc_skill;
+    } else type = objects[obj->otyp].oc_skill;
+    return ((type < 0) ? -type : type);
 }
 
 int

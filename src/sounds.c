@@ -174,6 +174,8 @@ static const char *embracedPrisoners[] = {
 	"Why?"
 };
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-variable"
 static const char *embracedAlider[] = {
 	"Mother, help me!",
 	"I can't control my arms!",
@@ -184,6 +186,7 @@ static const char *embracedAlider[] = {
 	"Kill me!  Please, just kill me...",
 	"Why?"
 };
+#pragma GCC diagnostic pop
 
 static const char *agonePrisoner[] = {
 	"Who am I?",
@@ -1166,8 +1169,6 @@ asGuardian:
 				struct trap *ttmp;
 				struct rm *door;
 				boolean res = TRUE, vis;
-				int loudness = 0;
-				const char *msg = (const char *)0;
 				const char *dustcloud = "A cloud of dust";
 				const char *quickly_dissipates = "quickly dissipates";
 				int key;		/* ALI - Artifact doors from slash'em */
@@ -1216,30 +1217,16 @@ asGuardian:
 						}
 						switch (((int)door->doormask) & ~D_TRAPPED) {
 							case D_CLOSED:
-							if (key)
-								msg = "The door closes!";
-							else{
-								msg = "The door locks!";
-							}break;
+							    break;
 							case D_ISOPEN:
-							if (key)
-								msg = "The door swings shut!";
-							else{
-								msg = "The door swings shut, and locks!";
-							}break;
+							    break;
 							case D_BROKEN:
-								msg = "The broken door reassembles and locks!";
-							break;
+							    break;
 							case D_NODOOR:
-							if (key)
-								msg = "The broken door reassembles!";
-							else{
-								msg = "The broken door reassembles and locks!";
-							}
-							break;
+							    break;
 							default:
-							res = FALSE;
-							break;
+							    res = FALSE;
+							    break;
 						}
 						if(res){
 							block_point(ix, iy);
@@ -1723,7 +1710,7 @@ asGuardian:
 			break;
 		}
 		else {
-			struct monst *tmpm, *nmon;
+			struct monst *tmpm;
 			int atknum = rnd(4);
 			int i, mnum;
 			mtmp->mspec_used = 66;
@@ -2997,7 +2984,6 @@ int tx,ty;
 {
 	struct engr *ep = get_head_engr();
 	int numSlots = binder_nearvoid_slots();
-	int i;
 	int bindingPeriod = 5000;
 	for(;ep;ep=ep->nxt_engr)
 		if(ep->engr_x==tx && ep->engr_y==ty)
@@ -3011,15 +2997,6 @@ int tx,ty;
 		// pline("The seal is too old.");
 		// return 0;
 	}
-
-    boolean hasSealofSpirits = FALSE;
-    {
-      struct obj *otmp;
-      for(otmp = level.objects[tx][ty]; otmp; otmp = otmp->nexthere){
-        if(otmp->oartifact && otmp->oartifact == ART_SEAL_OF_THE_SPIRITS)
-          hasSealofSpirits = TRUE;
-      }
-    }
 	
 	if(m_at(tx,ty) && (ep->ward_id != ANDROMALIUS || m_at(tx,ty)->mtyp != PM_SEWER_RAT)) return 0;
 	
@@ -3155,7 +3132,6 @@ int tx,ty;
 		if(u.sealTimeout[ANDROMALIUS-FIRST_SEAL] < moves){
 			struct obj *o1 = 0, *o2 = 0, *otmp;
 			struct monst *rat = 0;
-			int count = 0;
 			int t1, t2;
 			
 			rat = m_at(tx,ty);
@@ -4568,7 +4544,6 @@ int tx,ty;
 	case PAIMON:{
 		if(u.sealTimeout[PAIMON-FIRST_SEAL] < moves){
 			struct obj *otmp, *o=NULL;
-			struct monst *mtmp;
 			for(otmp = level.objects[tx][ty]; otmp; otmp = otmp->nexthere){
 				if(otmp->oclass == SPBOOK_CLASS && 
 					!(
@@ -4711,7 +4686,6 @@ int tx,ty;
 	case YMIR:{
 		if(u.sealTimeout[YMIR-FIRST_SEAL] < moves){
 			struct obj *otmp, *o=NULL;
-			struct monst *mtmp;
 			for(otmp = level.objects[tx][ty]; otmp; otmp = otmp->nexthere){
 				if(	otmp->otyp == CORPSE && 
 					otmp->corpsenm != PM_LICHEN && 
@@ -4857,7 +4831,6 @@ int tx,ty;
 		} else pline("You can't feel the spirit.");
 	}break;
 	case TWO_TREES:{
-		struct obj *otmp;
 		if(u.sealTimeout[TWO_TREES-FIRST_SEAL] < moves){
 			//Spirit requires that her seal be drawn beside a tree or plant.
 			if(Role_if(PM_EXILE)){
@@ -5018,7 +4991,6 @@ int tx,ty;
 		//Spirit requires that its seal be drawn by a level 30 Binder.
 		//There is no binding period.
 		if(u.ulevel == 30 && Role_if(PM_EXILE)){
-			int skill;
 			You_hear("a tumultuous babble of voices.");
 			pline("So insistent are they that even the uninitiated can hear,");
 			pline("albeit only in the form of whispers.");
@@ -6220,7 +6192,7 @@ boolean
 render_services(render)
 struct monst *render;
 {
-	int service, gold, count = 1, cost;
+	int service;
 		
 	service = dorendermenu();
 	if(!service)

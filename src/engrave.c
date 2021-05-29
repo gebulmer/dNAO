@@ -1113,7 +1113,6 @@ struct engr *ep;
 int cnt;
 unsigned seed;		/* for semi-controlled randomization */
 {
-	char *s;
 	int i, j, nxt, lth, clth, slth, dlth, plth;
 	lth = 0;
 	clth = slth = dlth = plth = 0;
@@ -2226,9 +2225,9 @@ int mode;
 			ptext = TRUE;
 			type  = BURN;
 			if(!objects[otmp->otyp].oc_name_known) {
-			if (flags.verbose)
-			    pline("This %s is a wand of fire!", xname(otmp));
-			    doknown = TRUE;
+				if (flags.verbose)
+					pline("This %s is a wand of fire!", xname(otmp));
+				doknown = TRUE;
 			}
 			Strcpy(post_engr_text,
 				Blind ?	"You feel the wand heat up." :
@@ -2968,7 +2967,7 @@ int mode;
 		}
 	} else if(mode == WARD_MODE){
 		if (len > maxelen) {
-			int perc = (len*100)/maxelen;
+			perc = (len*100)/maxelen;
 			if (multi) nomovemsg =	"Unfortunatly, you can't complete the ward.";
 			else You("can't complete the ward.");
 		} else perc = 100;
@@ -3794,7 +3793,6 @@ long sealID;
 {
 	long offset;
 	int j;
-	int floorID = 0L;
 	if(sealID == (SEAL_SPECIAL|SEAL_NUMINA))
 		return NUMINA;
 	if(sealID&SEAL_SPECIAL){

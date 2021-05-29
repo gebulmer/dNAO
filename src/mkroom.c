@@ -62,6 +62,7 @@ STATIC_DCL void NDECL(mkisland);
 STATIC_DCL void NDECL(mkriver);
 STATIC_DCL void NDECL(mkneuriver);
 STATIC_DCL void NDECL(mkforest12river);
+STATIC_DCL void NDECL(mksea);
 STATIC_DCL void FDECL(liquify, (int,int,int));
 STATIC_DCL void FDECL(neuliquify, (int, int, int));
 STATIC_DCL void FDECL(chaliquify, (int, int, int));
@@ -533,8 +534,6 @@ mkvaultlolth()
 {
 	int x,y,tries=0;
 	int i,j;
-	struct obj *otmp;
-	struct monst *mon;
 	boolean good=FALSE,okspot;
 	while(!good && tries < 50){
 		x = rn2(COLNO-4)+1;
@@ -588,7 +587,6 @@ mklolthgnoll()
 {
 	int x,y,tries=0;
 	int i,j, rmtypb = nroom+ROOMOFFSET, trycount, madedoor;
-	struct obj *otmp;
 	struct monst *mon;
 	boolean good=FALSE,okspot;
 	while(!good && tries < 50){
@@ -730,9 +728,7 @@ void
 mklolthgarden()
 {
 	int x,y,tries=0, width= rn1(4,5), height=rn1(4,5);
-	int i,j, rmtypb = nroom+ROOMOFFSET, trycount, madedoor;
-	struct obj *otmp;
-	struct monst *mon;
+	int i,j, trycount, madedoor;
 	boolean good=FALSE,okspot;
 	while(!good && tries < 50){
 		x = rn2(COLNO-width)+1;
@@ -860,9 +856,7 @@ void
 mklolthtroll()
 {
 	int x,y,tries=0, width= 6, height=6;
-	int i,j, rmtypb = nroom+ROOMOFFSET, trycount, madedoor;
-	struct obj *otmp;
-	struct monst *mon;
+	int i,j, trycount, madedoor;
 	boolean good=FALSE,okspot;
 	while(!good && tries < 50){
 		x = rn2(COLNO-width)+1;
@@ -979,9 +973,8 @@ void
 mklolthtreasure()
 {
 	int x,y,tries=0, width= 5, height=5;
-	int i,j, rmtypb = nroom+ROOMOFFSET, trycount, madedoor;
+	int i,j, trycount, madedoor;
 	struct obj *otmp, *container;
-	struct monst *mon;
 	boolean good=FALSE,okspot;
 	while(!good && tries < 50){
 		x = rn2(COLNO-width)+1;
@@ -1120,8 +1113,6 @@ mklolthup()
 {
 	int x,y,tries=0,madedoor,trycount;
 	int i,j, width=5, height=5;
-	struct obj *otmp;
-	struct monst *mon;
 	boolean good=FALSE,okspot;
 	while(!good){
 		x = rn2(COLNO-width)+1;
@@ -1247,8 +1238,6 @@ mklolthdown()
 {
 	int x,y,tries=0, madedoor, trycount;
 	int i,j, width=5, height=5;
-	struct obj *otmp;
-	struct monst *mon;
 	boolean good=FALSE,okspot;
 	while(!good){
 		x = rn2(COLNO-width)+1;
@@ -1958,13 +1947,11 @@ STATIC_OVL
 void
 mkfishingvillage()
 {
-	int x=0,y=0,tx, ty, tries=0;
-	int i,j, c, edge;
+	int x=0,y=0;
+	int i,j, edge;
 	int left = rn2(2);
-	boolean good=FALSE, okspot;
 	int slant = rn2(3);
 	int shelf = rn1(5, 5);
-	struct obj *otmp;
 	if(left){
 		//Make sea
 		edge = rn1(20, 20);
@@ -2028,7 +2015,7 @@ void
 mkfishinghut(left)
 	int left;
 {
-	int x,y,tries=0, roomtypb;
+	int x,y,tries=0;
 	int i,j, pathto = 0;
 	boolean good=FALSE, okspot, accessible;
 	struct obj *otmp;
@@ -2138,10 +2125,9 @@ void
 mkwell(left)
 	int left;
 {
-	int x,y,tries=0, roomtypb;
-	int i,j, pathto = 0;
+	int x,y,tries=0;
+	int i,j, pathto;
 	boolean good=FALSE, okspot, accessible;
-	struct obj *otmp;
 	while(!good && tries < 500){
 		x = rn2(COLNO/2)+1;
 		if(!left)
@@ -2204,8 +2190,8 @@ STATIC_OVL
 void
 mkpluhomestead()
 {
-	int x,y,tries=0, roomtypb;
-	int i,j, pathto = 0;
+	int x,y,tries=0;
+	int i,j, pathto;
 	boolean good=FALSE, okspot, accessible;
 	while(!good && tries < 500){
 		x = rn2(COLNO-6)+1;
@@ -2264,8 +2250,8 @@ void
 mkelfhut(left)
 int left;
 {
-	int x,y,tries=0, roomtypb;
-	int i,j, pathto = 0;
+	int x,y,tries=0;
+	int i,j, pathto;
 	boolean good=FALSE, okspot, accessible;
 	while(!good && tries < 500){
 		if(left){
@@ -2343,7 +2329,7 @@ void
 mkwraithclearing(right)
 int right;
 {
-	int x,y,tries=0, roomtypb;
+	int x,y,tries=0;
 	int i,j;
 	boolean good=FALSE, okspot, accessible;
 	while(!good && tries < 500){
@@ -2408,7 +2394,7 @@ STATIC_OVL
 void
 mkstonepillars()
 {
-	int x,y,tries=0, roomtypb;
+	int x,y,tries=0;
 	int i,j;
 	boolean good=FALSE, okspot;
 	while(!good && tries < 500){
@@ -2494,9 +2480,7 @@ void
 mklavapool()
 {
 	int x,y,ix, iy;
-	int i,j, c;
-	boolean good=FALSE, okspot;
-	struct obj *otmp;
+	int i,j;
 	x = COLNO/2;
 	y = ROWNO/2;
 		
@@ -2538,9 +2522,9 @@ void
 mkcamp(type)
 	int type;
 {
-	int x,y,tries=0, roomtypb;
+	int x,y,tries=0;
 	int r = 4;
-	int i,j, pathto = 0;
+	int i,j, pathto;
 	boolean good=FALSE, okspot, accessible;
 	while(!good && tries < 500){
 		x = rn2(COLNO-2*r)+1+r;
@@ -2635,10 +2619,7 @@ mkpluvillage()
 	int x,y,tries=0, roomtypb;
 	int i,j, n,ni;
 	int nshacks, sizebig1, sizebig2, sizetot;
-	struct obj *otmp;
-	struct monst *mon;
 	boolean good=FALSE, okspot, accessible, throne = 0;
-	struct mkroom *croom;
 	while(!good && tries < 50){
 		nshacks = rnd(3) + rn2(3);
 		// nshacks = rnd(5);
@@ -3069,16 +3050,18 @@ connectInner(inroom)
 	}
 }
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-function"
 STATIC_OVL
 void
 mkferrufort()
 {
 	int wallln = rn2(2) ? 4 : 3;
 	int x=0,y=0,tx, ty, tries=0;
-	int i,j, c;
+	int i,j;
 	int wallrange = wallln*4+1;
 	int allrange = wallrange+2;
-	boolean good=FALSE, okspot, accessible, throne = 0;
+	boolean okspot, accessible;
 	
 	struct roomcon connect[wallln][wallln];
 		
@@ -3381,6 +3364,7 @@ nestbreak:
 		}
 	}
 }
+#pragma GCC diagnostic pop
 
 STATIC_OVL
 void
@@ -3462,7 +3446,7 @@ STATIC_OVL
 void
 mkinvertzigg()
 {
-	int x,y,tries=0, roomtypb = nroom;
+	int x,y,tries=0;
 	int i,j;
 	boolean good=FALSE, okspot, accessible;
 	int size = 15;
@@ -3928,7 +3912,6 @@ mklostitem(typ)
 int typ;
 {
 	int x, y, tries = 0, good = FALSE;
-	struct obj *otmp;
 	while(!good && tries < 500){
 		x = rn2(COLNO)+1;
 		y = rn2(ROWNO);
@@ -4887,9 +4870,8 @@ struct mkroom *croom; /* NULL == choose random room */
 	if(!rn2(20)){
 		i = 1;
 		while ((tried++ < 50) && (i > 0) && somexy(sroom, &pos)) {
-			struct permonst *pmon;
 			if (!MON_AT(pos.x, pos.y)) {
-				struct monst *mtmp = makemon(&mons[PM_MOUTH_OF_THE_GOAT], pos.x,pos.y, NO_MM_FLAGS);
+				(void) makemon(&mons[PM_MOUTH_OF_THE_GOAT], pos.x,pos.y, NO_MM_FLAGS);
 				i--;
 			}
 		}
@@ -4897,7 +4879,6 @@ struct mkroom *croom; /* NULL == choose random room */
 	if(rn2(2)){
 		i = 1;
 		while ((tried++ < 50) && (i > 0) && somexy(sroom, &pos)) {
-			struct permonst *pmon;
 			if (!MON_AT(pos.x, pos.y)) {
 			    struct monst *mtmp = makemon(&mons[PM_WEEPING_ANGEL], pos.x,pos.y, NO_MM_FLAGS);
 			    if (mtmp) {
@@ -4974,7 +4955,6 @@ struct mkroom *croom; /* NULL == choose random room */
 	tried = 0;
 	i = rnd(4);
 	while ((tried++ < 50) && (i > 0) && somexy(sroom, &pos)) {
-	    struct permonst *pmon;
 	    if (!MON_AT(pos.x, pos.y)) {
 			struct monst *mtmp = makemon(&mons[PM_LIVING_LECTERN], pos.x,pos.y, NO_MM_FLAGS);
 			if (mtmp) mtmp->msleeping = 1;
@@ -5029,7 +5009,6 @@ struct mkroom *croom; /* NULL == choose random room */
 	tried = 0;
 	i = rnd(2);
 	while ((tried++ < 50) && (i > 0) && somexy(sroom, &pos)) {
-	    struct permonst *pmon;
 	    if (!MON_AT(pos.x, pos.y)) {
 			struct monst *mtmp = makemon(&mons[PM_RUST_MONSTER], pos.x,pos.y, NO_MM_FLAGS);
 			if (mtmp) mtmp->msleeping = 1;
@@ -5039,7 +5018,6 @@ struct mkroom *croom; /* NULL == choose random room */
 	tried = 0;
 	i = rn2(3);
 	while ((tried++ < 50) && (i > 0) && somexy(sroom, &pos)) {
-	    struct permonst *pmon;
 	    if (!MON_AT(pos.x, pos.y)) {
 			struct monst *mtmp = makemon(&mons[PM_BROWN_PUDDING], pos.x,pos.y, NO_MM_FLAGS);
 			if (mtmp) mtmp->mstrategy |= STRAT_WAITFORU;
@@ -5143,7 +5121,6 @@ STATIC_OVL void
 mkriver()	/* John Harris */
 {
 	register int center, width, prog, fill, edge;
-	register int x, y;
 	level.flags.has_river = 1;
 	if (!rn2(4)) {      /* Horizontal river */
 		center = rn2(ROWNO-12)+6;
@@ -5196,7 +5173,6 @@ STATIC_OVL void
 mkneuriver()	/* John Harris */
 {
 	register int center, width, prog, fill, edge;
-	register int x, y;
 	level.flags.has_river = 1;
 	if (!rn2(4)) {      /* Horizontal river */
 		center = rn2(ROWNO-12)+6;
@@ -5249,7 +5225,6 @@ STATIC_OVL void
 mkforest12river()	/* John Harris */
 {
 	register int center, width, prog, fill, edge;
-	register int x, y;
 	level.flags.has_river = 1;
 	center = rn2(COLNO/4-14)+7+3*COLNO/4;
 	width = rn2(4)+5;
@@ -5273,6 +5248,8 @@ mkforest12river()	/* John Harris */
 	}
 }
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-function"
 /* This isn't currently used anywhere. It liquifies the whole level. */
 STATIC_OVL void
 mksea()	/* John Harris */
@@ -5285,6 +5262,7 @@ mksea()	/* John Harris */
 		};
 	}
 }
+#pragma GCC diagnostic pop
 
 STATIC_OVL void
 liquify(x, y, edge)
@@ -5425,10 +5403,9 @@ mkisland() /* John Harris, modified from mktemple & mkshop,
 				with ideas and aid from Pasi Kallinen.*/
 {
 	register struct mkroom *sroom;
-	register struct rm *lev;
-	register int x, y, dif, ptype, pxwidth, pywidth;
+	register int x, y, ptype, pxwidth, pywidth;
 	register int txoff, tyoff, tspot, tdx, tdy;
-	register int mx, my, montype;
+	register int mx, my;
 	register struct obj *otmp;
 	register struct obj *ogold;
 	register int u_depth = depth(&u.uz);

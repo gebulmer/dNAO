@@ -285,8 +285,6 @@ drinkfountain()
 			break;
 
 		case 24: /* Curse an item */ {
-			register struct obj *obj;
-
 			pline("This water's no good!");
 			morehungry(rn1(20, 11));
 			exercise(A_CON, FALSE);

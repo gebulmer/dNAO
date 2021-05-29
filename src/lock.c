@@ -702,46 +702,46 @@ doforce()		/* try to force a chest with your weapon */
 	x = u.ux + u.dx;
 	y = u.uy + u.dy;
 	if (x == u.ux && y == u.uy && u.dz > -1) {
-	for(otmp = level.objects[u.ux][u.uy]; otmp; otmp = otmp->nexthere)
-	    if(Is_box(otmp)) {
-		if (otmp->obroken || !otmp->olocked) {
-		    There("is %s here, but its lock is already %s.",
-			  doname(otmp), otmp->obroken ? "broken" : "unlocked");
-		    continue;
+		for(otmp = level.objects[u.ux][u.uy]; otmp; otmp = otmp->nexthere)
+			if(Is_box(otmp)) {
+				if (otmp->obroken || !otmp->olocked) {
+					There("is %s here, but its lock is already %s.",
+							doname(otmp), otmp->obroken ? "broken" : "unlocked");
+					continue;
+				}
+				Sprintf(qbuf,"There is %s here, force its lock?",
+						safe_qbuf("", sizeof("There is  here, force its lock?"),
+							doname(otmp), an(simple_typename(otmp->otyp)),
+							"a box"));
+
+				c = ynq(qbuf);
+				if(c == 'q') return(0);
+				if(c == 'n') continue;
+
+				if(picktyp == 3) {
+					You("insert your mist tendrils into the lock.");
+					u.otiaxAttack = moves;
+				} else if(picktyp == 2)
+					You("begin melting the lock with your %s.", xname(uwep));
+				else if(picktyp)
+					You("force your %s into a crack and pry.", xname(uwep));
+				else
+					You("start bashing it with your %s.", xname(uwep));
+				xlock.box = otmp;
+				if (picktyp == 3) //mist tendrils
+					xlock.chance = spiritDsize() * 10;
+				else if (picktyp == 2) //lightsaber
+					xlock.chance = uwep->spe * 2 + 75;
+				else xlock.chance = objects[uwep->otyp].oc_wldam.oc_damd * 2;
+				xlock.picktyp = picktyp;
+				xlock.usedtime = 0;
+				break;
+			}
+		if(xlock.box)   {
+			xlock.door = 0;
+			set_occupation(forcelock, "forcing the lock", 0);
+			return(1);
 		}
-		Sprintf(qbuf,"There is %s here, force its lock?",
-			safe_qbuf("", sizeof("There is  here, force its lock?"),
-				doname(otmp), an(simple_typename(otmp->otyp)),
-				"a box"));
-
-		c = ynq(qbuf);
-		if(c == 'q') return(0);
-		if(c == 'n') continue;
-
-		if(picktyp == 3) {
-		    You("insert your mist tendrils into the lock.");
-			u.otiaxAttack = moves;
-		} else if(picktyp == 2)
-		    You("begin melting the lock with your %s.", xname(uwep));
-		else if(picktyp)
-		    You("force your %s into a crack and pry.", xname(uwep));
-		else
-		    You("start bashing it with your %s.", xname(uwep));
-		xlock.box = otmp;
-		if (picktyp == 3) //mist tendrils
-			xlock.chance = spiritDsize() * 10;
-		else if (picktyp == 2) //lightsaber
-		    xlock.chance = uwep->spe * 2 + 75;
-		else xlock.chance = objects[uwep->otyp].oc_wldam.oc_damd * 2;
-		xlock.picktyp = picktyp;
-		xlock.usedtime = 0;
-		break;
-	    }
-	    if(xlock.box)   {
-	    	xlock.door = 0;
-	    	set_occupation(forcelock, "forcing the lock", 0);
-	    	return(1);
-	    }
 	} else {		/* break down/open door */
 	    struct monst *mtmp;
 

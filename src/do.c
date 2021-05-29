@@ -1671,7 +1671,6 @@ final_level()
 	
 	if(u.uevent.ukilled_apollyon){
 		livelog_write_string("confronted the Fallen");
-		int host;
 	    pline(
 	     "A voice booms: \"The Angel of the Pit hast fallen!  We have returned!\"");
 		(void) makemon(&mons[PM_LUCIFER], u.ux, u.uy, MM_ADJACENTOK);
@@ -1702,7 +1701,7 @@ final_level()
 			pline("An angel appears near you.");
 		    else
 			You_feel("the presence of a friendly angel near you.");
-			initedog(mtmp);
+		    initedog(mtmp);
 		    mtmp->mtame = 10;
 		    /* make him strong enough vs. endgame foes */
 		    mtmp->m_lev = rn1(8,15);
@@ -2206,7 +2205,7 @@ zombie_corpse(arg, timeout)
 genericptr_t arg;
 long timeout;
 {
-	int pmtype, oldtyp, oldquan;
+	int pmtype, oldquan;
 	struct obj *body = (struct obj *) arg;
 	
 	pmtype = body->corpsenm;
@@ -2271,7 +2270,7 @@ yellow_corpse(arg, timeout)
 genericptr_t arg;
 long timeout;
 {
-	int pmtype, oldtyp, oldquan;
+	int pmtype, oldquan;
 	struct obj *body = (struct obj *) arg;
 	
 	pmtype = body->corpsenm;

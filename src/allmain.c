@@ -75,7 +75,6 @@ digcloudcrater(mtmp)
 	struct monst *mtmp;
 {
 	int x,y,i,j;
-	struct trap *ttmp;
 	for(i=-2;i<=2;i++){
 		x = mtmp->mx+i;
 		for(j=-2;j<=2;j++){
@@ -956,7 +955,7 @@ moveloop()
 #if defined(MICRO) || defined(WIN32)
 	char ch;
 #endif
-	int abort_lev, i, j;
+	int i, j;
     struct monst *mtmp, *nxtmon;
 	struct obj *pobj;
     int moveamt = 0, wtcap = 0, change = 0;
@@ -2521,9 +2520,7 @@ karemade:
 			float a = .1; /* closer to 1 -> discard older faster */
 			long next = (long)(a * hpDiff + (1 - a) * uarmg->ovar1);
 			next = (next > 10) ? 10 : next;
-			long diff = next - uarmg->ovar1;
 			uarmg->ovar1 = next;
-			//if(diff) adj_abon(uarmg, diff);
 		}
 		didmove = FALSE;
 	} /* actual time passed */
@@ -3204,11 +3201,13 @@ get_realtime(void)
 }
 #endif /* REALTIME_ON_BOTL || RECORD_REALTIME */
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-function"
 STATIC_DCL
 void
 printBodies(){
 	FILE *rfile;
-	register int i, j;
+	register int j;
 	char pbuf[BUFSZ];
 	struct permonst *ptr;
 	rfile = fopen_datafile("MonBodies.tab", "w", SCOREPREFIX);
@@ -3227,21 +3226,22 @@ printBodies(){
 	}
 	fclose(rfile);
 }
+#pragma GCC diagnostic pop
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-function"
 STATIC_DCL
 void
 printSanAndInsight(){
 	FILE *rfile;
-	register int i, j;
+	register int j;
 	char pbuf[BUFSZ];
-	struct permonst *ptr;
 	rfile = fopen_datafile("MonSanAndInsight.tab", "w", SCOREPREFIX);
 	if (rfile) {
 		Sprintf(pbuf,"Number\tName\tclass\tslain insight\tseen insight\tsanity\n");
 		fprintf(rfile, "%s", pbuf);
 		fflush(rfile);
 		for(j=0;j<NUMMONS;j++){
-			ptr = &mons[j];
 			pbuf[0] = 0;
 			if(!taxes_sanity(&mons[j]) && !yields_insight(&mons[j]))
 				continue;
@@ -3256,7 +3256,10 @@ printSanAndInsight(){
 	}
 	fclose(rfile);
 }
+#pragma GCC diagnostic pop
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-function"
 STATIC_DCL
 void
 printDPR(){
@@ -3294,7 +3297,10 @@ printDPR(){
 	}
 	fclose(rfile);
 }
+#pragma GCC diagnostic pop
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-function"
 STATIC_DCL
 void
 printMons(){
@@ -3581,6 +3587,7 @@ printMons(){
 	}
 	fclose(rfile);
 }
+#pragma GCC diagnostic pop
 
 STATIC_DCL
 void
@@ -4190,7 +4197,6 @@ struct monst *mon;
 	xyloc	= mon->mtrack[0].x;
 	xlocale = mon->mtrack[1].x;
 	ylocale = mon->mtrack[1].y;
-	struct obj *otmp;
 	for (mtmp = fmon; mtmp; mtmp = mtmp->nmon){
 		if(mtmp->mtyp != PM_NITOCRIS && mtmp->mtyp != PM_GHOUL_QUEEN_NITOCRIS)
 			continue;
@@ -4300,7 +4306,6 @@ struct monst *mon;
 {
 	struct monst *mtmp;
 	xchar xlocale, ylocale;
-	struct obj *otmp;
 	for (mtmp = fmon; mtmp; mtmp = mtmp->nmon){
 		if(mtmp->mtyp != PM_NITOCRIS && mtmp->mtyp != PM_GHOUL_QUEEN_NITOCRIS)
 			continue;
@@ -4465,7 +4470,6 @@ goat_sacrifice(mon)
 struct monst *mon;
 {
 	struct obj *otmp, *otmp2;
-	register struct monst *mtmp, *mtmp0 = 0, *mtmp2;
 	xchar xlocale, ylocale, xyloc;
 	xyloc	= mon->mtrack[0].x;
 	xlocale = mon->mtrack[1].x;
@@ -4561,7 +4565,6 @@ void
 palid_stranger(mon)
 struct monst *mon;
 {
-	struct obj *otmp, *otmp2;
 	register struct monst *mtmp, *mtmp0 = 0, *mtmp2;
 	xchar xlocale, ylocale, xyloc;
 	xyloc	= mon->mtrack[0].x;
@@ -4777,9 +4780,6 @@ struct monst *magr;
 	struct attack symbiote = { AT_SRPR, AD_SHDW, 1, 30 };
 	boolean youagr = (magr == &youmonst);
 	boolean youdef;
-	struct permonst *pa;
-	
-	pa = youagr ? youracedata : magr->data;
 
 	//Attack nearby foe and/or engulf items
 	for(j=8;j>=1;j--){

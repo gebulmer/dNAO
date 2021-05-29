@@ -1215,10 +1215,10 @@ BOOLEAN_P tin, nobadeffects, drained;
 					/* make sure new illness doesn't result in improvement */
 					if (Sick && (sick_time > Sick))
 						sick_time = (Sick > 1L) ? Sick - 1L : 1L;
-						Sprintf(buf, "%s%s diseased corpse",
-							!type_is_pname(&mons[pm]) ? "the " : "",
-							s_suffix(mons[pm].mname));
-						make_sick(sick_time, buf, FALSE, SICK_NONVOMITABLE);
+					Sprintf(buf, "%s%s diseased corpse",
+						!type_is_pname(&mons[pm]) ? "the " : "",
+						s_suffix(mons[pm].mname));
+					make_sick(sick_time, buf, FALSE, SICK_NONVOMITABLE);
 				}
 			}
 			}
@@ -2951,7 +2951,6 @@ doeat()		/* generic "eat" command funtion (see cmd.c) */
 	}
 	if(uclockwork){
 		if(etype == MAGIC_FURNACE && !otmp->oartifact){
-			int curspe;
 			if(objects[otmp->otyp].oc_unique) return 1;//redundant check against unique
 			You("place the %s in your magic furnace.", xname(otmp));
 			if (otmp->quan > 1L) {
@@ -3974,7 +3973,6 @@ int perturn;
 	int ret, turns;
 	long price;
 	char buf[BUFSZ], qbuf[QBUFSZ];
-	boolean pay;
 	
 	Sprintf(qbuf, "How many turns? (80 turns = 1 food ration)");
 	getlin(qbuf, buf);
@@ -4053,7 +4051,6 @@ int flatrate;
 	int ret, howmany;
 	long price;
 	char buf[BUFSZ], qbuf[QBUFSZ];
-	boolean pay;
 	
 	Sprintf(qbuf, "How many components?");
 	getlin(qbuf, buf);

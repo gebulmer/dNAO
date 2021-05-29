@@ -529,7 +529,6 @@ xchar	rtype, rlit;
 			r2.hy = yabs + htmp;
 		}
 		else { /* Only some parameters are random */
-			int rndpos = 0;
 			xabs = (xtmp < 0) ? rn2(COLNO) : xtmp;
 			yabs = (ytmp < 0) ? rn2(COLNO) : ytmp;
 
@@ -1142,7 +1141,6 @@ struct mkroom	*croom;
 			PM_COILING_BRAWN, PM_FUNGAL_BRAIN
 			};
 		struct monst *mon;
-		struct obj *tmpo;
 
 		if(rn2(10)){
 			mon = makemon(&mons[surgery_types[rn2(SIZE(surgery_types))]], otmp->ox, otmp->oy, NO_MINVENT|MM_NOCOUNTBIRTH);
@@ -1419,7 +1417,6 @@ default_case:
 	/* statues placed on top of existing statue traps replace the statue there and attach itself to the trap */
 	if (otmp->otyp == STATUE) {
 		struct trap * ttmp = t_at(x, y);
-		struct obj * statue;
 		if (ttmp && ttmp->ttyp == STATUE_TRAP) {
 			ttmp->statueid = otmp->o_id;
 			//for (statue = level.objects[x][y]; statue; statue = statue->nobj)
@@ -1807,7 +1804,7 @@ schar ftyp, btyp;
 		continue;
 
 		/* dead end */
-		undig_corridor(xx, yy, ftyp, btyp);
+	    undig_corridor(xx, yy, ftyp, btyp);
 		return FALSE;
 	}
 	return TRUE;

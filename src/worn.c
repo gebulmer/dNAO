@@ -544,9 +544,7 @@ struct obj *obj;
 int which;
 boolean on, silently;
 {
-    uchar mask;
-    struct obj *otmp;
-	boolean oldprop = mon_resistance(mon, which);;
+    boolean oldprop = mon_resistance(mon, which);;
 
     if (on) {
 		/* some properties need special handling */
@@ -713,7 +711,7 @@ int
 base_mac(mon)
 struct monst *mon;
 {
-	int base = 10, armac = 0;
+	int base = 10;
 	
 	base -= mon->data->nac;
 	if(!mon->mcan)
@@ -864,7 +862,6 @@ struct monst *mon;
 		|| mon->mtyp == PM_SHAKTARI
 		|| mon->mtyp == PM_CATHEZAR
 	)){
-		int wcount = 0;
 		struct obj *otmp;
 		for(otmp = mon->minvent; otmp; otmp = otmp->nobj){
 			if(otmp->oclass == WEAPON_CLASS || is_weptool(otmp)
@@ -1455,7 +1452,6 @@ struct monst *mon;
 	struct obj *old;
 	long flag;
 	int m_delay = 0;
-	int unseen = !canseemon(mon);
 	int tarx, tary;
 	
 	if (mon->mfrozen) return FALSE;
@@ -1597,7 +1593,6 @@ boolean polyspot;
 	register struct obj *otmp;
 	struct permonst *mdat = mon->data;
 	boolean vis = cansee(mon->mx, mon->my);
-	boolean handless_or_tiny = (nohands(mdat) || nolimbs(mdat) || verysmall(mdat));
 	const char *pronoun = mhim(mon),
 			*ppronoun = mhis(mon);
 

@@ -494,15 +494,12 @@ register struct edog *edog;
 			/* We're hungry; check if we're carrying anything we can eat
 			   Intelligent pets should be able to carry such food */
 			register struct obj *otmp, *obest = (struct obj *)0;
-			int best_nutrit = -1; //cur_nutrit = -1,
 			int cur_food = APPORT, best_food = APPORT;
 			for (otmp = mtmp->minvent; otmp; otmp = otmp->nobj)
 			{
-	//	        cur_nutrit = dog_nutrition(mtmp, otmp);
 				cur_food = dogfood(mtmp, otmp);
-				if (cur_food < best_food) /*&& cur_nutrit > best_nutrit)*/
+				if (cur_food < best_food)
 				{
-	//			    best_nutrit = cur_nutrit;
 					best_food = cur_food;
 					obest = otmp;
 				}
@@ -918,7 +915,7 @@ register int after;	/* this is extra fast monster movement */
 {
 	int omx, omy;		/* original mtmp position */
 	int appr, whappr, udist;
-	int i, j, k;
+	int i, j;
 	struct obj *obj = (struct obj *) 0;
 	xchar otyp;
 	boolean has_edog, cursemsg[9], do_eat = FALSE;
@@ -1202,7 +1199,6 @@ register int after;	/* this is extra fast monster movement */
 			if(j < 0) chcnt = 0;
 			chi = i;
 		}
-	nxti:	;
 	}
 newdogpos:
 	if (nix != omx || niy != omy) {

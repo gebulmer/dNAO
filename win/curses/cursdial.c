@@ -323,12 +323,12 @@ curses_ext_cmd()
     startx = 0;
     starty = 0;
     if (iflags.wc_popup_dialog) { /* Prompt in popup window */
-        int x0, y0, w, h; /* bounding coords of popup */
+        int x0, y0, w; /* bounding coords of popup */
         extwin2 = curses_create_window(25, 1, UP);
         wrefresh(extwin2);
         /* create window inside window to prevent overwriting of border */
         getbegyx(extwin2,y0,x0);
-        getmaxyx(extwin2,h,w);
+        w = getmaxx(extwin2);
         extwin = newwin(1, w-2, y0+1, x0+1);
         if (w - 4 < maxlen) maxlen = w - 4;
     } else {

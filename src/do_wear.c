@@ -4171,7 +4171,6 @@ struct monst *magr;
 struct obj *wep;
 {
 	boolean youagr = (magr == &youmonst);
-	struct monst *mtmp;
 	
 	//Don't stack multiple
 	if(artinstance[wep->oartifact].RRSember >= moves || artinstance[wep->oartifact].RRSlunar >= moves)
@@ -4194,7 +4193,6 @@ struct monst *magr;
 struct obj *wep;
 {
 	boolean youagr = (magr == &youmonst);
-	struct monst *mtmp;
 	
 	if(rn2(2)){
 		if(youagr)
@@ -4301,7 +4299,6 @@ struct monst *magr;
 struct obj *wep;
 {
 	boolean youagr = (magr == &youmonst);
-	struct monst *mtmp;
 	
 	//Don't stack multiple
 	if(artinstance[wep->oartifact].RRSember >= moves || artinstance[wep->oartifact].RRSlunar >= moves)
@@ -4329,7 +4326,6 @@ char etyp;
 	int clockwisex[8] = { 0, 1, 1, 1, 0,-1,-1,-1};
 	int clockwisey[8] = {-1,-1, 0, 1, 1, 1, 0,-1};
 	int i = rnd(8),j, lim=0;
-	int striking = 0;
 	struct attack symbiote = { atyp, etyp, 4, 2 };
 	boolean youagr = (magr == &youmonst);
 	boolean youdef;
@@ -4386,7 +4382,6 @@ struct monst *magr;
 struct obj *wep;
 {
 	boolean youagr = (magr == &youmonst);
-	struct monst *mtmp;
 	
 	if(rn2(2)){
 		if(youagr){

@@ -61,7 +61,6 @@ struct monst *victim;
 {
     struct obj *item;
     char buf[BUFSZ];
-    int mat_idx;
     
     if (!victim) return 0;
 	if(victim == &youmonst && InvFire_resistance) return 0;
@@ -744,22 +743,12 @@ unsigned trflags;
 {
 	register int ttype = trap->ttyp;
 	register struct obj *otmp;
-	boolean shienuse = FALSE;
 	boolean already_seen = trap->tseen;
 	boolean webmsgok = (!(trflags & NOWEBMSG));
 	boolean forcebungle = (trflags & FORCEBUNGLE);
 
 	nomul(0, NULL);
 
-	if(
-		uwep && is_lightsaber(uwep) && litsaber(uwep) && 
-			((activeFightingForm(FFORM_SHIEN) && (!uarm || is_light_armor(uarm)) && rnd(3) < FightingFormSkillLevel(FFORM_SHIEN)) || 
-			 (activeFightingForm(FFORM_SORESU) && (!uarm || is_light_armor(uarm) || is_medium_armor(uarm)) && rnd(3) < FightingFormSkillLevel(FFORM_SORESU))
-			)
-	){
-		shienuse = TRUE;
-	}
-	
 	/* KMH -- You can't escape the Sokoban level traps */
 	if (In_sokoban(&u.uz) &&
 			(ttype == PIT || ttype == SPIKED_PIT || ttype == HOLE ||
@@ -1484,14 +1473,12 @@ struct trap *trap;
 struct obj *otmp;
 {
 	struct monst *mtmp = u.usteed;
-	struct permonst *mptr;
 	int tt;
 	boolean in_sight;
 	boolean trapkilled = FALSE;
 	boolean steedhit = FALSE;
 
 	if (!u.usteed || !trap) return 0;
-	mptr = mtmp->data;
 	tt = trap->ttyp;
 	mtmp->mx = u.ux;
 	mtmp->my = u.uy;
@@ -2487,10 +2474,10 @@ glovecheck:		    target = which_armor(mtmp, W_ARMG);
 			    if (in_sight)
 				pline("%s tears through %s spider web!",
 				      Monnam(mtmp), a_your[trap->madeby_u]);
-				if(!Is_lolth_level(&u.uz) && !(u.specialSealsActive&SEAL_BLACK_WEB)){
-					deltrap(trap);
-					newsym(mtmp->mx, mtmp->my);
-				}
+			    if(!Is_lolth_level(&u.uz) && !(u.specialSealsActive&SEAL_BLACK_WEB)){
+				deltrap(trap);
+				newsym(mtmp->mx, mtmp->my);
+			    }
 			}
 			break;
 
@@ -2824,119 +2811,119 @@ long hmask, emask;     /* might cancel timeout */
     if (spell_maintained(SPE_LEVITATION))
         spell_unmaintain(SPE_LEVITATION);
 
-	if(u.uswallow) {
-	    You("float down, but you are still %s.",
+    if(u.uswallow) {
+	You("float down, but you are still %s.",
 		is_animal(u.ustuck->data) ? "swallowed" : "engulfed");
-	    return(1);
-	}
+	return(1);
+    }
 
-	if (Punished && !carried(uball) &&
+    if (Punished && !carried(uball) &&
 	    (is_pool(uball->ox, uball->oy, FALSE) ||
 	     ((trap = t_at(uball->ox, uball->oy)) &&
 	      ((trap->ttyp == PIT) || (trap->ttyp == SPIKED_PIT) ||
 	       (trap->ttyp == TRAPDOOR) || (trap->ttyp == HOLE))))) {
-			u.ux0 = u.ux;
-			u.uy0 = u.uy;
-			u.ux = uball->ox;
-			u.uy = uball->oy;
-			movobj(uchain, uball->ox, uball->oy);
-			newsym(u.ux0, u.uy0);
-			vision_full_recalc = 1;	/* in case the hero moved. */
+	u.ux0 = u.ux;
+	u.uy0 = u.uy;
+	u.ux = uball->ox;
+	u.uy = uball->oy;
+	movobj(uchain, uball->ox, uball->oy);
+	newsym(u.ux0, u.uy0);
+	vision_full_recalc = 1;	/* in case the hero moved. */
+    }
+    /* check for falling into pool - added by GAN 10/20/86 */
+    if(!Flying) {
+	if (!u.uswallow && u.ustuck) {
+	    if (sticks(&youmonst))
+		You("aren't able to maintain your hold on %s.",
+			mon_nam(u.ustuck));
+	    else
+		pline("Startled, %s can no longer hold you!",
+			mon_nam(u.ustuck));
+	    u.ustuck = 0;
 	}
-	/* check for falling into pool - added by GAN 10/20/86 */
-	if(!Flying) {
-		if (!u.uswallow && u.ustuck) {
-			if (sticks(&youmonst))
-				You("aren't able to maintain your hold on %s.",
-					mon_nam(u.ustuck));
-			else
-				pline("Startled, %s can no longer hold you!",
-					mon_nam(u.ustuck));
-			u.ustuck = 0;
-		}
-		/* kludge alert:
-		 * drown() and lava_effects() print various messages almost
-		 * every time they're called which conflict with the "fall
-		 * into" message below.  Thus, we want to avoid printing
-		 * confusing, duplicate or out-of-order messages.
-		 * Use knowledge of the two routines as a hack -- this
-		 * should really be handled differently -dlc
-		 */
-		if(is_pool(u.ux,u.uy, FALSE) && !Wwalking && !Swimming && !u.uinwater)
-			no_msg = drown();
+	/* kludge alert:
+	 * drown() and lava_effects() print various messages almost
+	 * every time they're called which conflict with the "fall
+	 * into" message below.  Thus, we want to avoid printing
+	 * confusing, duplicate or out-of-order messages.
+	 * Use knowledge of the two routines as a hack -- this
+	 * should really be handled differently -dlc
+	 */
+	if(is_pool(u.ux,u.uy, FALSE) && !Wwalking && !Swimming && !u.uinwater)
+	    no_msg = drown();
 
-		if(is_lava(u.ux,u.uy)) {
-			(void) lava_effects();
-			no_msg = TRUE;
-		}
+	if(is_lava(u.ux,u.uy)) {
+	    (void) lava_effects();
+	    no_msg = TRUE;
 	}
-	if (!trap) {
-	    trap = t_at(u.ux,u.uy);
-	    if(Weightless)
-		You("begin to tumble in place.");
-	    else if (Is_waterlevel(&u.uz) && !no_msg)
-		You_feel("heavier.");
-	    /* u.uinwater msgs already in spoteffects()/drown() */
-	    else if (!u.uinwater && !no_msg) {
+    }
+    if (!trap) {
+	trap = t_at(u.ux,u.uy);
+	if(Weightless)
+	    You("begin to tumble in place.");
+	else if (Is_waterlevel(&u.uz) && !no_msg)
+	    You_feel("heavier.");
+	/* u.uinwater msgs already in spoteffects()/drown() */
+	else if (!u.uinwater && !no_msg) {
 #ifdef STEED
-		if (!(emask & W_SADDLE))
+	    if (!(emask & W_SADDLE))
 #endif
-		{
-		    boolean sokoban_trap = (In_sokoban(&u.uz) && trap);
-		    if (Hallucination)
-			pline("Bummer!  You've %s.",
-			      is_pool(u.ux,u.uy, TRUE) ?
-			      "splashed down" : sokoban_trap ? "crashed" :
-			      "hit the ground");
-		    else {
-			if (!sokoban_trap)
-			    You("float gently to the %s.",
+	    {
+		boolean sokoban_trap = (In_sokoban(&u.uz) && trap);
+		if (Hallucination)
+		    pline("Bummer!  You've %s.",
+			    is_pool(u.ux,u.uy, TRUE) ?
+			    "splashed down" : sokoban_trap ? "crashed" :
+			    "hit the ground");
+		else {
+		    if (!sokoban_trap)
+			You("float gently to the %s.",
 				surface(u.ux, u.uy));
-			else {
-			    /* Justification elsewhere for Sokoban traps
-			     * is based on air currents. This is
-			     * consistent with that.
-			     * The unexpected additional force of the
-			     * air currents once leviation
-			     * ceases knocks you off your feet.
-			     */
-			    You("fall over.");
-			    losehp(rnd(2), "dangerous winds", KILLED_BY);
+		    else {
+			/* Justification elsewhere for Sokoban traps
+			 * is based on air currents. This is
+			 * consistent with that.
+			 * The unexpected additional force of the
+			 * air currents once leviation
+			 * ceases knocks you off your feet.
+			 */
+			You("fall over.");
+			losehp(rnd(2), "dangerous winds", KILLED_BY);
 #ifdef STEED
-			    if (u.usteed) dismount_steed(DISMOUNT_FELL);
+			if (u.usteed) dismount_steed(DISMOUNT_FELL);
 #endif
-			    selftouch("As you fall, you");
-			}
+			selftouch("As you fall, you");
 		    }
 		}
 	    }
 	}
+    }
 
-	/* can't rely on u.uz0 for detecting trap door-induced level change;
-	   it gets changed to reflect the new level before we can check it */
-	assign_level(&current_dungeon_level, &u.uz);
+    /* can't rely on u.uz0 for detecting trap door-induced level change;
+       it gets changed to reflect the new level before we can check it */
+    assign_level(&current_dungeon_level, &u.uz);
 
-	if(trap)
-		switch(trap->ttyp) {
-		case STATUE_TRAP:
-			(void) activate_statue_trap(trap, trap->tx, trap->ty, FALSE);
+    if(trap)
+	switch(trap->ttyp) {
+	    case STATUE_TRAP:
+		(void) activate_statue_trap(trap, trap->tx, trap->ty, FALSE);
 		break;
-		case HOLE:
-		case TRAPDOOR:
-			if(!Can_fall_thru(&u.uz) || u.ustuck)
-				break;
-			/* fall into next case */
-		default:
-			if (!u.utrap) /* not already in the trap */
-				dotrap(trap, 0);
+	    case HOLE:
+	    case TRAPDOOR:
+		if(!Can_fall_thru(&u.uz) || u.ustuck)
+		    break;
+		/* fall into next case */
+	    default:
+		if (!u.utrap) /* not already in the trap */
+		    dotrap(trap, 0);
 	}
 
-	if (!Weightless && !Is_waterlevel(&u.uz) && !u.uswallow &&
-		/* falling through trap door calls goto_level,
-		   and goto_level does its own pickup() call */
-		on_level(&u.uz, &current_dungeon_level))
-	    (void) pickup(1);
-	return 1;
+    if (!Weightless && !Is_waterlevel(&u.uz) && !u.uswallow &&
+	    /* falling through trap door calls goto_level,
+	       and goto_level does its own pickup() call */
+	    on_level(&u.uz, &current_dungeon_level))
+	(void) pickup(1);
+    return 1;
 }
 
 /* assumes that the monster is now neither flying nor levitating */

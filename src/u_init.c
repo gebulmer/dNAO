@@ -631,20 +631,12 @@ static struct trobj SleepPotions[] = {
 	{ POT_SLEEPING, 0, POTION_CLASS, 1, 0 },
 	{ 0, 0, 0, 0, 0 }
 };
-static struct trobj DrovenHelm[] = {
-	{ DROVEN_HELM, 0, ARMOR_CLASS, 1, 0 },
-	{ 0, 0, 0, 0, 0 }
-};
 static struct trobj DrovenCloak[] = {
 	{ DROVEN_CLOAK, 0, ARMOR_CLASS, 1, 0 },
 	{ 0, 0, 0, 0, 0 }
 };
 static struct trobj Tinopener[] = {
 	{ TIN_OPENER, 0, TOOL_CLASS, 1, 0 },
-	{ 0, 0, 0, 0, 0 }
-};
-static struct trobj Magicmarker[] = {
-	{ MAGIC_MARKER, UNDEF_SPE, TOOL_CLASS, 1, 0 },
 	{ 0, 0, 0, 0, 0 }
 };
 static struct trobj Lamp[] = {
@@ -2389,7 +2381,6 @@ u_init()
     }break;
 
 	case PM_DWARF:{
-		struct obj* otmp;
 	    /* Dwarves can recognize all dwarvish objects */
 	    knows_object(DWARVISH_SPEAR);
 	    knows_object(DWARVISH_SHORT_SWORD);

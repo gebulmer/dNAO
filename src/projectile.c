@@ -69,9 +69,7 @@ boolean impaired;				/* TRUE if throwing/firing slipped OR magr is confused/stun
 	bhitpos.x = initx;
 	bhitpos.y = inity;
 
-	boolean misthrown = (hmoncode & HMON_MISTHROWN);
 	boolean fired = (hmoncode & HMON_FIRED);
-	boolean thrown = (misthrown || fired);
 	boolean trapped = (hmoncode & HMON_TRAP);
 
 	struct obj * launcher = (struct obj *)(fired ? vpointer : 0);
@@ -975,17 +973,11 @@ int * prange;					/* pointer to: Remaining range for projectile */
 int * prange2;					/* pointer to: Remaining 2x range for projectile */
 boolean forcedestroy;			/* TRUE if projectile should be forced to be destroyed at the end */
 {
-	int dx		= *pdx;
-	int dy		= *pdy;
-	int range	= *prange;
-	int range2	= *prange2;
 	boolean youagr = (magr == &youmonst);
 	boolean youdef = (mdef == &youmonst);
-	struct permonst * pa = magr ? (youagr ? youracedata : magr->data) : (struct permonst *)0;
 	struct permonst * pd = youdef ? youracedata : mdef->data;
 	struct obj * thrownobj = (thrownobj_p) ? (*thrownobj_p) : (struct obj *)0;
 
-	boolean misfired = (hmoncode & HMON_MISTHROWN);
 	boolean fired = (hmoncode & HMON_FIRED);
 	boolean trapped = (hmoncode & HMON_TRAP);
 
@@ -1944,7 +1936,7 @@ dothrow()
 {
 	struct obj * ammo;
 	struct obj * launcher;
-	int oldmulti = multi, result, shotlimit;
+	int result, shotlimit;
 	char *oldsave_cm = save_cm;
 
 	if (notake(youracedata)) {
@@ -1997,10 +1989,8 @@ dothrow()
 int
 dofire()
 {
-	int oldmulti = multi;
 	int result = 0;
 	int shotlimit = 0;
-	char *oldsave_cm = save_cm;
 
 	if (check_capacity((char *)0))
 		return 0;
@@ -2577,7 +2567,6 @@ boolean safe;
 boolean stoponhit;
 {
 	boolean youagr = (magr == &youmonst);
-	struct permonst * pa = youagr ? youracedata : magr->data;
 
 	/* First -- target must be on direct line with magr */
 	if (!online2(x(magr), y(magr), tarx, tary))
@@ -2656,7 +2645,6 @@ int tary;
 boolean safe;
 {
 	boolean youagr = (magr == &youmonst);
-	struct permonst * pa = youagr ? youracedata : magr->data;
 	int dx = sgn(tarx - x(magr));
 	int dy = sgn(tary - y(magr));
 
@@ -2715,18 +2703,16 @@ int tary;
 	static const int chromatic_dragon_breaths[] = { AD_FIRE, AD_COLD, AD_ELEC, AD_DRST, AD_DISN, AD_ACID };
 	static const int platinum_dragon_breaths[] = { AD_FIRE, AD_DISN, AD_SLEE, AD_ELEC };
 	static const int random_breaths[] = { AD_MAGM, AD_FIRE, AD_COLD, AD_SLEE, AD_DISN, AD_ELEC, AD_DRST, AD_ACID };
-	int dx, dy, dz;
+	int dx, dy;
 	int range;
 
 	if (tarx || tary) {
 		dx = sgn(tarx - x(magr));
 		dy = sgn(tary - y(magr));
-		dz = 0;
 	}
 	else if (youagr) {
 		dx = u.dx;
 		dy = u.dy;
-		dz = u.dz;
 	}
 	else {
 		return FALSE;
@@ -2848,7 +2834,6 @@ int tary;
 {
 	struct obj * otmp;
 	boolean youagr = (magr == &youmonst);
-	struct permonst * pa = youagr ? youracedata : magr->data;
 	int typ = attk->adtyp;
 	int dx, dy, dz;
 
@@ -2938,7 +2923,6 @@ int n;	/* number to try to fire */
 {
 	struct obj * qvr = (struct obj *)0;				/* quiver of projectiles to use */
 	boolean youagr = (magr == &youmonst);
-	struct permonst * pa = youagr ? youracedata : magr->data;
 	int typ = attk->adtyp;
 	boolean volley = FALSE;
 	int rngmod = 0;
@@ -3168,9 +3152,6 @@ int tary;
 	struct obj * launcher;
 	int x = x(magr);
 	int y = y(magr);
-	int multishot;
-	const char *onm;
-	boolean mass_pistol = FALSE;
 	int result = 0;
 
 	/* AI: If target is you and you are coming toward the monster, the monster

@@ -470,7 +470,6 @@ register struct obj *otmp;
 	}
 	else {
 #endif
-		boolean snuff_otmp = FALSE;
 		/* Must do carrying effects on object prior to add_to_minv() */
 		carry_obj_effects(otmp);
 
@@ -643,8 +642,6 @@ struct monst *mon;
 	}
     }
 }
-
-static struct obj *propellor;
 
 extern boolean FDECL(would_prefer_hwep,(struct monst *,struct obj *));
 extern boolean FDECL(would_prefer_rwep,(struct monst *,struct obj *));

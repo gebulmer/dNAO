@@ -904,7 +904,6 @@ register struct monst *mtmp;
 {
 	register struct permonst *mdat;
 	struct monst *gazemon, *nxtmon;
-	char buf[BUFSZ];
 	register int tmp=0;
 	int inrange, nearby, scared;
 #ifdef GOLDOBJ
@@ -1008,14 +1007,14 @@ register struct monst *mtmp;
 		}
 	}
 
-   if (mdat->mtyp != PM_GIANT_TURTLE || !mtmp->mflee)
-	if (!(mtmp->mcanmove && mtmp->mnotlaugh) || (mtmp->mstrategy & STRAT_WAITMASK)) {
-	    if (Hallucination) newsym(mtmp->mx,mtmp->my);
-	    if (mtmp->mcanmove && mtmp->mnotlaugh && (mtmp->mstrategy & STRAT_CLOSE) &&
-	       !mtmp->msleeping && monnear(mtmp, u.ux, u.uy))
-		quest_talk(mtmp);	/* give the leaders a chance to speak */
-	    return(0);	/* other frozen monsters can't do anything */
-	}
+	if (mdat->mtyp != PM_GIANT_TURTLE || !mtmp->mflee)
+		if (!(mtmp->mcanmove && mtmp->mnotlaugh) || (mtmp->mstrategy & STRAT_WAITMASK)) {
+			if (Hallucination) newsym(mtmp->mx,mtmp->my);
+			if (mtmp->mcanmove && mtmp->mnotlaugh && (mtmp->mstrategy & STRAT_CLOSE) &&
+			    !mtmp->msleeping && monnear(mtmp, u.ux, u.uy))
+			  quest_talk(mtmp);	/* give the leaders a chance to speak */
+			return(0);	/* other frozen monsters can't do anything */
+		}
 
 	/* there is a chance we will wake it */
 	if (mtmp->msleeping && !disturb(mtmp)) {
@@ -2199,7 +2198,6 @@ not_special:
 	if (doorbuster) flag |= BUSTDOOR;
 	{
 	    register int i, j, nx, ny, nearer;
-		int leader_target = FALSE;
 	    int jcnt, cnt;
 	    int ndist, nidist;
 	    register coord *mtrk;
@@ -2235,7 +2233,6 @@ not_special:
 						&& mon_can_see_mon(mtmp, m2)
 				){
 					distminbest = distmin(mtmp->mx,mtmp->my,m2->mx,m2->my);
-					leader_target = FALSE;
 					gx = m2->mx;
 					gy = m2->my;
 					mtmp->mux = m2->mx;
@@ -2249,7 +2246,6 @@ not_special:
 					if(m2->m_id == quest_status.leader_m_id){
 						if(distminbest >= SQSRCHRADIUS){
 							/*make a beeline for the leader*/
-							leader_target = TRUE;
 							gx = m2->mx;
 							gy = m2->my;
 							mtmp->mux = m2->mx;
@@ -2307,7 +2303,6 @@ not_special:
 				}
 				if(count){
 					count = rn2(count);
-					struct obj *breacher;
 					for(i = -1; i < 2; i++) for(j = -1; j < 2; j++){
 						if(isok(mtmp->mx+i, mtmp->my+j) && t_at(mtmp->mx+i, mtmp->my+j) && t_at(mtmp->mx+i, mtmp->my+j)->ttyp == PIT){
 							if(count-- == 0){

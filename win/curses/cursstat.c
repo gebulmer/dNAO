@@ -161,7 +161,6 @@ get_playerrank(char *rank)
 static void
 print_statdiff(const char *append, nhstat *stat, int new, int type)
 {
-    char buf[BUFSZ];
     WINDOW *win = curses_get_nhwin(STATUS_WIN);
 
     int color = CLR_GRAY;
@@ -444,9 +443,8 @@ curses_update_stats(void)
             cy = 2;
 
         /* actual y (and x) */
-        int ax = 0;
         int ay = 0;
-        getmaxyx(win, ay, ax);
+        ay = getmaxy(win);
         if (border)
             ay -= 2;
 
@@ -864,13 +862,12 @@ static void
 curses_add_statuses(WINDOW *win, boolean align_right,
                     boolean vertical, int *x, int *y)
 {
+    if (!x) return;
     if (align_right) {
         /* Right-aligned statuses. Since add_status decrease one x more
            (to separate them with spaces), add 1 to x unless we have borders
            (which would offset what add_status does) */
-        int mx = *x;
-        int my = *y;
-        getmaxyx(win, my, mx);
+        int mx = getmaxx(win);
         if (!curses_window_has_border(STATUS_WIN))
             mx++;
 

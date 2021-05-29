@@ -71,8 +71,6 @@ set_mon_data_core(mon, ptr)
 struct monst *mon;
 struct permonst * ptr;
 {
-	int i;
-
 	/* data and type */
 	mon->data = ptr;
 	mon->mtyp = ptr->mtyp;
@@ -1520,7 +1518,6 @@ boolean
 Slime_res(mon)
 struct monst *mon;
 {
-	struct obj *otmp;
 	if(!mon) return FALSE;
 	
 	if(mon == &youmonst)
@@ -1601,10 +1598,7 @@ boolean
 resists_death(mon)	/* TRUE if monster resists death magic */
 struct monst *mon;
 {
-	struct permonst *ptr;
-	
 	if(!mon) return FALSE;
-	ptr = mon->data;
 	
 	if(mon == u.usteed && u.sealsActive&SEAL_BERITH && u.sealsActive&SEAL_OSE) return TRUE;
 	
@@ -1618,7 +1612,6 @@ struct monst *mon;
 {
 	struct permonst *ptr;
 	boolean is_you = (mon == &youmonst);
-	struct obj *o;
 	
 	if(!mon) return FALSE;
 	ptr = mon->data;
@@ -1656,7 +1649,6 @@ struct obj *obj;		/* aatyp == AT_WEAP, AT_SPIT */
 	boolean is_you = (mdef == &youmonst);
 	boolean check_visor = FALSE;
 	struct obj *o;
-	const char *s;
 
 	/* no eyes protect against all attacks for now */
 	if (!haseyes(mdef->data))

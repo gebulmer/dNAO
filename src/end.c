@@ -1742,10 +1742,10 @@ boolean ask;
 		      ynqchars, defquery) : defquery;
        else
 #endif
-	c = ask ? yn_function("Do you want a list of species genocided?",
+	 c = ask ? yn_function("Do you want a list of species genocided?",
 			      ynqchars, defquery) : defquery;
-	if (c == 'q') done_stopprint++;
-	if (c == 'y') {
+       if (c == 'q') done_stopprint++;
+       if (c == 'y') {
 	    klwin = create_nhwindow(NHW_MENU);
 #ifdef SHOW_EXTINCT
 	    Sprintf(buf, "Genocided or extinct species:");

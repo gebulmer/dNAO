@@ -1369,11 +1369,8 @@ long wp_mask;
 	long *mask = 0;
 	register const struct artifact *oart = get_artifact(otmp);
 	int oartifact = otmp->oartifact;
-	uchar dtyp;
-	long spfx, spfx2, spfx3, wpfx;
 	long exist_warntypem = 0, exist_warntypet = 0, exist_warntypeb = 0, exist_warntypeg = 0, exist_warntypea = 0, exist_warntypev = 0;
 	long long exist_montype = 0;
-	boolean exist_nonspecwarn;
 	int i, j;
 	int this_art_property_list[LAST_PROP];
 	int tmp_property_list[LAST_PROP];
@@ -3090,8 +3087,6 @@ int * truedmgptr;
 	}
 	if(check_oprop(otmp, OPROP_WATRW) || check_oprop(otmp, OPROP_LESSER_WATRW)){
 		struct obj *cloak = which_armor(mdef, W_ARMC);
-		struct obj *armor = which_armor(mdef, W_ARM);
-		struct obj *shield = which_armor(mdef, W_ARMS);
 
 		if (youdef && uarmc && uarmc->greased) {
 			if (!rn2(uarmc->blessed ? 4 : 2)){
@@ -6498,7 +6493,6 @@ arti_invoke(obj)
 			boolean onfloor = FALSE;
 			char qbuf[QBUFSZ];
 			char c;
-			int lvl;
 	
 			for (otmp = level.objects[u.ux][u.uy]; otmp; otmp = otmp->nexthere) {
 				if(otmp->otyp==CORPSE) {
@@ -9935,7 +9929,6 @@ void
 do_passive_attacks()
 {
 	struct monst *mtmp;
-	struct obj *armor;
 	if(roll_madness(MAD_GOAT_RIDDEN) && adjacent_mon()){
 		if(!ClearThoughts){
 			pline("Lashing tentacles erupt from your brain!");
@@ -9967,7 +9960,7 @@ do_passive_attacks()
 void
 living_items()
 {
-	struct monst *mtmp, *nmon = (struct monst *)0;
+	struct monst *mtmp;
 	struct obj *obj, *nobj;
 	struct blast_element *blast_list = 0, *nblast = 0;
 	int whisper = 0;
@@ -10100,7 +10093,6 @@ STATIC_OVL void
 nitocris_sarcophagous(obj)
 struct obj *obj;
 {
-	struct permonst *pm;
 	struct monst *mtmp;
 	xchar xlocale, ylocale;
 	if(get_obj_location(obj, &xlocale, &ylocale, 0)){
@@ -10123,7 +10115,6 @@ STATIC_OVL void
 fulvous_desk(obj)
 struct obj *obj;
 {
-	struct permonst *pm;
 	struct monst *mtmp;
 	xchar xlocale, ylocale;
 	if(get_obj_location(obj, &xlocale, &ylocale, 0)){

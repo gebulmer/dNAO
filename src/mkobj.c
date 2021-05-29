@@ -1966,7 +1966,6 @@ void
 init_obj_material(obj)
 struct obj* obj;
 {
-	int otyp = obj->otyp;
 	const struct icp* random_mat_list;
 
 	/* start by setting the material to its default */
@@ -2559,7 +2558,7 @@ save_mtraits(obj, mtmp)
 struct obj *obj;
 struct monst *mtmp;
 {
-	long lth, namelth;
+	long lth;
 
 	void * mextra_bundle;
 	/* if mtmp has an mextra, bundle it */
@@ -2689,8 +2688,6 @@ boolean
 is_rottable(otmp)
 register struct obj *otmp;
 {
-	int otyp = otmp->otyp;
-
 	return((boolean)(otmp->obj_material <= CHITIN &&
 			otmp->obj_material != LIQUID));
 }
@@ -3088,7 +3085,7 @@ add_to_minv(mon, obj)
     if (obj->where != OBJ_FREE)
 	panic("add_to_minv: obj not free");
 
-	if(mon->mtyp == PM_MAID && maid_clean(mon, obj) ) return 1; /*destroyed by maid*/
+    if(mon->mtyp == PM_MAID && maid_clean(mon, obj) ) return 1; /*destroyed by maid*/
 
     /* merge if possible */
     for (otmp = mon->minvent; otmp; otmp = otmp->nobj)

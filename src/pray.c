@@ -1114,7 +1114,7 @@ pray_goat()
 	if (yn("Are you sure you want to pray to the Black Goat?") == 'n')
 	    return 0;
 	
-	u.uconduct.gnostic++; //?
+    u.uconduct.gnostic++; //?
 
 #ifdef WIZARD
     if (wizard) {
@@ -1185,7 +1185,7 @@ goat_pleased()
 {
 	/* don't use p_trouble, worst trouble may get fixed while praying */
 	int trouble = in_trouble();	/* what's your worst difficulty? */
-	int pat_on_head = 0, kick_on_butt;
+	int pat_on_head = 0;
 
 	You_feel("that the Goat is satisfied.");
 
@@ -1326,7 +1326,6 @@ goat_pleased()
 		}
 		case 5:	{
 			struct obj *otmp;
-			int sp_no, trycnt = u.ulevel + 1;
 
 			at_your_feet("An object");
 			/* not yet known spells given preference over already known ones */
@@ -1392,7 +1391,6 @@ water_prayer(bless_water)
 {
     register struct obj* otmp;
     register long changed = 0;
-	int non_water_changed = 0;
     boolean other = FALSE, bc_known = !(Blind || Hallucination);
 
     for(otmp = level.objects[u.ux][u.uy]; otmp; otmp = otmp->nexthere) {
@@ -1450,28 +1448,28 @@ godvoice(ga_num, words)
     else
 	words = "";
 	
-	if(ga_num == GA_VOID){
-		You("think you hear a voice in the distance: %s%s%s", quot, words, quot);
-	} else if(ga_num == GA_SILENCE){
-		You_hear("silence.");
-	} else if(ga_num == GA_OTHER){
-		if(Hallucination){
-			pline("The world speaks to you: %s%s%s", quot, words, quot);
-		} else {
-			pline("The world quakes around you.  Perhaps it is the voice of a god?");
-		}
-		do_earthquake(u.ux, u.uy, 10, 2, FALSE, (struct monst *)0);
-	} else if(ga_num == GA_MOTHER){
-		You_hear("%s", goatvoices[rn2(SIZE(goatvoices))]);
-	} else if(ga_num == GA_FRACTURE){
-		You_hear("a voice like glass breaking: %s%s%s", quot, words, quot);
-	} else if(ga_num == GA_SOTHOTH){
-		if(is_silent(youracedata)) You_hear("your voice %s: %s%s%s", godvoices[rn2(SIZE(godvoices))], quot, words, quot);
-		else You("%s: %s%s%s", yogvoices[rn2(SIZE(yogvoices))],  quot, words, quot);
+    if(ga_num == GA_VOID){
+	You("think you hear a voice in the distance: %s%s%s", quot, words, quot);
+    } else if(ga_num == GA_SILENCE){
+	You_hear("silence.");
+    } else if(ga_num == GA_OTHER){
+	if(Hallucination){
+	    pline("The world speaks to you: %s%s%s", quot, words, quot);
 	} else {
-		pline_The("voice of %s %s: %s%s%s", ga_gname(ga_num),
-		  godvoices[rn2(SIZE(godvoices))], quot, words, quot);
+	    pline("The world quakes around you.  Perhaps it is the voice of a god?");
 	}
+	do_earthquake(u.ux, u.uy, 10, 2, FALSE, (struct monst *)0);
+    } else if(ga_num == GA_MOTHER){
+	You_hear("%s", goatvoices[rn2(SIZE(goatvoices))]);
+    } else if(ga_num == GA_FRACTURE){
+	You_hear("a voice like glass breaking: %s%s%s", quot, words, quot);
+    } else if(ga_num == GA_SOTHOTH){
+	if(is_silent(youracedata)) You_hear("your voice %s: %s%s%s", godvoices[rn2(SIZE(godvoices))], quot, words, quot);
+	else You("%s: %s%s%s", yogvoices[rn2(SIZE(yogvoices))],  quot, words, quot);
+    } else {
+	pline_The("voice of %s %s: %s%s%s", ga_gname(ga_num),
+		godvoices[rn2(SIZE(godvoices))], quot, words, quot);
+    }
 }
 
 void
@@ -1792,8 +1790,8 @@ lawful_god_gives_angel()
     register struct monst *mtmp2;
     register struct permonst *pm;
 */
-    int mtyp;
-    int mon;
+    //int mtyp;
+    //int mon;
 
     // mtyp = lawful_minion(u.ulevel);
     // mon = make_pet_minion(mtyp,A_LAWFUL);
@@ -2516,7 +2514,7 @@ dopray()
 	if (yn("Are you sure you want to pray?") == 'n')
 	    return 0;
 
-	if(u.sealsActive&SEAL_AMON) unbind(SEAL_AMON,TRUE);
+    if(u.sealsActive&SEAL_AMON) unbind(SEAL_AMON,TRUE);
     u.uconduct.gnostic++;
     /* Praying implies that the hero is conscious and since we have
        no deafness attribute this implies that all verbalized messages
@@ -3421,7 +3419,6 @@ goat_rider(otmp, eatflag)
 struct obj *otmp;
 int eatflag;
 {
-	int cn = otmp->corpsenm;
 	struct monst *revived = 0;
 	if(is_rider(&mons[otmp->corpsenm])){
 		pline("A pulse of darkness radiates from %s!", the(xname(otmp)));
@@ -3519,7 +3516,6 @@ int eatflag;
 {
     int value = 0;
 	struct permonst *ptr = &mons[otmp->corpsenm];
-	struct monst *mtmp;
 	extern const int monstr[];
 	xchar x, y;
 	

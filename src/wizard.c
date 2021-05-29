@@ -633,7 +633,7 @@ void
 yellow_nasty()
 {
     register struct monst *mtmp;
-    register int i, j, tmp, makeindex, maketemplate;
+    register int i, tmp, makeindex, maketemplate;
     coord bypos;
 	tmp = (u.ulevel > 3) ? u.ulevel/3 : 1; /* just in case -- rph */
 	for(i = rnd(tmp); i > 0; --i){
@@ -780,7 +780,6 @@ void
 yello_resurrect()
 {
 	struct monst *mtmp;
-	long elapsed;
 
 	/* look for a migrating Stranger */
 	mtmp = migrating_mons;
@@ -835,11 +834,11 @@ coa_arrive()
 
 }
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-function"
 STATIC_PTR void
 dowizdarken()
 {
-	register struct monst *mtmp;
-	register struct trap *ttmp;
 	int cx, cy;
 	
 	for(cx = 0; cx < COLNO; cx++){
@@ -863,7 +862,10 @@ dowizdarken()
 		move_bc(0, 0, uball->ox, uball->oy, uchain->ox, uchain->oy);
 	}
 }
+#pragma GCC diagnostic pop
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-function"
 void
 dowizgush() /* Gushing forth along LOS from (u.ux, u.uy) and random other spots */
 {
@@ -885,6 +887,7 @@ dowizgush() /* Gushing forth along LOS from (u.ux, u.uy) and random other spots 
 		}
 	}
 }
+#pragma GCC diagnostic pop
 
 STATIC_PTR void
 wizgush(cx, cy, poolcnt)
@@ -1203,8 +1206,6 @@ aglaopesong(mtmp)
 	struct monst *mtmp;
 {
 		struct monst *tmpm;
-		struct trap *ttmp;
-		int ix, iy, i;
 		switch(rnd(3)){
 			case 1:
 				pline("%s sings a song of courage.", Monnam(mtmp));

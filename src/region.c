@@ -2,8 +2,6 @@
 /* Copyright (c) 1996 by Jean-Christophe Collet	 */
 /* NetHack may be freely redistributed.  See license for details. */
 
-#pragma clang diagnostic ignored "-Wint-to-void-pointer-cast"
-
 #include "hack.h"
 #include "lev.h"
 
@@ -433,7 +431,7 @@ boolean
 In_fog_cloud(mon)
 	struct monst *mon;
 {
-	register int i, j, k;
+	register int i;
 	int f_indx;
 	/* Process regions */
 	if(mon == &youmonst){

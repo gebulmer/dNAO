@@ -63,8 +63,6 @@ use_saddle(otmp)
 	struct monst *mtmp;
 	struct permonst *ptr;
 	int chance;
-	const char *s;
-
 
 	/* Can you use it? */
 	if (nohands(youracedata)) {

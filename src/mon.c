@@ -988,7 +988,7 @@ register struct monst *mtmp;
 			num = d(2,4);   /* very low chance of creating all glass gems */
 			while (num--)
 				obj = mksobj_at((LAST_GEM + rnd(9)), x, y, NO_MKOBJ_FLAGS);
-				rem_mx(mtmp, MX_ENAM);
+			rem_mx(mtmp, MX_ENAM);
 		break;
 	    case PM_CLAY_GOLEM:
 			obj = mksobj_at(ROCK, x, y, MKOBJ_NOINIT);
@@ -2096,8 +2096,7 @@ mvanishobj(mtmp, x, y)		/* for nachash tanninim */
 	int x, y;
 {
 	register struct obj *otmp, *otmp2;
-	struct permonst *ptr;
-	int poly, grow, heal, ecount = 0;
+	int ecount = 0;
 	char buf[BUFSZ];
 
 	buf[0] = '\0';
@@ -2594,6 +2593,8 @@ struct monst *looker;
 	return FALSE;
 }
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-function"
 STATIC_DCL int
 scent_callback(data, x, y)
 genericptr_t data;
@@ -2606,6 +2607,7 @@ int x, y;
 	if(!(*shouldsmell)) return !is_accessible;
 	else return 1; /* Once a path to you is found, quickly end the xpath function */
 }
+#pragma GCC diagnostic pop
 
 /* for restricting monsters' object-pickup */
 boolean
@@ -3926,8 +3928,6 @@ register struct monst *mtmp;
 		}
 	}
 	if(mtmp->mtyp == PM_GARLAND){
-		int x = mtmp->mx, y = mtmp->my;
-		struct obj *otmp;
 		makemon(&mons[PM_CHAOS], mtmp->mx, mtmp->my, MM_ADJACENTOK);
 	}
 	if(mtmp->mtyp == PM_ILLURIEN_OF_THE_MYRIAD_GLIMPSES && !(u.uevent.ukilled_illurien)){
@@ -4362,7 +4362,6 @@ boolean was_swallowed;			/* digestion */
 			struct monst *mtmp;
 			struct permonst *mdat1;
 			int quin = 1, qua = 2, tre = 3, duo = 4;
-			int mndx = 0;
 //			int quincount = 0;
 			for (mtmp = fmon; mtmp; mtmp = mtmp->nmon) {
 				if(DEADMONSTER(mtmp))
@@ -4602,9 +4601,8 @@ struct monst *mon;
 {
 	if (mon->mhp <= 0) {
 	    int sporetype;
-	    coord mm; schar ltyp;
+	    coord mm;
 	    mm.x = mon->mx; mm.y = mon->my;
-	    ltyp = levl[mm.x][mm.y].typ;
 	    create_gas_cloud(mm.x, mm.y, rn1(2,1), rnd(8), FALSE);
 	    /* all fern spores have a 2/3 chance of creating nothing, except for
 	       the generic fern spore, which guarantees a terrain-appropriate fern */
@@ -6253,7 +6251,6 @@ boolean msg;		/* "The oldmon turns into a newmon!" */
 	int mhp, hpn, hpd;
 	int tryct;
 	int oldmtyp = mtmp->mtyp;
-	int faceless = 0;
 	struct permonst *olddata = mtmp->data;
 	struct permonst * mdat = &mons[mtyp];
 	char oldname[BUFSZ];

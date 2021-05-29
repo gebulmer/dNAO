@@ -3218,7 +3218,6 @@ struct obj *hypo;
 				exercise(A_STR, TRUE);
 			break;
 			case POT_GAIN_ENERGY:
-			{	register int num;
 				if(amp->cursed)
 					You_feel("lackluster.");
 				else
@@ -3228,7 +3227,6 @@ struct obj *hypo;
 				if(u.uen <= 0 && !Race_if(PM_INCANTIFIER)) u.uen = 0;
 				flags.botl = 1;
 				if(!amp->cursed) exercise(A_WIS, TRUE);
-			}
 			break;
 			case POT_SLEEPING:
 				if(Sleep_resistance || Free_action)
@@ -5430,7 +5428,6 @@ int floorID;
 	char name[80];
 	char turns[80];
 	char warded[80];
-	char reinforce[80];
 	char secondary[80];
 
 	switch (floorID){

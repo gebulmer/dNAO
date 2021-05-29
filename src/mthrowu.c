@@ -12,9 +12,6 @@ extern char* FDECL(breathwep, (int));
 
 #define POLE_LIM 5	/* How far monsters can use pole-weapons */
 
-static const int dirx[8] = {0, 1, 1,  1,  0, -1, -1, -1},
-				 diry[8] = {1, 1, 0, -1, -1, -1,  0,  1};
-
 /* 
  * replace the old char*breathwep[] array
  * not dependent on order anymore

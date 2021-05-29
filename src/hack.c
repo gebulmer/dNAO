@@ -289,7 +289,7 @@ moverock()
 	  else
 #endif
 	    You("try to move %s, but in vain.", the(xname(otmp)));
-	    if (Blind) feel_location(sx, sy);
+	  if (Blind) feel_location(sx, sy);
 	cannot_push:
 		if(u.sealsActive&SEAL_MARIONETTE){
 			if (yn("Your fingers stretch and grow like roots. Fracture the boulder?") != 'y') return (-1);
@@ -672,7 +672,7 @@ int mode;
 		if (mode == DO_MOVE) {
 		    if (amorphous(youracedata))
 			You("try to ooze under the door, but can't squeeze your possessions through.");
-			if (iflags.autoopen && !flags.run && !Confusion && !Stunned && !Fumbling) {
+		    if (iflags.autoopen && !flags.run && !Confusion && !Stunned && !Fumbling) {
 				iflags.door_opened = flags.move = doopen_indir(x, y);
 		    } else if (x == ux || y == uy) {
 				if (Blind || Stunned || ACURR(A_DEX) < 10 || Fumbling) {
@@ -1000,7 +1000,7 @@ domove()
 	boolean on_ice;
 	xchar chainx, chainy, ballx, bally;	/* ball&chain new positions */
 	int bc_control;				/* control for ball&chain */
-	boolean cause_delay = FALSE, wasblind;	/* dragging ball will skip a move */
+	boolean cause_delay = FALSE;	/* dragging ball will skip a move */
 	const char *predicament;
 	boolean displacer = FALSE;	/* defender attempts to displace you */
 

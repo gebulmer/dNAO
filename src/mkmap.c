@@ -115,10 +115,10 @@ pass_two(bg_typ, fg_typ)
 		    if(get_map(i+dirs[dr*2], j+dirs[(dr*2)+1], bg_typ)
 								== fg_typ)
 			count++;
-		    if (count == 5)
-			new_loc(i,j) = bg_typ;
-		    else
-			new_loc(i,j) = get_map(i,j, bg_typ);
+		if (count == 5)
+		    new_loc(i,j) = bg_typ;
+		else
+		    new_loc(i,j) = get_map(i,j, bg_typ);
 	    }
 
 	for(i=2; i<=WIDTH; i++)

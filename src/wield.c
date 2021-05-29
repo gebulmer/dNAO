@@ -333,8 +333,6 @@ int
 doswapweapon()
 {
 	register struct obj *oldwep, *oldswap;
-	int result = 0;
-
 
 	/* May we attempt this? */
 	multi = 0;
@@ -353,7 +351,7 @@ doswapweapon()
 	setuswapwep((struct obj *) 0);
 
 	/* Set your new primary weapon */
-	result = ready_weapon(oldswap, FALSE);
+	(void) ready_weapon(oldswap, FALSE);
 
 	/* Set your new secondary weapon */
 	if (uwep == oldwep)
@@ -603,8 +601,6 @@ test_twoweapon()
 int
 starting_twoweapon()
 {
-	struct obj *otmp;
-
 	if (!test_twoweapon())
 		; //NoOp, test_twoweapon prints output :/
 	else if (!uarmg && !Stone_resistance && (uswapwep && uswapwep->otyp == CORPSE &&

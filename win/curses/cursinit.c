@@ -498,7 +498,7 @@ Borrowed from the Gnome window port. */
 void
 curses_choose_character()
 {
-    int n, i, sel, count_off, pick4u;
+    int n, i, j, sel, count_off, pick4u;
     int count = 0;
     int cur_character = 0;
     const char **choices;
@@ -543,7 +543,7 @@ curses_choose_character()
     }
 
     prompt[count_off] = '\0';
-    sprintf(choice, "%s%c", tmpchoice, '\033');
+    j = sprintf(choice, "%s%c", tmpchoice, '\033');
     if (strchr(tmpchoice, 't')) {       /* Tutorial mode */
         mvaddstr(0, 1, "New? Press t to enter a tutorial.");
     }
@@ -554,7 +554,7 @@ curses_choose_character()
         tmpchoice[count] = toupper(tmpchoice[count]);
     }
 
-    sprintf(choice, "%s%s", choice, tmpchoice);
+    sprintf(choice+j, "%s", tmpchoice);
 
     /* prevent an unnecessary prompt */
     rigid_role_checks();

@@ -1,3 +1,6 @@
+%option noinput
+%option nounput
+
 %{
 /*	SCCS Id: @(#)dgn_lex.c	3.4	2002/03/27	*/
 /*	Copyright (c) 1989 by Jean-Christophe Collet */
@@ -74,6 +77,7 @@ void FDECL(init_yyout, (FILE *));
 extern YYSTYPE yylval;
 
 int line_number = 1;
+
 
 %}
 %%

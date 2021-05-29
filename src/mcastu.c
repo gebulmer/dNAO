@@ -1906,7 +1906,6 @@ int tary;
 {
 	boolean youagr = (magr == &youmonst);
 	boolean youdef = (mdef == &youmonst);
-	struct permonst * pa = (youagr ? youracedata : magr->data);
 	boolean foundem = (mdef && (tarx == x(mdef) && tary == y(mdef)));
 	boolean rangedspell;
 	int adtyp = attk->adtyp;
@@ -3907,9 +3906,8 @@ int tary;
 			char let = (pm ? (arachnids ? S_SPIDER : S_ANT) : S_SNAKE);
 			boolean created = FALSE;
 			boolean dotame = (youagr || magr->mtame);
-			int i, quan, oldseen, newseen;
+			int i, quan;
 			coord bypos;
-			const char *fmt;
 
 			quan = (mlev(magr) < 2) ? 1 : rnd((int)mlev(magr) / 2);
 			if (quan < 3)
@@ -4550,7 +4548,6 @@ int tary;
 			else if (is_prince(magr->data)) {
 				/* drain all stats */
 				int typ = 0;
-				boolean change = FALSE;
 				do {
 					if (adjattrib(typ, -rnd(2), -1)) drained = TRUE;
 				} while (++typ < A_MAX);

@@ -3761,9 +3761,9 @@ boolean catchup;	/* restoring a level */
 		    obfree(otmp, (struct obj *)0);
 		} else {
 		    while (!(litter[i = rn2(9)] & INSHOP));
-			remove_object(otmp);
-			place_object(otmp, x+horiz(i), y+vert(i));
-			litter[i] |= NEED_UPDATE;
+		    remove_object(otmp);
+		    place_object(otmp, x+horiz(i), y+vert(i));
+		    litter[i] |= NEED_UPDATE;
 		}
 	}
 	if (catchup) return 1;	/* repair occurred while off level */
@@ -4040,7 +4040,7 @@ void
 makeketer(mm)
 coord *mm;
 {
-	int k_cnt, mndx, k;
+	int k_cnt;
 
 	k_cnt = abs(depth(&u.uz))/5 + rnd(5);
     while (k_cnt--){
@@ -4986,9 +4986,6 @@ shk_uncurse(slang, shkp)
 **
 ** Appraise a weapon or armor
 */
-static const char basic_damage[] =
-	"Basic damage against small foes %s, against large foes %s.";
-
 static void
 shk_appraisal(slang, shkp)
 	char *slang;
@@ -5143,61 +5140,61 @@ struct monst *shkp;
     if (obj->oclass == TOOL_CLASS && !is_weptool(obj))
 	pline("%s grins greedily...", mon_nam(shkp));
 
-	any.a_void = 0;         /* zero out all bits */
-	tmpwin = create_nhwindow(NHW_MENU);
-	start_menu(tmpwin);
-	if (ESHK(shkp)->services & (SHK_SPECIAL_A | SHK_SPECIAL_B)) {
-		if (ESHK(shkp)->services & SHK_SPECIAL_A) {
-			any.a_int = 1;
-			add_menu(tmpwin, NO_GLYPH, &any , 'w', 0, ATR_NONE,
-				"Ward against damage", MENU_UNSELECTED);
-		}
-		if (ESHK(shkp)->services & SHK_SPECIAL_B) {
-			any.a_int = 2;
-			add_menu(tmpwin, NO_GLYPH, &any , 'e', 0, ATR_NONE,
-				"Enchant", MENU_UNSELECTED);
-		}
-	}
-	/* Can object be poisoned? */
-	if ((ESHK(shkp)->services & SHK_SPECIAL_C)) {
-	    any.a_int = 3;
-	    add_menu(tmpwin, NO_GLYPH, &any , 'p', 0, ATR_NONE,
-		    "Poison", MENU_UNSELECTED);
-			
-		if((ESHK(shkp)->shoptype == SANDWALKER)  
-		|| (ESHK(shkp)->shoptype == ACIDSHOP)
-		){
-			any.a_int = 8;
-			add_menu(tmpwin, NO_GLYPH, &any , 'a', 0, ATR_NONE,
-				"Acid-coating", MENU_UNSELECTED);
-		}
-		if(!(ESHK(shkp)->services&SHK_SPECIAL_A) || !(ESHK(shkp)->services&SHK_SPECIAL_B) || 
-		   !(ESHK(shkp)->services&SHK_ID_PREMIUM) || !(ESHK(shkp)->services&SHK_UNCURSE)
-		){
-			any.a_int = 4;
-			add_menu(tmpwin, NO_GLYPH, &any , 'd', 0, ATR_NONE,
-				"Drug", MENU_UNSELECTED);
-		}
-		if(!((ESHK(shkp)->services&SHK_SPECIAL_A) && (ESHK(shkp)->services&SHK_SPECIAL_B) )){
-			any.a_int = 5;
-			add_menu(tmpwin, NO_GLYPH, &any , 's', 0, ATR_NONE,
-				"Stain", MENU_UNSELECTED);
-			any.a_int = 6;
-			add_menu(tmpwin, NO_GLYPH, &any , 'v', 0, ATR_NONE,
-				"Envenom", MENU_UNSELECTED);
-		}
-		if(!(ESHK(shkp)->services & (SHK_UNCURSE|SHK_SPECIAL_A|SHK_SPECIAL_B))){
-			any.a_int = 7;
-			add_menu(tmpwin, NO_GLYPH, &any , 'f', 0, ATR_NONE,
-				"Diseased Filth", MENU_UNSELECTED);
-		}
-	}
+    any.a_void = 0;         /* zero out all bits */
+    tmpwin = create_nhwindow(NHW_MENU);
+    start_menu(tmpwin);
+    if (ESHK(shkp)->services & (SHK_SPECIAL_A | SHK_SPECIAL_B)) {
+	    if (ESHK(shkp)->services & SHK_SPECIAL_A) {
+		    any.a_int = 1;
+		    add_menu(tmpwin, NO_GLYPH, &any , 'w', 0, ATR_NONE,
+			    "Ward against damage", MENU_UNSELECTED);
+	    }
+	    if (ESHK(shkp)->services & SHK_SPECIAL_B) {
+		    any.a_int = 2;
+		    add_menu(tmpwin, NO_GLYPH, &any , 'e', 0, ATR_NONE,
+			    "Enchant", MENU_UNSELECTED);
+	    }
+    }
+    /* Can object be poisoned? */
+    if ((ESHK(shkp)->services & SHK_SPECIAL_C)) {
+	any.a_int = 3;
+	add_menu(tmpwin, NO_GLYPH, &any , 'p', 0, ATR_NONE,
+		"Poison", MENU_UNSELECTED);
+		    
+	    if((ESHK(shkp)->shoptype == SANDWALKER)  
+	    || (ESHK(shkp)->shoptype == ACIDSHOP)
+	    ){
+		    any.a_int = 8;
+		    add_menu(tmpwin, NO_GLYPH, &any , 'a', 0, ATR_NONE,
+			    "Acid-coating", MENU_UNSELECTED);
+	    }
+	    if(!(ESHK(shkp)->services&SHK_SPECIAL_A) || !(ESHK(shkp)->services&SHK_SPECIAL_B) || 
+	       !(ESHK(shkp)->services&SHK_ID_PREMIUM) || !(ESHK(shkp)->services&SHK_UNCURSE)
+	    ){
+		    any.a_int = 4;
+		    add_menu(tmpwin, NO_GLYPH, &any , 'd', 0, ATR_NONE,
+			    "Drug", MENU_UNSELECTED);
+	    }
+	    if(!((ESHK(shkp)->services&SHK_SPECIAL_A) && (ESHK(shkp)->services&SHK_SPECIAL_B) )){
+		    any.a_int = 5;
+		    add_menu(tmpwin, NO_GLYPH, &any , 's', 0, ATR_NONE,
+			    "Stain", MENU_UNSELECTED);
+		    any.a_int = 6;
+		    add_menu(tmpwin, NO_GLYPH, &any , 'v', 0, ATR_NONE,
+			    "Envenom", MENU_UNSELECTED);
+	    }
+	    if(!(ESHK(shkp)->services & (SHK_UNCURSE|SHK_SPECIAL_A|SHK_SPECIAL_B))){
+		    any.a_int = 7;
+		    add_menu(tmpwin, NO_GLYPH, &any , 'f', 0, ATR_NONE,
+			    "Diseased Filth", MENU_UNSELECTED);
+	    }
+    }
 
-	end_menu(tmpwin, "Weapon-works:");
-	n = select_menu(tmpwin, PICK_ONE, &selected);
-	destroy_nhwindow(tmpwin);
-	if (n > 0) service = selected[0].item.a_int;
-	else service = 0;
+    end_menu(tmpwin, "Weapon-works:");
+    n = select_menu(tmpwin, PICK_ONE, &selected);
+    destroy_nhwindow(tmpwin);
+    if (n > 0) service = selected[0].item.a_int;
+    else service = 0;
 
     /* Here we go */
     if (service > 0) verbalize(we_offer);
@@ -5636,7 +5633,6 @@ shk_guide(slang, shkp)
 	char *slang;
 	struct monst *shkp;
 {
-	struct obj *obj;                /* The object picked            */
 	int charge = 500;                     /* How much to uncurse          */
 
 	/* Go ahead? */

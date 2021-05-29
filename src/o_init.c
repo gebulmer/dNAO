@@ -332,7 +332,6 @@ int
 find_sawant()
 {
 	static int i = -1;
-	register const char *s;
 	if (i != -1) return i;
 
 	randomize_nonmatwands();
@@ -348,7 +347,6 @@ int
 find_gawant()
 {
 	static int i = -1;
-	register const char *s;
 	if (i != -1) return i;
 
 	randomize_nonmatwands();
@@ -364,7 +362,6 @@ int
 find_pawant()
 {
 	static int i = -1;
-	register const char *s;
 	if (i != -1) return i;
 
 	randomize_nonmatwands();
@@ -380,7 +377,6 @@ int
 find_riwant()
 {
 	static int i = -1;
-	register const char *s;
 	if (i != -1) return i;
 
 	randomize_nonmatwands();
@@ -396,7 +392,6 @@ int
 find_gcirclet()
 {
 	static int i = -1;
-	register const char *s;
 	if (i != -1) return i;
 
 	if ((i = find_otyp_of_desc("band", 0, HELMET, HELM_OF_DRAIN_RESISTANCE, 0)) != -1)
@@ -411,7 +406,6 @@ int
 find_sring()
 {
 	static int i = -1;
-	register const char *s;
 	if (i != -1) return i;
 
 	if ((i = find_otyp_of_desc("silver", 0, RIN_ADORNMENT, RIN_PROTECTION_FROM_SHAPE_CHAN, 0)) != -1)
@@ -426,7 +420,6 @@ int
 find_iring()
 {
 	static int i = -1;
-	register const char *s;
 	if (i != -1) return i;
 
 	if ((i = find_otyp_of_desc("iron", 0, RIN_ADORNMENT, RIN_PROTECTION_FROM_SHAPE_CHAN, 0)) != -1)
@@ -441,7 +434,6 @@ int
 find_good_iring()
 {
 	static int i = -1;
-    register const char *s;
 	if (i != -1) return i;
 	
 	/* maybe use iron ring */
@@ -460,7 +452,6 @@ int
 find_vhelm()
 {
 	static int i = -1;
-	register const char *s;
 	if (i != -1) return i;
 	
 	if ((i = find_otyp_of_desc("visored helmet", 0, HELMET, HELM_OF_DRAIN_RESISTANCE, 0)) != -1)
@@ -475,7 +466,6 @@ int
 find_skates()
 {
 	static int i = -1;
-	register const char *s;
 	if (i != -1) return i;
 
 	if ((i = find_otyp_of_desc("snow boots", 0, SPEED_BOOTS, FLYING_BOOTS, 0)) != -1)
@@ -490,7 +480,6 @@ int
 find_cboots()
 {
 	static int i = -1;
-	register const char *s;
 	if (i != -1) return i;
 
 	if ((i = find_otyp_of_desc("combat boots", 0, SPEED_BOOTS, FLYING_BOOTS, 0)) != -1)
@@ -505,7 +494,6 @@ int
 find_mboots()
 {
 	static int i = -1;
-	register const char *s;
 	if (i != -1) return i;
 
 	if ((i = find_otyp_of_desc("mud boots", 0, SPEED_BOOTS, FLYING_BOOTS, 0)) != -1)
@@ -520,7 +508,6 @@ int
 find_hboots()
 {
 	static int i = -1;
-	register const char *s;
 	if (i != -1) return i;
 
 	if ((i = find_otyp_of_desc("hiking boots", 0, SPEED_BOOTS, FLYING_BOOTS, 0)) != -1)
@@ -535,7 +522,6 @@ int
 find_bboots()
 {
 	static int i = -1;
-	register const char *s;
 	if (i != -1) return i;
 
 	if ((i = find_otyp_of_desc("buckled boots", 0, SPEED_BOOTS, FLYING_BOOTS, 0)) != -1)
@@ -550,7 +536,6 @@ int
 find_jboots()
 {
 	static int i = -1;
-	register const char *s;
 	if (i != -1) return i;
 
 	if ((i = find_otyp_of_desc("jungle boots", 0, SPEED_BOOTS, FLYING_BOOTS, 0)) != -1)
@@ -565,7 +550,6 @@ int
 find_rboots()
 {
 	static int i = -1;
-	register const char *s;
 	if (i != -1) return i;
 
 	if ((i = find_otyp_of_desc("riding boots", 0, SPEED_BOOTS, FLYING_BOOTS, 0)) != -1)
@@ -580,7 +564,6 @@ int
 find_cope()
 {
 	static int i = -1;
-	register const char *s;
 	if (i != -1) return i;
 
 	if ((i = find_otyp_of_desc("ornamental cope", 0, CLOAK_OF_PROTECTION, CLOAK_OF_DISPLACEMENT, 0)) != -1)
@@ -595,7 +578,6 @@ int
 find_opera_cloak()
 {
 	static int i = -1;
-	register const char *s;
 	if (i != -1) return i;
 
 	if ((i = find_otyp_of_desc("opera cloak", 0, CLOAK_OF_PROTECTION, CLOAK_OF_DISPLACEMENT, 0)) != -1)
@@ -610,7 +592,6 @@ int
 find_pcloth()
 {
 	static int i = -1;
-	register const char *s;
 	if (i != -1) return i;
 
 	if ((i = find_otyp_of_desc("piece of cloth", 0, CLOAK_OF_PROTECTION, CLOAK_OF_DISPLACEMENT, 0)) != -1)
@@ -626,7 +607,6 @@ int
 find_signet_ring()
 {
 	int i = -1;
-	register const char *s;
 
 	if ((i = find_otyp_of_desc("black signet", 0, RIN_ADORNMENT, RIN_PROTECTION_FROM_SHAPE_CHAN, 0)) != -1)
 		return i;
@@ -647,7 +627,6 @@ int
 find_engagement_ring()
 {
 	static int i = -1;
-	register const char *s;
 	if (i != -1) return i;
 
 	if ((i = find_otyp_of_desc("engagement", 0, RIN_ADORNMENT, RIN_PROTECTION_FROM_SHAPE_CHAN, 0)) != -1)
@@ -662,7 +641,6 @@ int
 find_gold_ring()
 {
 	static int i = -1;
-	register const char *s;
 	if (i != -1) return i;
 
 	if ((i = find_otyp_of_desc("gold", 0, RIN_ADORNMENT, RIN_PROTECTION_FROM_SHAPE_CHAN, 0)) != -1)
@@ -676,7 +654,6 @@ int
 find_silver_ring()
 {
 	static int i = -1;
-	register const char *s;
 	if (i != -1) return i;
 
 	if ((i = find_otyp_of_desc("silver", 0, RIN_ADORNMENT, RIN_PROTECTION_FROM_SHAPE_CHAN, 0)) != -1)
@@ -690,7 +667,6 @@ int
 find_opal_ring()
 {
 	static int i = -1;
-	register const char *s;
 	if (i != -1) return i;
 
 	if ((i = find_otyp_of_desc("opal", 0, RIN_ADORNMENT, RIN_PROTECTION_FROM_SHAPE_CHAN, 0)) != -1)
@@ -704,7 +680,6 @@ int
 find_clay_ring()
 {
 	static int i = -1;
-	register const char *s;
 	if (i != -1) return i;
 
 	if ((i = find_otyp_of_desc("clay", 0, RIN_ADORNMENT, RIN_PROTECTION_FROM_SHAPE_CHAN, 0)) != -1)
@@ -718,7 +693,6 @@ int
 find_coral_ring()
 {
 	static int i = -1;
-	register const char *s;
 	if (i != -1) return i;
 
 	if ((i = find_otyp_of_desc("coral", 0, RIN_ADORNMENT, RIN_PROTECTION_FROM_SHAPE_CHAN, 0)) != -1)
@@ -732,7 +706,6 @@ int
 find_onyx_ring()
 {
 	static int i = -1;
-	register const char *s;
 	if (i != -1) return i;
 
 	if ((i = find_otyp_of_desc("black onyx", 0, RIN_ADORNMENT, RIN_PROTECTION_FROM_SHAPE_CHAN, 0)) != -1)
@@ -746,7 +719,6 @@ int
 find_moonstone_ring()
 {
 	static int i = -1;
-	register const char *s;
 	if (i != -1) return i;
 
 	if ((i = find_otyp_of_desc("moonstone", 0, RIN_ADORNMENT, RIN_PROTECTION_FROM_SHAPE_CHAN, 0)) != -1)
@@ -760,7 +732,6 @@ int
 find_jade_ring()
 {
 	static int i = -1;
-	register const char *s;
 	if (i != -1) return i;
 
 	if ((i = find_otyp_of_desc("jade", 0, RIN_ADORNMENT, RIN_PROTECTION_FROM_SHAPE_CHAN, 0)) != -1)
@@ -774,7 +745,6 @@ int
 find_agate_ring()
 {
 	static int i = -1;
-	register const char *s;
 	if (i != -1) return i;
 
 	if ((i = find_otyp_of_desc("agate", 0, RIN_ADORNMENT, RIN_PROTECTION_FROM_SHAPE_CHAN, 0)) != -1)
@@ -788,7 +758,6 @@ int
 find_topaz_ring()
 {
 	static int i = -1;
-	register const char *s;
 	if (i != -1) return i;
 
 	if ((i = find_otyp_of_desc("topaz", 0, RIN_ADORNMENT, RIN_PROTECTION_FROM_SHAPE_CHAN, 0)) != -1)
@@ -802,7 +771,6 @@ int
 find_sapphire_ring()
 {
 	static int i = -1;
-	register const char *s;
 	if (i != -1) return i;
 
 	if ((i = find_otyp_of_desc("sapphire", 0, RIN_ADORNMENT, RIN_PROTECTION_FROM_SHAPE_CHAN, 0)) != -1)
@@ -816,7 +784,6 @@ int
 find_ruby_ring()
 {
 	static int i = -1;
-	register const char *s;
 	if (i != -1) return i;
 
 	if ((i = find_otyp_of_desc("ruby", 0, RIN_ADORNMENT, RIN_PROTECTION_FROM_SHAPE_CHAN, 0)) != -1)
@@ -830,7 +797,6 @@ int
 find_pearl_ring()
 {
 	static int i = -1;
-	register const char *s;
 	if (i != -1) return i;
 
 	if ((i = find_otyp_of_desc("pearl", 0, RIN_ADORNMENT, RIN_PROTECTION_FROM_SHAPE_CHAN, 0)) != -1)
@@ -844,7 +810,6 @@ int
 find_ivory_ring()
 {
 	static int i = -1;
-	register const char *s;
 	if (i != -1) return i;
 
 	if ((i = find_otyp_of_desc("ivory", 0, RIN_ADORNMENT, RIN_PROTECTION_FROM_SHAPE_CHAN, 0)) != -1)
@@ -858,7 +823,6 @@ int
 find_emerald_ring()
 {
 	static int i = -1;
-	register const char *s;
 	if (i != -1) return i;
 
 	if ((i = find_otyp_of_desc("emerald", 0, RIN_ADORNMENT, RIN_PROTECTION_FROM_SHAPE_CHAN, 0)) != -1)
@@ -907,7 +871,6 @@ int
 find_golden_potion()
 {
 	static int i = -1;
-	register const char *s;
 	if (i != -1) return i;
 
 	if ((i = find_otyp_of_desc("golden", 0, POT_GAIN_ABILITY, POT_BLOOD, 0)) != -1)
@@ -921,7 +884,6 @@ int
 find_cloth_book()
 {
 	static int i = -1;
-	register const char *s;
 	if (i != -1) return i;
 
 	if ((i = find_otyp_of_desc("cloth", 0, SPE_DIG, SPE_BLANK_PAPER, 0)) != -1)
@@ -935,7 +897,6 @@ int
 find_leather_book()
 {
 	static int i = -1;
-	register const char *s;
 	if (i != -1) return i;
 
 	if ((i = find_otyp_of_desc("leather", 0, SPE_DIG, SPE_BLANK_PAPER, 0)) != -1)
@@ -949,7 +910,6 @@ int
 find_bronze_book()
 {
 	static int i = -1;
-	register const char *s;
 	if (i != -1) return i;
 
 	if ((i = find_otyp_of_desc("bronze", 0, SPE_DIG, SPE_BLANK_PAPER, 0)) != -1)
@@ -963,7 +923,6 @@ int
 find_silver_book()
 {
 	static int i = -1;
-	register const char *s;
 	if (i != -1) return i;
 
 	if ((i = find_otyp_of_desc("silver", 0, SPE_DIG, SPE_BLANK_PAPER, 0)) != -1)
@@ -977,7 +936,6 @@ int
 find_gold_book()
 {
 	static int i = -1;
-	register const char *s;
 	if (i != -1) return i;
 
 	if ((i = find_otyp_of_desc("gold", 0, SPE_DIG, SPE_BLANK_PAPER, 0)) != -1)
@@ -993,7 +951,7 @@ matWand(otyp, mat)
 int otyp;
 int mat;
 {
-    int i, j, ctyp;
+    int i, ctyp;
 	
 	/* check if there is a wand whose material matches already (prefered) */
 	/* traverses in order of otyp */
@@ -1018,7 +976,6 @@ int
 find_ogloves()
 {
 	static int i = -1;
-	register const char *s;
 	if (i != -1) return i;
 
 	if ((i = find_otyp_of_desc("old gloves", 0, GLOVES, GAUNTLETS_OF_DEXTERITY, 0)) != -1)
@@ -1033,7 +990,6 @@ int
 find_tgloves()
 {
 	static int i = -1;
-	register const char *s;
 	if (i != -1) return i;
 
 	if ((i = find_otyp_of_desc("fighting gloves", 0, GLOVES, GAUNTLETS_OF_DEXTERITY, 0)) != -1)
@@ -1048,7 +1004,6 @@ int
 find_pgloves()
 {
 	static int i = -1;
-	register const char *s;
 	if (i != -1) return i;
 
 	if ((i = find_otyp_of_desc("padded gloves", 0, GLOVES, GAUNTLETS_OF_DEXTERITY, 0)) != -1)
@@ -1063,7 +1018,6 @@ int
 find_fgloves()
 {
 	static int i = -1;
-	register const char *s;
 	if (i != -1) return i;
 
 	if ((i = find_otyp_of_desc("fencing gloves", 0, GLOVES, GAUNTLETS_OF_DEXTERITY, 0)) != -1)
@@ -1078,7 +1032,6 @@ int
 find_rgloves()
 {
 	static int i = -1;
-	register const char *s;
 	if (i != -1) return i;
 
 	if ((i = find_otyp_of_desc("riding gloves", 0, GLOVES, GAUNTLETS_OF_DEXTERITY, 0)) != -1)
@@ -1232,7 +1185,7 @@ dodiscovered()				/* free after Robert Viduya */
 	if (objects[uniq_objs[i]].oc_name_known) {
 	    if (!dis++)
 		putstr(tmpwin, iflags.menu_headings, "Unique Items");
-		Sprintf(buf, "  %s", OBJ_NAME(objects[uniq_objs[i]]));
+	    Sprintf(buf, "  %s", OBJ_NAME(objects[uniq_objs[i]]));
 	    putstr(tmpwin, 0, buf);
 	    ++ct;
 	}

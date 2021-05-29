@@ -146,7 +146,6 @@ aligntyp
 temple_alignment(roomno)
 int roomno;
 {
-	char *ptr;
 	coord *shrine_spot;
 	struct rm *lev;
 
@@ -578,7 +577,6 @@ register struct monst *priest;
 			makemon(&mons[PM_DAAT_SEPHIRAH], u.ux, u.uy, MM_ADJACENTOK);
 			priest->mpeaceful=0;
 		} else if(seenSeals == 5){
-			coord mm;
 			verbalize("Foul heretic! The Lord's servants shall humble you!");
 			priest->mpeaceful=0;
 			summon_god_minion(align_gname_full(EPRI(priest)->shralign), EPRI(priest)->shralign, FALSE);

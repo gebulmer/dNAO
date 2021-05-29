@@ -1036,7 +1036,6 @@ register struct obj *obj;
 			return POISON;
 		    return (carni ? CADAVER : MANFOOD);
 		case CORPSE:
-rock:
 		   if ((peek_at_iced_corpse_age(obj) + 50L <= monstermoves
 					    && obj->corpsenm != PM_LIZARD
 					    && obj->corpsenm != PM_BABY_CAVE_LIZARD
@@ -1242,7 +1241,6 @@ struct monst *mtmp;
 struct obj *obj;
 int enhanced;
 {
-	struct monst *curmon, *weakdog = (struct monst *) 0;
 	/* The Wiz, Medusa and the quest nemeses aren't even made peaceful. || mtmp->mtyp == PM_MEDUSA */
 	if (is_untamable(mtmp->data) || mtmp->notame || mtmp->iswiz
 		|| (mtmp->mtyp == urole.neminum)
@@ -1402,7 +1400,6 @@ int mtyp;
 aligntyp alignment;
 {
     register struct monst *mon;
-    register struct monst *mtmp2;
 	mon = makemon(&mons[mtyp], u.ux, u.uy, NO_MM_FLAGS);
     if (!mon) return 0;
     /* now tame that puppy... */

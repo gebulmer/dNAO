@@ -1691,7 +1691,7 @@ boolean your_fault;
 			    monkilled(mon, "", AD_ACID);
 		    else
 			mon->mtame = FALSE;
-			mon->mpeaceful = TRUE;
+		    mon->mpeaceful = TRUE;
 		    break;
 		case PM_WIZARD_OF_YENDOR:
 		    if (your_fault) {

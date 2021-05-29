@@ -380,7 +380,7 @@ doread()
 	else if(scroll->otyp == FORTUNE_COOKIE) {
 	    if(flags.verbose)
 		You("break up the cookie and throw away the pieces.");
-		if(scroll->ostolen && u.sealsActive&SEAL_ANDROMALIUS) unbind(SEAL_ANDROMALIUS, TRUE);
+	    if(scroll->ostolen && u.sealsActive&SEAL_ANDROMALIUS) unbind(SEAL_ANDROMALIUS, TRUE);
 	    outrumor(bcsign(scroll), BY_COOKIE);
 	    if (!Blind) u.uconduct.literate++;
 	    useup(scroll);
@@ -2623,7 +2623,7 @@ struct obj	*sobj;
 	}break;
 	case SCR_GOLD_SCROLL_OF_LAW: {
 		register struct monst *mtmp;
-		aligntyp mal, ual = u.ualign.type;
+		aligntyp mal;
 	    int i, j, bd = confused ? 7 : 1;
 		You("read from the golden scroll.");
 		if(u.ualign.type == A_LAWFUL && u.ualign.record > 20){
@@ -3290,7 +3290,6 @@ int gen_restrict;
 	int undeadtype = 0;
 	struct permonst *whichpm;
 	struct monst *mtmp = (struct monst *)0;
-	boolean madeany = FALSE;
 	boolean maketame, makeloyal, makepeaceful, makehostile;
 	int l = 0;
 
@@ -3535,7 +3534,6 @@ createmon:
 					mtmp->mpeaceful = 0;
 				set_malign(mtmp);
 
-				madeany = TRUE;
 				newsym(mtmp->mx, mtmp->my);
 			}
 		}

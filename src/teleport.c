@@ -57,10 +57,10 @@ unsigned gpflags;
 	    if (mtmp2 && (mtmp2 != mtmp || mtmp->wormno))
 		return FALSE;
 
-		/* Prevent monsters from teleporting to or being created on vivisection traps.
-		 * Level generation must place monsters before placing the traps. */
-		if (ttmp && ttmp->ttyp == VIVI_TRAP)
-			return FALSE;
+	    /* Prevent monsters from teleporting to or being created on vivisection traps.
+	     * Level generation must place monsters before placing the traps. */
+	    if (ttmp && ttmp->ttyp == VIVI_TRAP)
+		return FALSE;
 
 	    mdat = mtmp->data;
 	    if (is_3dwater(x,y) && !ignorewater) {
@@ -196,7 +196,6 @@ struct permonst *mdat;
 #define COORD_SIZE	8
     coord good[COORD_SIZE], *good_ptr;
     int x, y, i;
-    int xmin, xmax, ymin, ymax;
     struct monst fakemon = {0};	/* dummy monster */
     int knix[COORD_SIZE] = {2,  2,  1, -1, -2, -2,  1, -1};
     int kniy[COORD_SIZE] = {1, -1,  2,  2,  1, -1, -2, -2};

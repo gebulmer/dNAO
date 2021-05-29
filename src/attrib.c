@@ -690,7 +690,6 @@ init_mask_attr(np, mask)
 	struct obj *mask;
 {
 	int	i, x, tryct;
-	struct Role *mrole = pm2role(mask->mp->mskrolenum);
 
 	for(i = 0; i < A_MAX; i++) {
 	    ABASE(i) = AMAX(i) = urole.attrbase[i];
@@ -1428,7 +1427,6 @@ int
 flat_mad_turn(madness)
 long int madness;
 {
-	int sanlevel;
 	unsigned long hashed = hash((unsigned long) (moves + nonce + hash((unsigned long)madness))); //Offset the different madnesses before hashing
 	if(ClearThoughts)
 		return 0;
@@ -1636,7 +1634,6 @@ boolean
 activeFightingForm(fform)
 int fform;
 {
-	int i;
 	if(fform > LAST_FFORM || fform < 0)
 		impossible("Attempting to check fighting form number %d?", fform);
 	

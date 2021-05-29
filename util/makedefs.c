@@ -49,10 +49,6 @@
 #define rewind(fp) fseek((fp),0L,SEEK_SET)	/* guarantee a return value */
 #endif
 
-#if defined(UNIX) && !defined(LINT) && !defined(GCC_WARN)
-static	const char	SCCS_Id[] = "@(#)makedefs.c\t3.4\t2002/02/03";
-#endif
-
 	/* names of files to be generated */
 #define DATE_FILE	"date.h"
 #define MONST_FILE	"pm.h"
@@ -543,16 +539,7 @@ version_id_string(outbuf, build_date)
 char *outbuf;
 const char *build_date;
 {
-    char subbuf[64], versbuf[64];
-
-    subbuf[0] = '\0';
-#ifdef PORT_SUB_ID
-    subbuf[0] = ' ';
-    Strcpy(&subbuf[1], PORT_SUB_ID);
-#endif
-#ifdef BETA
-    Strcat(subbuf, " Beta");
-#endif
+    char versbuf[64];
 
     if (getenv("COMMIT_DESC") && getenv("COMMIT_DESC")[0])
         Sprintf(outbuf, "dNetHack v%s (dNAO git %s), last build %s.",
@@ -1423,7 +1410,7 @@ void
 do_monstr()
 {
     register struct permonst *ptr;
-    register int i, j;
+    register int i;
 
     /*
      * create the source file, "monstr.c"
@@ -1440,7 +1427,7 @@ do_monstr()
     Fprintf(ofp,"%s",Dont_Edit_Code);
     Fprintf(ofp,"#include \"config.h\"\n");
     Fprintf(ofp,"\nint monstr[] = {\n");
-    for (ptr = &mons[0], j = 0; ptr->mlet; ptr++) {
+    for (ptr = &mons[0]; ptr->mlet; ptr++) {
 
 	SpinCursor(3);
 

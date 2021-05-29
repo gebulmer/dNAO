@@ -1354,8 +1354,8 @@ struct WinDesc *cw;
 		       if (color != NO_COLOR) term_start_color(color);
 		   } else
 #endif
-		    term_start_attr(curr->attr);
-		    for (n = 0, cp = curr->str;
+		      term_start_attr(curr->attr);
+		   for (n = 0, cp = curr->str;
 #ifndef WIN32CON
 			  *cp && (int) ++ttyDisplay->curx < (int) ttyDisplay->cols;
 			  cp++, n++)

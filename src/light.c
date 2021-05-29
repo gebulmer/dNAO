@@ -2,8 +2,6 @@
 /* Copyright (c) Dean Luick, 1994					*/
 /* NetHack may be freely redistributed.  See license for details.	*/
 
-#pragma clang diagnostic ignored "-Wint-to-void-pointer-cast"
-
 #include "hack.h"
 #include "lev.h"	/* for checking save modes */
 
@@ -50,8 +48,6 @@ static struct ls_t *light_base = 0;
 
 STATIC_DCL void FDECL(add_chain_ls, (struct ls_t *));
 STATIC_DCL void FDECL(rem_chain_ls, (struct ls_t *));
-STATIC_DCL void FDECL(write_ls, (int, struct ls_t *));
-STATIC_DCL int FDECL(maybe_write_ls, (int, int, BOOLEAN_P));
 
 /* imported from vision.c, for small circles */
 extern char circle_data[];
@@ -177,7 +173,6 @@ do_light_sources(cs_rows)
 {
     int x, y, min_x, max_x, max_y, offset;
     char *limits;
-    short at_hero_range = 0;
     struct ls_t *ls;
     char *row;
 
@@ -673,8 +668,6 @@ void
 obj_merge_light_sources(src, dest)
 struct obj *src, *dest;
 {
-    struct ls_t *ls;
-
     /* src == dest implies adding to candelabrum */
     if (src != dest) end_burn(src, TRUE);		/* extinguish candles */
 

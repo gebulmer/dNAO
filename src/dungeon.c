@@ -65,7 +65,6 @@ STATIC_DCL void FDECL(print_branch, (winid, int, int, int, BOOLEAN_P, struct lch
 #endif
 
 mapseen *mapseenchn = (struct mapseen *)0;
-STATIC_DCL void FDECL(free_mapseen, (mapseen *));
 STATIC_DCL mapseen *FDECL(load_mapseen, (int));
 STATIC_DCL void FDECL(save_mapseen, (int, mapseen *));
 STATIC_DCL mapseen *FDECL(find_mapseen, (d_level *));

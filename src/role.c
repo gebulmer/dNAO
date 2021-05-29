@@ -554,7 +554,7 @@ struct Role roles[] = {
 	0, 1, 0, 3, 10, A_INT, SPE_MAGIC_MISSILE,   -5
 },
 /* Array terminator */
-{{0, 0}}
+{{0}}
 };
 
 const struct Role WtWrole = {	
@@ -927,7 +927,7 @@ const struct Race races[] = {
 	NORMALNIGHTVIS
 },
 /* Array terminator */
-{ 0, 0, 0, 0, 0 }};
+{ 0 }};
 
 
 /* The player's race, created at runtime from initial
@@ -1016,7 +1016,7 @@ randrole(ralign)
 {
 	if(!ralign) return (rn2(SIZE(roles)-1));
 	else{
-		int rolenum=0,i,allowed = 0;
+		int i,allowed = 0;
 		for(i=0;i<SIZE(roles)-1;i++) if(roles[i].allow & ralign) allowed++;
 		allowed = rnd(allowed);
 		for(i=0;i<SIZE(roles)-1;i++) if(roles[i].allow & ralign) if(!(--allowed)) return i;
@@ -1322,18 +1322,15 @@ god_priest(gptr, sx, sy, sanctum)
 		return priest;
 	}
 	else {
-		int role = -1, galign, i;
+		int role = -1, i;
 		
 		for(i=0;i<SIZE(roles)-1;i++){
 			if(roles[i].lgod == gptr){
 				role = roles[i].malenum;
-				galign = A_LAWFUL;
 			} else if(roles[i].ngod == gptr){
 				role = roles[i].malenum;
-				galign = A_NEUTRAL;
 			} else if(roles[i].cgod == gptr){
 				role = roles[i].malenum;
-				galign = A_CHAOTIC;
 			}
 		}
 		
@@ -2323,8 +2320,6 @@ void
 role_init(newgame)
 int newgame;
 {
-	int alignmnt;
-
 	/* Strip the role letter out of the player name.
 	 * This is included for backwards compatibility.
 	 */
@@ -2361,7 +2356,6 @@ int newgame;
 	if (!validalign(flags.initrole, flags.initrace, flags.initalign) && newgame)
 	    /* Pick a random alignment */
 	    flags.initalign = randalign(flags.initrole, flags.initrace);
-	alignmnt = aligns[flags.initalign].value;
 
 	/* Initialize urole and urace */
 	urole = roles[flags.initrole];

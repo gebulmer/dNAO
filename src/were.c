@@ -162,7 +162,6 @@ new_were(mon)
 struct monst *mon;
 {
 	int pm;
-	struct permonst *olddata = mon->data;
 	struct obj *otmp;
 
 	pm = counter_were(monsndx(mon->data));

@@ -521,8 +521,8 @@ unsigned *ospecial;
 				ch = '_';
 			}
 		}
-		if (color == NO_COLOR) cmap_color(offset);
-	} else if ((offset = (glyph - GLYPH_OBJ_OFF)) >= 0) {	/* object */
+	if (color == NO_COLOR) cmap_color(offset);
+    } else if ((offset = (glyph - GLYPH_OBJ_OFF)) >= 0) {	/* object */
 		/* color should come first as it is in the first 4 bits*/
 #ifdef ROGUE_COLOR
 		if (HAS_ROGUE_IBM_GRAPHICS && iflags.use_color) {

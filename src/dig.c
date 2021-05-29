@@ -738,8 +738,6 @@ boolean msgs;
 		    if (shopdoor && madeby_u) pay_for_damage("ruin", FALSE);
 
 		} else {
-		    d_level newlevel;
-
 		    if (*u.ushops && madeby_u)
 			shopdig(1); /* shk might snatch pack */
 		    /* handle earlier damage, eg breaking wand of digging */
@@ -797,7 +795,6 @@ int ttyp;
 	boolean shopdoor;
 	struct monst *mtmp = m_at(x, y);	/* may be madeby */
 	boolean madeby_u = (madeby == BY_YOU);
-	boolean madeby_obj = (madeby == BY_OBJECT);
 	boolean at_u = (x == u.ux) && (y == u.uy);
 	boolean wont_fall = Levitation || Flying;
 
@@ -926,20 +923,13 @@ register int	x, y;
 struct monst	*madeby;
 {
 	int ttyp = ROCKTRAP;
-	struct obj *oldobjs, *newobjs;
 	register struct trap *ttmp;
-	char surface_type[BUFSZ];
-	struct rm *lev = &levl[x][y];
-	boolean shopdoor;
 	struct monst *mtmp = m_at(x, y);	/* may be madeby */
 	boolean madeby_u = (madeby == BY_YOU);
-	boolean madeby_obj = (madeby == BY_OBJECT);
 	boolean at_u = (x == u.ux) && (y == u.uy);
 
 	if (u.utrap && u.utraptype == TT_INFLOOR) u.utrap = 0;
 	
-	shopdoor = IS_DOOR(lev->typ) && *in_rooms(x, y, SHOPBASE);
-	oldobjs = level.objects[x][y];
 	ttmp = maketrap(x, y, ttyp);
 	if (!ttmp) return;
 	ttmp->tseen = (madeby_u || cansee(x,y));
@@ -947,9 +937,6 @@ struct monst	*madeby;
 	newsym(ttmp->tx,ttmp->ty);
 
 	pline("A trapdoor opens in the %s.", ceiling(x,y));
-	if(madeby_u) {
-		if (shopdoor) pay_for_damage("ruin", FALSE);
-	}
 	if(at_u) {
 		u.utrap = 0;
 		dotrap(ttmp, 0);
@@ -1122,8 +1109,6 @@ boolean
 opentrapdoor(pit_only)
 boolean pit_only;
 {
-	d_level dtmp;
-	int newlevel = dunlev(&u.uz);
 	struct trap *ttmp = t_at(u.ux, u.uy);
 	struct rm *lev = &levl[u.ux][u.uy];
 	struct obj *boulder_here;
@@ -1284,7 +1269,6 @@ opennewdoor(x,y)
 int x,y;
 {
 	struct rm *lev = &levl[x][y];
-	schar typ;
 
 	if (/* ALI - artifact doors from slash'em */
 	   (IS_DOOR(levl[x][y].typ) && artifact_door(x, y)) ||
@@ -1390,7 +1374,6 @@ openrocktrap()
 {
 	struct trap *ttmp = t_at(u.ux, u.uy);
 	struct rm *lev = &levl[u.ux][u.uy];
-	schar typ;
 
 	if ((ttmp && (ttmp->ttyp == MAGIC_PORTAL)) ||
 	   /* ALI - artifact doors from slash'em */

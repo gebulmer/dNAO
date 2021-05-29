@@ -2031,7 +2031,7 @@ ddoinv()
 	if (!c) return 0;
 	for (otmp = invent; otmp; otmp = otmp->nobj)
 		if (otmp->invlet == c) break;
-		if (otmp)
+	if (otmp)
 		{
 			if (iflags.item_use_menu)
 				return itemactions(otmp);

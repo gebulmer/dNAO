@@ -536,17 +536,14 @@ vision_recalc(control)
     int start, stop;	/* inner loop starting/stopping index */
     int dx, dy;		/* one step from a lit door or lit wall (see below) */
     register int col;	/* inner loop counter */
-    register struct rm *lev, *ulev;	/* pointer to current pos and your position */
-    struct rm *flev;	/* pointer to position in "front" of current pos */
+    register struct rm *lev;	/* pointer to current pos and your position */
     extern unsigned char seenv_matrix[3][3];	/* from display.c */
     static unsigned char colbump[COLNO+1];	/* cols to bump sv */
     unsigned char *sv;				/* ptr to seen angle bits */
     int oldseenv;				/* previous seenv value */
     int xray;					/* xray range value holder */
-	struct monst *mon, *nmon, *mat;
 	boolean indark;
 	boolean darksight = FALSE;
-	int i, j;
 	int nv_range;
 	
     vision_full_recalc = 0;			/* reset flag */
@@ -631,7 +628,8 @@ vision_recalc(control)
 				ranges = circle_ptr(xray);
 
 				for (row = u.uy - xray; row <= u.uy + xray; row++) {
-				if (row < 0) continue;	if (row >= ROWNO) break;
+				if (row < 0) continue;
+				if (row >= ROWNO) break;
 				dy = v_abs(u.uy-row);	next_row = next_array[row];
 
 				start = max(      0, u.ux - ranges[dy]);
@@ -663,7 +661,8 @@ vision_recalc(control)
 			ranges = circle_ptr(nv_range);
 
 			for (row = u.uy-nv_range; row <= u.uy+nv_range; row++) {
-				if (row < 0) continue;	if (row >= ROWNO) break;
+				if (row < 0) continue;
+				if (row >= ROWNO) break;
 				dy = v_abs(u.uy-row);	next_row = next_array[row];
 
 				start = max(      0, u.ux - ranges[dy]);
@@ -722,7 +721,6 @@ vision_recalc(control)
 	start = min(viz_rmin[row], next_rmin[row]);
 	stop  = max(viz_rmax[row], next_rmax[row]);
 	lev = &levl[start][row];
-	ulev= &levl[u.ux][u.uy];
 
 	sv = &seenv_matrix[dy+1][start < u.ux ? 0 : (start > u.ux ? 2:1)];
 
@@ -772,7 +770,6 @@ vision_recalc(control)
 		     * the door or wall, otherwise we can't.
 		     */
 		    dx = u.ux - col;	dx = sign(dx);
-		    flev = &(levl[col+dx][row+dy]);
 		    if (
 				/* Either Extramission */
 				Extramission
